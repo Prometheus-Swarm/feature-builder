@@ -10,13 +10,15 @@ def prepare(runner, worker):
     round_state = runner.state.get("rounds", {}).get(str(runner.current_round), {})
     pr_urls = round_state.get("pr_urls", {})
 
-    if worker.name not in pr_urls:
+    if worker.get("name") not in pr_urls:
         # Return None to indicate this step should be skipped
-        print(f"✓ No PR URL found for {worker.name} - continuing")
+        print(f"✓ No PR URL found for {worker.get('name')} - continuing")
         return None
 
     # Get submission data from worker
-    url = f"{worker.url}/submission/{runner.config.task_id}/{runner.current_round}"
+    url = (
+        f"{worker.get('url')}/submission/{runner.config.task_id}/{runner.current_round}"
+    )
     response = requests.get(url)
     response.raise_for_status()
     submission_data = response.json()
@@ -55,7 +57,7 @@ def execute(runner, worker, data):
         round_state["submission_data"] = {}
 
     # Store or update submission data
-    round_state["submission_data"][worker.name] = data
+    round_state["submission_data"][worker.get("name")] = data
 
     # Return success result
     return {"success": True, "data": data}

@@ -43,7 +43,7 @@ def prepare(runner, worker):
 
 def execute(runner, worker, data):
     """Execute leader task step"""
-    url = f"{worker.url}/leader-task/{data['roundNumber']}"
+    url = f"{worker.get('url')}/leader-task/{data['roundNumber']}"
     response = requests.post(url, json=data)
     result = response.json()
 

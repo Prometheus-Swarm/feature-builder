@@ -29,6 +29,6 @@ def prepare(runner, worker):
 
 def execute(runner, worker, data):
     """Execute recording of aggregator info"""
-    url = f"{worker.url}/add-aggregator-info/{data['taskId']}"
+    url = f"{worker.get('url')}/add-aggregator-info/{data['taskId']}"
     response = requests.post(url, json=data)
     return response.json()

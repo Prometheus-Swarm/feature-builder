@@ -23,7 +23,7 @@ def prepare(runner, worker, role: str):
 
 def execute(runner, worker, data):
     """Execute audit results update"""
-    url = f"{worker.url}/update-audit-result/{runner.config.task_id}/{data['roundNumber']}"
+    url = f"{worker.get('url')}/update-audit-result/{runner.config.task_id}/{data['roundNumber']}"
 
     # Structure the payload according to what the server expects
     payload = {

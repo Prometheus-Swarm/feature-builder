@@ -43,14 +43,14 @@ def prepare(runner, worker):
 
 def execute(runner, worker, data):
     """Execute worker task step"""
-    url = f"{worker.url}/worker-task/{data['roundNumber']}"
+    url = f"{worker.get('url')}/worker-task/{data['roundNumber']}"
     response = requests.post(url, json=data)
     result = response.json()
 
     # Handle 409 gracefully - no eligible todos is an expected case
     if response.status_code in [401, 409]:
         print(
-            f"✓ {result.get('message', 'No eligible todos')} for {worker.name} - continuing"
+            f"✓ {result.get('message', 'No eligible todos')} for {worker.get('name')} - continuing"
         )
         return {"success": True, "message": result.get("message")}
 
@@ -61,14 +61,14 @@ def execute(runner, worker, data):
         # Initialize pr_urls if not exists
         if "pr_urls" not in round_state:
             round_state["pr_urls"] = {}
-        round_state["pr_urls"][worker.name] = result["pr_url"]
+        round_state["pr_urls"][worker.get("name")] = result["pr_url"]
 
         # Initialize submission_data if not exists
         if "submission_data" not in round_state:
             round_state["submission_data"] = {}
 
         # Store submission data
-        round_state["submission_data"][worker.name] = {
+        round_state["submission_data"][worker.get("name")] = {
             "githubUsername": worker.env.get("GITHUB_USERNAME"),
             "nodeType": "worker",
             "prUrl": result["pr_url"],

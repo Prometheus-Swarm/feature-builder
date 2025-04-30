@@ -14,7 +14,7 @@ def prepare(runner, worker):
 
 def execute(runner, worker, data):
     """Execute repository creation step"""
-    url = f"{worker.url}/create-aggregator-repo/{data['taskId']}"
+    url = f"{worker.get('url')}/create-aggregator-repo/{data['taskId']}"
     response = requests.post(url, json=data)
     result = response.json()
 

@@ -1,5 +1,4 @@
 from flask import Blueprint, jsonify, request
-from prometheus_swarm.utils.logging import log_key_value
 from src.server.services.audit_service import audit_issues_and_tasks
 import logging
 
@@ -18,10 +17,10 @@ def audit_submission(round_number: int):
     repo_owner = data.get("repoOwner")
     repo_name = data.get("repoName")
 
-
-
     try:
-        is_approved = audit_issues_and_tasks(issuesAndTasks, issueSpec, repo_owner, repo_name)
+        is_approved = audit_issues_and_tasks(
+            issuesAndTasks, issueSpec, repo_owner, repo_name
+        )
         return jsonify(is_approved)
     except Exception as e:
         logger.error(f"Error reviewing PR: {str(e)}")

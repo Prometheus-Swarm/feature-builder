@@ -16,7 +16,9 @@ def prepare(runner, worker):
         return None
 
     # Get submission data from worker
-    url = f"{worker.url}/submission/{runner.config.task_id}/{runner.current_round}"
+    url = (
+        f"{worker.get('url')}/submission/{runner.config.task_id}/{runner.current_round}"
+    )
     response = requests.get(url)
     response.raise_for_status()
     submission_data = response.json()

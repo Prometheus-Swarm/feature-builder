@@ -12,7 +12,7 @@ def prepare(runner, worker, target_name):
     if target_name not in pr_urls:
         # Return None to indicate this step should be skipped
         print(
-            f"✓ No PR URL found for {target_name}, skipping {worker.name} audit - continuing"
+            f"✓ No PR URL found for {target_name}, skipping {worker.get('name')} audit - continuing"
         )
         return None
 
@@ -21,7 +21,7 @@ def prepare(runner, worker, target_name):
     if not submission_data:
         # Return None to indicate this step should be skipped
         print(
-            f"✓ No submission data found for {target_name}, skipping {worker.name} audit - continuing"
+            f"✓ No submission data found for {target_name}, skipping {worker.get('name')} audit - continuing"
         )
         return None
 
@@ -73,7 +73,7 @@ def execute(runner, worker, data):
             "message": "Skipped due to missing PR URL or submission data",
         }
 
-    url = f"{worker.url}/worker-audit/{runner.current_round}"
+    url = f"{worker.get('url')}/worker-audit/{runner.current_round}"
     response = requests.post(url, json=data)
     result = response.json()
 
