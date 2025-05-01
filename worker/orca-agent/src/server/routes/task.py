@@ -69,7 +69,6 @@ def start_task(round_number, node_type, request):
     request_data = request.get_json()
     logger.info(f"Task data: {request_data}")
     required_fields = [
-        "taskId",
         "roundNumber",
         "stakingKey",
         "stakingSignature",
@@ -89,7 +88,6 @@ def start_task(round_number, node_type, request):
         )
 
     response = task_functions[node_type](
-        task_id=request_data["taskId"],
         round_number=int(round_number),
         staking_signature=request_data["stakingSignature"],
         staking_key=request_data["stakingKey"],
@@ -104,14 +102,13 @@ def start_task(round_number, node_type, request):
 
     logger.info(response_data["message"])
 
-    # Record PR for both worker and leader tasks, but only workers record remotely
+    # Record PR for both worker and leader tasks
     response = task_service.record_pr(
         round_number=int(round_number),
         staking_signature=request_data["addPRSignature"],
         staking_key=request_data["stakingKey"],
         pub_key=request_data["pubKey"],
         pr_url=response_data["pr_url"],
-        task_id=request_data["taskId"],
         node_type=node_type,
     )
     response_data = response.get("data", {})

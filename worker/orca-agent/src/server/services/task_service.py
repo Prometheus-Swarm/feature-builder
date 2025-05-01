@@ -18,7 +18,6 @@ load_dotenv()
 
 
 def complete_todo(
-    task_id,
     round_number,
     staking_key,
     staking_signature,
@@ -44,7 +43,7 @@ def complete_todo(
         repo_owner = todo.get("repo_owner")
         repo_name = todo.get("repo_name")
         base_branch = todo.get("issue_uuid")
-
+        bounty_id = todo.get("bounty_id")
         # Log what we received from the server
         logger.info(f"Received todo data: {todo}")
         logger.info(
@@ -101,7 +100,7 @@ def complete_todo(
 
         try:
             result = run_todo_task(
-                task_id=task_id,
+                bounty_id=bounty_id,
                 round_number=round_number,
                 todo=todo,
                 staking_key=staking_key,
@@ -188,7 +187,7 @@ def get_task_details(signature, staking_key, pub_key, task_type):
 
 
 def run_todo_task(
-    task_id,
+    bounty_id,
     round_number,
     todo,
     staking_key,
@@ -207,14 +206,15 @@ def run_todo_task(
         existing_submission = (
             db.query(Submission)
             .filter(
-                Submission.task_id == task_id, Submission.round_number == round_number
+                Submission.bounty_id == bounty_id,
+                Submission.round_number == round_number,
             )
             .first()
         )
 
         if existing_submission and existing_submission.pr_url:
             logger.info(
-                f"Found existing PR URL for task {task_id}, round {round_number}"
+                f"Found existing PR URL for bounty {bounty_id}, round {round_number}"
             )
             return {
                 "success": True,
@@ -229,7 +229,7 @@ def run_todo_task(
             db.delete(existing_submission)
             db.commit()
             logger.info(
-                f"Deleted existing incomplete submission for task {task_id}, round {round_number}"
+                f"Deleted existing incomplete submission for bounty {bounty_id}, round {round_number}"
             )
 
         # Extract todo_uuid from the todo data
@@ -237,7 +237,7 @@ def run_todo_task(
 
         # Create new submission with todo_uuid in the uuid column
         submission = Submission(
-            task_id=task_id,
+            bounty_id=bounty_id,
             round_number=round_number,
             status="running",
             repo_owner=repo_owner,
@@ -259,7 +259,7 @@ def run_todo_task(
             todo=todo["title"],
             acceptance_criteria=todo["acceptance_criteria"],
             round_number=round_number,
-            task_id=task_id,
+            bounty_id=bounty_id,
             staking_key=staking_key,
             pub_key=pub_key,
             staking_signature=staking_signature,
@@ -278,7 +278,7 @@ def run_todo_task(
         )
         db.commit()
         logger.info(
-            f"Stored PR URL {pr_url} locally for task {task_id}, round {round_number}"
+            f"Stored PR URL {pr_url} locally for bounty {bounty_id}, round {round_number}"
         )
 
         return {
@@ -293,7 +293,7 @@ def run_todo_task(
             submission = (
                 db.query(Submission)
                 .filter(
-                    Submission.task_id == task_id,
+                    Submission.bounty_id == bounty_id,
                     Submission.round_number == round_number,
                 )
                 .first()
@@ -302,12 +302,12 @@ def run_todo_task(
                 submission.status = "failed"
                 db.commit()
                 logger.info(
-                    f"Updated status to failed for task {task_id}, round {round_number}"
+                    f"Updated status to failed for bounty {bounty_id}, round {round_number}"
                 )
         return {"success": False, "status": 500, "error": str(e)}
 
 
-def _check_existing_pr(round_number: int, task_id: str) -> dict:
+def _check_existing_pr(round_number: int, bounty_id: str) -> dict:
     """Check if we already have a completed record for this round in local DB.
 
     Returns the PR URL if found, but doesn't prevent remote recording.
@@ -318,7 +318,7 @@ def _check_existing_pr(round_number: int, task_id: str) -> dict:
             db.query(Submission)
             .filter(
                 Submission.round_number == round_number,
-                Submission.task_id == task_id,
+                Submission.bounty_id == bounty_id,
                 Submission.status == "completed",
             )
             .first()
@@ -326,7 +326,7 @@ def _check_existing_pr(round_number: int, task_id: str) -> dict:
 
         if submission and submission.pr_url:
             logger.info(
-                f"Local PR record found for task {task_id}, round {round_number}"
+                f"Local PR record found for bounty {bounty_id}, round {round_number}"
             )
             return {
                 "success": True,
@@ -624,17 +624,37 @@ def record_pr(
 
 
 def consolidate_prs(
-    task_id, round_number, staking_key, pub_key, staking_signature, public_signature
+    round_number, staking_key, pub_key, staking_signature, public_signature
 ):
     """Consolidate PRs from workers."""
     try:
         db = get_db()
 
+        issue_result = get_task_details(
+            staking_signature, staking_key, pub_key, "leader"
+        )
+
+        if not issue_result.get("success", False):
+            return {
+                "success": False,
+                "status": issue_result.get("status", 500),
+                "error": issue_result.get("error", "Unknown error fetching todo"),
+            }
+
+        issue = issue_result["data"]
+        repo_owner = issue["repo_owner"]
+        repo_name = issue["repo_name"]
+        source_branch = issue["issue_uuid"]
+        issue_uuid = issue["issue_uuid"]  # Store issue_uuid for later use
+        pr_list = issue["pr_list"]
+        bounty_id = issue["bounty_id"]
+
         # Check if we already have a PR URL for this submission
         existing_submission = (
             db.query(Submission)
             .filter(
-                Submission.task_id == task_id, Submission.round_number == round_number
+                Submission.bounty_id == bounty_id,
+                Submission.round_number == round_number,
             )
             .first()
         )
@@ -644,40 +664,23 @@ def consolidate_prs(
         if existing_submission and existing_submission.pr_url:
             pr_url = existing_submission.pr_url
             logger.info(
-                f"Found existing PR URL for task {task_id}, round {round_number}: {pr_url}"
+                f"Found existing PR URL for bounty {bounty_id}, round {round_number}: {pr_url}"
             )
             # We'll use the existing PR URL
         else:
             # Get task details which includes issue_uuid
-            issue_result = get_task_details(
-                staking_signature, staking_key, pub_key, "leader"
-            )
-
-            if not issue_result.get("success", False):
-                return {
-                    "success": False,
-                    "status": issue_result.get("status", 500),
-                    "error": issue_result.get("error", "Unknown error fetching todo"),
-                }
-
-            issue = issue_result["data"]
-            repo_owner = issue["repo_owner"]
-            repo_name = issue["repo_name"]
-            source_branch = issue["issue_uuid"]
-            issue_uuid = issue["issue_uuid"]  # Store issue_uuid for later use
-            pr_list = issue["pr_list"]
 
             # If no existing submission with PR URL, delete any incomplete submission
             if existing_submission:
                 db.delete(existing_submission)
                 db.commit()
                 logger.info(
-                    f"Deleted existing incomplete submission for task {task_id}, round {round_number}"
+                    f"Deleted existing incomplete submission for bounty {bounty_id}, round {round_number}"
                 )
 
             # Create new submission
             submission = Submission(
-                task_id=task_id,
+                bounty_id=bounty_id,
                 round_number=round_number,
                 status="running",
                 repo_owner=repo_owner,
@@ -707,7 +710,7 @@ def consolidate_prs(
 
             # Create workflow instance with validated PRs
             logger.info("\nCreating workflow with:")
-            logger.info(f"  task_id: {task_id}")
+            logger.info(f"  bounty_id: {bounty_id}")
 
             # Initialize Claude client
             client = setup_client("anthropic")
@@ -721,7 +724,7 @@ def consolidate_prs(
                 pub_key=pub_key,
                 staking_signature=staking_signature,
                 public_signature=public_signature,
-                task_id=task_id,  # Add task_id for signature validation
+                bounty_id=bounty_id,  # Add bounty_id for signature validation
                 pr_list=pr_list,
                 expected_branch=source_branch,
             )
@@ -753,7 +756,7 @@ def consolidate_prs(
             submission = (
                 db.query(Submission)
                 .filter(
-                    Submission.task_id == task_id,
+                    Submission.bounty_id == bounty_id,
                     Submission.round_number == round_number,
                 )
                 .first()
@@ -762,16 +765,16 @@ def consolidate_prs(
                 submission.status = "failed"
                 db.commit()
                 logger.info(
-                    f"Updated status to failed for task {task_id}, round {round_number}"
+                    f"Updated status to failed for bounty {bounty_id}, round {round_number}"
                 )
         return {"success": False, "status": 500, "error": str(e)}
 
 
-def create_aggregator_repo(task_id):
-    """Create an aggregator repo for a given round and task.
+def create_aggregator_repo(bounty_id):
+    """Create an aggregator repo for a given round and bounty.
 
     Args:
-        task_id (str): The task ID
+        bounty_id (str): The bounty ID
 
     Returns:
         dict: Dictionary containing:
@@ -787,7 +790,7 @@ def create_aggregator_repo(task_id):
 
         # Get issue UUID and repo info from assign_issue response
         logger.info(f"Calling assign_issue with username: {username}")
-        issue_data = assign_issue(task_id)
+        issue_data = assign_issue(bounty_id)
         logger.info(f"assign_issue response: {issue_data}")
 
         if not issue_data.get("success"):
