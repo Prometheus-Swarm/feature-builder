@@ -3,6 +3,8 @@ from src.server.services import task_service
 from prometheus_swarm.utils.logging import logger
 import requests
 import os
+from src.server.database import get_db
+from src.server.models import Submission
 
 bp = Blueprint("task", __name__)
 
@@ -159,3 +161,16 @@ def update_audit_result(task_id, round_number):
         return jsonify({"success": False, "message": "Invalid round number"}), 400
     except requests.exceptions.RequestException as e:
         return jsonify({"success": False, "message": str(e)}), 500
+
+
+@bp.get("/check-availability")
+def check_availability():
+    """Check if there are any running tasks.
+
+    Returns:
+        bool: True if no running tasks, False if there is a running task
+    """
+    db = get_db()
+    running_task = db.query(Submission).filter(Submission.status == "running").first()
+
+    return jsonify({"available": running_task is None})

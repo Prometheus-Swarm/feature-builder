@@ -23,6 +23,11 @@ export async function task(roundNumber: number): Promise<void> {
   console.log(`EXECUTE TASK FOR ROUND ${roundNumber}`);
   try {
     const orcaClient = await getOrcaClient();
+    const isAvailable = await orcaClient.podCall("check-availability");
+    if (!isAvailable) {
+      console.log("[TASK] Node is already completing a task");
+      return;
+    }
     const stakingKeypair = await namespaceWrapper.getSubmitterAccount();
     if (!stakingKeypair) {
       throw new Error("No staking keypair found");
