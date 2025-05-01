@@ -21,18 +21,21 @@ def fetch_submission(task_id, round_number):
     submission = (
         db.query(Submission)
         .filter(
-            Submission.round_number == int(round_number),
-            Submission.task_id == task_id,
             Submission.status == "completed",
         )
+        .order_by(Submission.round_number.asc())
         .first()
     )
 
     if submission:
+        db.query(Submission).filter(Submission.uuid == submission.uuid).update(
+            {"status": "submitted"}
+        )
+        db.commit()
+
         return jsonify(
             {
-                "roundNumber": submission.round_number,
-                "taskId": submission.task_id,  # Include task ID in response
+                "bountyId": submission.bounty_id,
                 "prUrl": submission.pr_url,
                 "githubUsername": submission.username,
                 "repoOwner": submission.repo_owner,
