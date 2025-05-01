@@ -770,12 +770,8 @@ def consolidate_prs(
         return {"success": False, "status": 500, "error": str(e)}
 
 
-def create_aggregator_repo(bounty_id):
+def create_aggregator_repo():
     """Create an aggregator repo for a given round and bounty.
-
-    Args:
-        bounty_id (str): The bounty ID
-
     Returns:
         dict: Dictionary containing:
             - success (bool): Whether the operation succeeded
@@ -790,7 +786,8 @@ def create_aggregator_repo(bounty_id):
 
         # Get issue UUID and repo info from assign_issue response
         logger.info(f"Calling assign_issue with username: {username}")
-        issue_data = assign_issue(bounty_id)
+        issue_data = assign_issue()
+
         logger.info(f"assign_issue response: {issue_data}")
 
         if not issue_data.get("success"):
@@ -807,7 +804,7 @@ def create_aggregator_repo(bounty_id):
         # Get repo info from the issue data instead of parameters
         repo_owner = issue_data["data"].get("repoOwner")
         repo_name = issue_data["data"].get("repoName")
-
+        bounty_id = issue_data["data"].get("bountyId")
         logger.info(f"Using repo from issue: {repo_owner}/{repo_name}")
         logger.info(f"Extracted issue_uuid: {issue_uuid}")
 
@@ -890,6 +887,7 @@ def create_aggregator_repo(bounty_id):
                     "fork_url": fork.html_url,
                     "branch_name": branch_name,
                     "issue_uuid": issue_uuid,
+                    "bounty_id": bounty_id,
                 },
             }
 
@@ -932,18 +930,15 @@ def create_aggregator_repo(bounty_id):
 #         return {"status": e.response.status_code, "error": e.response.text}
 
 
-def assign_issue(task_id):
+def assign_issue():
     try:
         logger.info(
             f"Making assign_issue request to {os.environ['MIDDLE_SERVER_URL']}/api/builder/assign-issue"
         )
-        logger.info(
-            f"Request payload: {{'taskId': {task_id}, 'githubUsername': {os.environ['GITHUB_USERNAME']}}}"
-        )
 
         response = requests.post(
             os.environ["MIDDLE_SERVER_URL"] + "/api/builder/assign-issue",
-            json={"taskId": task_id, "githubUsername": os.environ["GITHUB_USERNAME"]},
+            json={"githubUsername": os.environ["GITHUB_USERNAME"]},
             headers={"Content-Type": "application/json"},
         )
         logger.info(f"Response status code: {response.status_code}")

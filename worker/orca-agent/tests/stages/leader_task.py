@@ -8,36 +8,38 @@ def prepare(runner, worker):
     """Prepare data for leader task"""
     # Create fetch-issue payload for stakingSignature and publicSignature
     fetch_issue_payload = {
-        "taskId": runner.config.task_id,
-        "roundNumber": runner.current_round,
+        "taskId": runner.get("task_id"),
+        "roundNumber": runner.get("current_round"),
         "action": "fetch-issue",
-        "githubUsername": worker.env.get("GITHUB_USERNAME"),
-        "stakingKey": worker.staking_public_key,
-        "pubKey": worker.public_key,
+        "githubUsername": worker.get_env("GITHUB_USERNAME"),
+        "stakingKey": worker.get_key("staking_public"),
+        "pubKey": worker.get_key("main_public"),
     }
 
     # Create add-pr payload for addPRSignature
     add_pr_payload = {
-        "taskId": runner.config.task_id,
-        "roundNumber": runner.current_round,
+        "taskId": runner.get("task_id"),
+        "roundNumber": runner.get("current_round"),
         "action": "add-issue-pr",
-        "githubUsername": worker.env.get("GITHUB_USERNAME"),
-        "stakingKey": worker.staking_public_key,
-        "pubKey": worker.public_key,
+        "githubUsername": worker.get_env("GITHUB_USERNAME"),
+        "stakingKey": worker.get_key("staking_public"),
+        "pubKey": worker.get_key("main_public"),
     }
 
     return {
-        "taskId": runner.config.task_id,
-        "roundNumber": runner.current_round,
-        "stakingKey": worker.staking_public_key,
-        "pubKey": worker.public_key,
+        "taskId": runner.get("task_id"),
+        "roundNumber": runner.get("current_round"),
+        "stakingKey": worker.get_key("staking_public"),
+        "pubKey": worker.get_key("main_public"),
         "stakingSignature": create_signature(
-            worker.staking_signing_key, fetch_issue_payload
+            worker.get_key("staking_signing"), fetch_issue_payload
         ),
         "publicSignature": create_signature(
-            worker.public_signing_key, fetch_issue_payload
+            worker.get_key("main_signing"), fetch_issue_payload
         ),
-        "addPRSignature": create_signature(worker.staking_signing_key, add_pr_payload),
+        "addPRSignature": create_signature(
+            worker.get_key("staking_signing"), add_pr_payload
+        ),
     }
 
 
@@ -53,30 +55,22 @@ def execute(runner, worker, data):
         return {"success": True, "message": result.get("message")}
 
     if result.get("success") and "pr_url" in result:
-        round_key = str(runner.current_round)
-        round_state = runner.state["rounds"].setdefault(round_key, {})
-
-        # Initialize pr_urls if not exists
-        if "pr_urls" not in round_state:
-            round_state["pr_urls"] = {}
-        round_state["pr_urls"]["leader"] = result["pr_url"]
-
-        # Initialize submission_data if not exists
-        if "submission_data" not in round_state:
-            round_state["submission_data"] = {}
+        # Store PR URL in state
+        runner.set("pr_urls.leader", result["pr_url"], scope="round")
 
         # Store submission data
-        round_state["submission_data"]["leader"] = {
-            "githubUsername": worker.env.get("GITHUB_USERNAME"),
+        submission_data = {
+            "githubUsername": worker.get_env("GITHUB_USERNAME"),
             "nodeType": "leader",
             "prUrl": result["pr_url"],
             "repoName": result.get("repoName"),
             "repoOwner": result.get("repoOwner"),
-            "roundNumber": runner.current_round,
-            "taskId": runner.config.task_id,
-            "uuid": runner.state.get("issue_uuid"),  # Leader uses the issue UUID
-            "stakingKey": worker.staking_public_key,
-            "pubKey": worker.public_key,
+            "roundNumber": runner.get("current_round"),
+            "taskId": runner.get("task_id"),
+            "uuid": runner.get("issue_uuid"),  # Leader uses the issue UUID
+            "stakingKey": worker.get_key("staking_public"),
+            "pubKey": worker.get_key("main_public"),
         }
+        runner.set("submission_data.leader", submission_data, scope="round")
 
     return result

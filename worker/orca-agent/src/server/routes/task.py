@@ -3,8 +3,7 @@ from src.server.services import task_service
 from prometheus_swarm.utils.logging import logger
 import requests
 import os
-from src.server.database import get_db
-from src.server.models import Submission
+from src.database import get_db, Submission
 
 bp = Blueprint("task", __name__)
 
@@ -25,7 +24,7 @@ def create_aggregator_repo(task_id):
     print(f"task_id: {task_id}")
 
     # Create the aggregator repo (which now handles assign_issue internally)
-    result = task_service.create_aggregator_repo(task_id)
+    result = task_service.create_aggregator_repo()
     print(f"result: {result}")
 
     # Extract status code from result if present, default to 200

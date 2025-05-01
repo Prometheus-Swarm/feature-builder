@@ -24,14 +24,22 @@ def parse_args():
 def add_uuids(db):
     """Post-load callback to process MongoDB data after JSON import"""
     # Process issues collection
-    issues = list(db.issues.find({"taskId": runner.config.task_id}))
+    db.issues.update_many(
+        {},
+        {"$set": {"bountyId": runner.get("bounty_id")}},
+    )
+    db.todos.update_many(
+        {},
+        {"$set": {"bountyId": runner.get("bounty_id")}},
+    )
+    issues = list(db.issues.find({"taskId": runner.get("task_id")}))
     for issue in issues:
         if "uuid" not in issue:
             issue["uuid"] = str(uuid.uuid4())
         db.issues.replace_one({"_id": issue["_id"]}, issue)
 
     # Process todos collection
-    todos = list(db.todos.find({"taskId": runner.config.task_id}))
+    todos = list(db.todos.find({"taskId": runner.get("task_id")}))
 
     # First pass: generate UUIDs and create title mapping
     todo_mapping = {}

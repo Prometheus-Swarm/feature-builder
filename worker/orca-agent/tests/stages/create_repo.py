@@ -6,8 +6,8 @@ import requests
 def prepare(runner, worker):
     """Prepare data for creating a repository"""
     return {
-        "taskId": runner.config.task_id,
-        "roundNumber": runner.current_round,
+        "taskId": runner.get("task_id"),
+        "roundNumber": runner.get("current_round"),
         "action": "create-repo",
     }
 
@@ -24,8 +24,10 @@ def execute(runner, worker, data):
         return {"success": True, "message": result.get("message")}
 
     if result.get("success"):
-        runner.state["fork_url"] = result["data"]["fork_url"]
-        runner.state["issue_uuid"] = result["data"]["issue_uuid"]
-        runner.state["branch_name"] = result["data"]["branch_name"]
+        # Store repository data in state
+        runner.set("fork_url", result["data"]["fork_url"], scope="global")
+        runner.set("issue_uuid", result["data"]["issue_uuid"], scope="global")
+        runner.set("branch_name", result["data"]["branch_name"], scope="global")
+        runner.set("bounty_id", result["data"]["bounty_id"], scope="global")
 
     return result
