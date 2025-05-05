@@ -10,6 +10,21 @@
     ],
     "repoOwner": "koii-network",
     "repoName": "builder-test",
-    "status": "initialized"
+    "status": "initialized",
+    "bountyId": "1112"
+  },
+  {
+    "title": "Create Array Flattening Function",
+    "description": "Implement a function that flattens a nested array to a single level",
+    "acceptanceCriteria": [
+      "Function should handle arrays of any nesting depth",
+      "Should preserve order of elements",
+      "Should handle empty arrays and non-array elements",
+      "Should work with mixed data types"
+    ],
+    "repoOwner": "koii-network",
+    "repoName": "builder-test",
+    "status": "initialized",
+    "bountyId": "1111"
   }
 ]
