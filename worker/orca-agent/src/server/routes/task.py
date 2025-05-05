@@ -99,6 +99,7 @@ def start_task(round_number, node_type, request):
         error = response.get("error", "Unknown error")
         return jsonify({"success": False, "message": error}), status
 
+    logger.info("response_data: " + str(response_data))
     logger.info(response_data["message"])
 
     # Record PR for both worker and leader tasks
@@ -109,6 +110,7 @@ def start_task(round_number, node_type, request):
         pub_key=request_data["pubKey"],
         pr_url=response_data["pr_url"],
         node_type=node_type,
+        bounty_id=response_data["bounty_id"],
     )
     response_data = response.get("data", {})
     if not response.get("success", False):

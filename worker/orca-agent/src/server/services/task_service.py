@@ -120,6 +120,7 @@ def complete_todo(
                 "data": {
                     "pr_url": result["data"]["pr_url"],
                     "message": result["data"]["message"],
+                    "bounty_id": result["data"]["bounty_id"],
                 },
             }
         except Exception as e:
@@ -221,6 +222,7 @@ def run_todo_task(
                 "data": {
                     "pr_url": existing_submission.pr_url,
                     "message": "Using existing PR URL",
+                    "bounty_id": existing_submission.bounty_id,
                 },
             }
 
@@ -258,7 +260,6 @@ def run_todo_task(
             repo_name=repo_name,
             todo=todo["title"],
             acceptance_criteria=todo["acceptance_criteria"],
-            round_number=round_number,
             bounty_id=bounty_id,
             staking_key=staking_key,
             pub_key=pub_key,
@@ -273,6 +274,7 @@ def run_todo_task(
 
         # Store PR URL in local DB immediately
         submission.pr_url = pr_url
+        submission.bounty_id = bounty_id
         submission.status = (
             "pending_record"  # PR exists but not recorded with middle server
         )
@@ -283,7 +285,11 @@ def run_todo_task(
 
         return {
             "success": True,
-            "data": {"pr_url": pr_url, "message": "Created new PR"},
+            "data": {
+                "pr_url": pr_url,
+                "bounty_id": bounty_id,
+                "message": "Created new PR",
+            },
         }
 
     except Exception as e:
@@ -349,7 +355,7 @@ def _store_pr_remotely(
     pr_url: str,
     node_type: str = "worker",
     uuid: str = None,
-    task_id: str = None,
+    bounty_id: str = None,
     round_number: int = None,
     github_username: str = None,
 ) -> dict:
@@ -380,13 +386,13 @@ def _store_pr_remotely(
         }
 
         # Add uuid to the payload (different field name based on node type)
-        if not uuid and task_id and round_number is not None:
+        if not uuid and bounty_id and round_number is not None:
             try:
                 db = get_db()
                 submission = (
                     db.query(Submission)
                     .filter(
-                        Submission.task_id == task_id,
+                        Submission.bounty_id == bounty_id,
                         Submission.round_number == round_number,
                     )
                     .first()
@@ -441,7 +447,7 @@ def _store_pr_remotely(
 def _store_pr_locally(
     round_number: int,
     pr_url: str,
-    task_id: str,
+    bounty_id: str,
     uuid: str = None,
     node_type: str = "worker",
     github_username: str = None,
@@ -456,7 +462,7 @@ def _store_pr_locally(
             db.query(Submission)
             .filter(
                 Submission.round_number == round_number,
-                Submission.task_id == task_id,
+                Submission.bounty_id == bounty_id,
             )
             .first()
         )
@@ -482,7 +488,9 @@ def _store_pr_locally(
                 "data": {"message": "PR recorded locally", "pr_url": pr_url},
             }
         else:
-            error_msg = f"No submission found for task {task_id}, round {round_number}"
+            error_msg = (
+                f"No submission found for bounty {bounty_id}, round {round_number}"
+            )
             log_error(
                 Exception("Submission not found"),
                 context=error_msg,
@@ -499,7 +507,7 @@ def record_pr(
     pub_key,
     pr_url,
     round_number,
-    task_id,
+    bounty_id,
     node_type="worker",
 ):
     """Record PR URL both remotely and locally.
@@ -510,11 +518,11 @@ def record_pr(
         pub_key: Node's public key
         pr_url: URL of the PR to record
         round_number: Round number
-        task_id: Task ID
+        bounty_id: Bounty ID
         node_type: Type of node ("worker" or "leader") to determine which endpoint to use
     """
     # First check if we already have a record locally
-    existing = _check_existing_pr(round_number, task_id)
+    existing = _check_existing_pr(round_number, bounty_id)
     existing_pr_url = None
     if existing["success"]:
         # Even if we have a local record, still attempt to record remotely
@@ -534,7 +542,7 @@ def record_pr(
             db.query(Submission)
             .filter(
                 Submission.round_number == round_number,
-                Submission.task_id == task_id,
+                Submission.bounty_id == bounty_id,
             )
             .first()
         )
@@ -574,7 +582,7 @@ def record_pr(
         pr_url,
         node_type,
         uuid,
-        task_id,
+        bounty_id,
         round_number,
     )
     if not remote_result["success"]:
@@ -597,7 +605,7 @@ def record_pr(
                     db.query(Submission)
                     .filter(
                         Submission.round_number == round_number,
-                        Submission.task_id == task_id,
+                        Submission.bounty_id == bounty_id,
                     )
                     .first()
                 )
@@ -613,7 +621,9 @@ def record_pr(
             except Exception as e:
                 logger.warning(f"Failed to update existing submission: {str(e)}")
     else:
-        local_result = _store_pr_locally(round_number, pr_url, task_id, uuid, node_type)
+        local_result = _store_pr_locally(
+            round_number, pr_url, bounty_id, uuid, node_type
+        )
         if not local_result["success"]:
             return local_result
 
@@ -642,6 +652,7 @@ def consolidate_prs(
             }
 
         issue = issue_result["data"]
+        print(f"issue: {issue}")
         repo_owner = issue["repo_owner"]
         repo_name = issue["repo_name"]
         source_branch = issue["issue_uuid"]
@@ -746,7 +757,11 @@ def consolidate_prs(
 
         return {
             "success": True,
-            "data": {"pr_url": pr_url, "message": "PRs consolidated successfully"},
+            "data": {
+                "pr_url": pr_url,
+                "message": "PRs consolidated successfully",
+                "bounty_id": bounty_id,
+            },
         }
 
     except Exception as e:

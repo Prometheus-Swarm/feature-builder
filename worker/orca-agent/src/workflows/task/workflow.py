@@ -36,9 +36,8 @@ class TaskWorkflow(Workflow):
         pub_key,
         staking_signature,
         public_signature,
-        round_number,
-        task_id,
         base_branch,
+        bounty_id,
         max_implementation_attempts=3,
         github_token="GITHUB_TOKEN",
         github_username="GITHUB_USERNAME",
@@ -55,9 +54,8 @@ class TaskWorkflow(Workflow):
             pub_key=pub_key,
             staking_signature=staking_signature,
             public_signature=public_signature,
-            round_number=round_number,
-            task_id=task_id,
             base_branch=base_branch,
+            bounty_id=bounty_id,
         )
         check_required_env_vars([github_token, github_username])
         self.max_implementation_attempts = max_implementation_attempts

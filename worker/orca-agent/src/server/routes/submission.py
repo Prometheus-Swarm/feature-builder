@@ -5,17 +5,14 @@ from prometheus_swarm.utils.logging import logger
 bp = Blueprint("submission", __name__)
 
 
-@bp.get("/submission/<task_id>/<round_number>")
-def fetch_submission(task_id, round_number):
+@bp.get("/submission/<round_number>")
+def fetch_submission(round_number):
     """Fetch submission for a given round and task.
 
     Query parameters:
         taskId: The task ID to fetch submission for
     """
     logger.info(f"Fetching submission for round: {round_number}")
-
-    if not task_id:
-        return jsonify({"error": "Missing task_id parameter"}), 400
 
     db = get_db()
     submission = (
@@ -45,4 +42,4 @@ def fetch_submission(task_id, round_number):
             }
         )
     else:
-        return jsonify("No submission")
+        return jsonify({"message": "No submission"}), 409

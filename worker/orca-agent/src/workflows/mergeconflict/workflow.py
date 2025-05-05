@@ -26,6 +26,7 @@ class MergeConflictWorkflow(Workflow):
         prompts,
         source_fork_url,  # URL of fork containing PRs (first level fork)
         source_branch,  # Branch on source fork containing PRs to merge (e.g. round-123-task-456)
+        bounty_id,  # Bounty ID for signature validation
         staking_key=None,  # Leader's staking key
         pub_key=None,  # Leader's public key
         staking_signature=None,  # Leader's staking signature
@@ -141,7 +142,6 @@ class MergeConflictWorkflow(Workflow):
 
         # Verify signature and validate payload
         expected_values = {
-            "taskId": self.task_id,
             "stakingKey": submitter_staking_key,
         }
 
