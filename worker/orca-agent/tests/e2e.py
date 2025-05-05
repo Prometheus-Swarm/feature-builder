@@ -23,19 +23,14 @@ def parse_args():
 
 def add_uuids(db):
     """Post-load callback to process MongoDB data after JSON import"""
-    # Process issues collection
-    db.issues.update_many(
-        {},
-        {"$set": {"bountyId": runner.get("bounty_id")}},
-    )
-    db.todos.update_many(
-        {},
-        {"$set": {"bountyId": runner.get("bounty_id")}},
-    )
     issues = list(db.issues.find({"taskId": runner.get("task_id")}))
+    # Create a mapping of bounty ID to issue UUID
+    bounty_to_issue = {}
     for issue in issues:
         if "uuid" not in issue:
             issue["uuid"] = str(uuid.uuid4())
+        if "bountyId" in issue:
+            bounty_to_issue[issue["bountyId"]] = issue["uuid"]
         db.issues.replace_one({"_id": issue["_id"]}, issue)
 
     # Process todos collection
@@ -50,9 +45,15 @@ def add_uuids(db):
 
     # Second pass: link dependencies and issues
     for todo in todos:
-        # Link to issue
-        if "issueUuid" not in todo and issues:
-            # For simplicity, link to first issue. Customize this logic as needed.
+        # Link to issue based on bounty ID
+        if (
+            "issueUuid" not in todo
+            and "bountyId" in todo
+            and todo["bountyId"] in bounty_to_issue
+        ):
+            todo["issueUuid"] = bounty_to_issue[todo["bountyId"]]
+        elif "issueUuid" not in todo and issues:
+            # Fallback to first issue only if no bounty ID match found
             todo["issueUuid"] = issues[0]["uuid"]
 
         # Process dependencies
