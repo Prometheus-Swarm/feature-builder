@@ -13,7 +13,7 @@ def prepare(runner, worker):
         return None
 
     # Get submission data from worker
-    url = f"{worker.get('url')}/submission/{runner.get('task_id')}/{runner.get('current_round')}"
+    url = f"{worker.get('url')}/submission/{runner.get('current_round')}"
     response = requests.get(url)
     response.raise_for_status()
     submission_data = response.json()
@@ -26,12 +26,14 @@ def prepare(runner, worker):
         "pubKey": worker.get_key("main_public"),
         "action": "audit",
         "githubUsername": worker.get_env("GITHUB_USERNAME"),
-        "prUrl": submission_data.get("prUrl"),
+        **submission_data,
     }
 
     return {
         **submission_data,
-        "signature": create_signature(worker.get_key("staking_signing"), submitter_payload),
+        "signature": create_signature(
+            worker.get_key("staking_signing"), submitter_payload
+        ),
         "stakingKey": worker.get_key("staking_public"),
         "pubKey": worker.get_key("main_public"),
     }
