@@ -208,12 +208,11 @@ class TaskExecution(WorkflowExecution):
                     pub_key=self.context["pub_key"],
                     staking_signature=self.context["staking_signature"],
                     public_signature=self.context["public_signature"],
-                    round_number=self.context["round_number"],
-                    task_id=self.context["task_id"],
                     base_branch=self.base_branch,
                     github_token="WORKER_GITHUB_TOKEN",  # Pass env var name instead of value
                     github_username="WORKER_GITHUB_USERNAME",  # Pass env var name instead of value
                     dependency_pr_urls=dependency_pr_urls,
+                    bounty_id=self.args.task_id,
                 )
 
                 result = self.workflow.run()
