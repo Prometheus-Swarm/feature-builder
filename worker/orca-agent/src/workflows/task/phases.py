@@ -194,7 +194,7 @@ class DraftPullRequestPhase(WorkflowPhase):
         super().__init__(
             workflow=workflow,
             prompt_name="create_draft_pr",
-            available_tools=["read_file", "list_files", "create_worker_pull_request"],
+            required_tool="create_worker_pull_request",
             conversation_id=conversation_id,
             name="Create Draft Pull Request",
         )
