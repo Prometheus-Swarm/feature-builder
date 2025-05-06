@@ -16,6 +16,7 @@ from src.workflows.mergeconflict.phases import (
     ConflictResolutionPhase,
     CreatePullRequestPhase,
     TestVerificationPhase,
+    DraftPullRequestPhase,
 )
 
 
@@ -360,6 +361,30 @@ class MergeConflictWorkflow(Workflow):
                 log_error(Exception("Setup failed"), "Repository setup failed")
                 return None
 
+            # Create initial draft PR
+            print("\nCreating initial draft PR")
+            self.context["is_draft"] = True  # Set draft mode for initial PR
+            draft_phase = DraftPullRequestPhase(
+                workflow=self, conversation_id=self.conversation_id
+            )
+            draft_result = draft_phase.execute()
+            if not draft_result or not draft_result.get("success"):
+                log_error(
+                    Exception(draft_result.get("error", "Draft PR creation failed")),
+                    "Failed to create initial draft PR",
+                )
+                return None
+
+            # Store the conversation ID and PR URL
+            self.conversation_id = draft_phase.conversation_id
+            initial_pr_url = draft_result.get("data", {}).get("pr_url")
+            if not initial_pr_url:
+                log_error(
+                    Exception("No PR URL in draft result"),
+                    "Draft PR creation succeeded but no URL returned",
+                )
+                return None
+
             # Get list of PRs to process
             gh = Github(self.context["github_token"])
             source_fork = gh.get_repo(
@@ -430,8 +455,9 @@ class MergeConflictWorkflow(Workflow):
             # Store the conversation ID from test phase
             self.conversation_id = test_phase.conversation_id
 
-            # Create PR if tests pass
-            print("\nCreating consolidated PR")
+            # Create final PR if tests pass
+            print("\nCreating final consolidated PR")
+            self.context["is_draft"] = False  # Set to non-draft for final PR
             pr_phase = CreatePullRequestPhase(
                 workflow=self, conversation_id=self.conversation_id
             )

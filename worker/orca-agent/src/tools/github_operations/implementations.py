@@ -51,6 +51,7 @@ def create_pull_request(
     github_username: str,
     data: Dict[str, Any],
     base_branch: str = "main",
+    is_draft: bool = False,
     **kwargs,
 ) -> ToolOutput:
     """Create PR with formatted description.
@@ -84,7 +85,9 @@ def create_pull_request(
         body = pr_template.format(**data)
 
         repo = gh.get_repo(repo_full_name)
-        pr = repo.create_pull(title=title, body=body, head=head, base=base_branch)
+        pr = repo.create_pull(
+            title=title, body=body, head=head, base=base_branch, draft=is_draft
+        )
         return {
             "success": True,
             "message": f"Successfully created PR: {title}",
@@ -123,6 +126,7 @@ def create_worker_pull_request(
     github_token: str,
     github_username: str,
     head_branch: str,
+    is_draft: bool = False,  # Default to non-draft PRs
     **kwargs,
 ) -> ToolOutput:
     """Create a pull request with worker information."""
@@ -137,7 +141,9 @@ def create_worker_pull_request(
 
         # Format the pull request data
         data = {
-            "title": title,
+            "title": (
+                f"[WIP] {title}" if is_draft else title
+            ),  # Automatically add WIP prefix for drafts
             "description": description,
             "changes": changes_bullets,
             "todo": todo,
@@ -153,15 +159,16 @@ def create_worker_pull_request(
         repo = gh.get_repo(f"{repo_owner}/{repo_name}")
         head = f"{github_username}:{head_branch}"  # Format head with username prefix
         pr = repo.create_pull(
-            title=title,
+            title=data["title"],  # Use the potentially WIP-prefixed title
             body=TEMPLATES["worker_pr_template"].format(**data),
             head=head,
             base=base_branch,
+            draft=is_draft,  # Set draft status
         )
 
         return {
             "success": True,
-            "message": f"Successfully created PR: {title}",
+            "message": f"Successfully created PR: {data['title']}",
             "data": {"pr_url": pr.html_url},
         }
     except Exception as e:
@@ -187,6 +194,7 @@ def create_leader_pull_request(
     pub_key: str = None,
     staking_signature: str = None,
     public_signature: str = None,
+    is_draft: bool = False,  # Default to non-draft PRs
     **kwargs,
 ) -> ToolOutput:
     """Create a pull request for a leader node.
@@ -212,6 +220,7 @@ def create_leader_pull_request(
         pub_key: Leader's public key
         staking_signature: Leader's staking signature
         public_signature: Leader's public signature
+        is_draft: Whether to create a draft PR (default: False)
 
     Returns:
         ToolOutput: Standardized tool output with PR URL on success
@@ -224,6 +233,10 @@ def create_leader_pull_request(
     for pr in pr_details:
         # Add PR to the list with original URL and attribution
         consolidated_prs += f"- [#{pr['number']}: {pr['title']}]({pr['url']}) from @{pr['source_owner']}\n"
+
+    # Add [WIP] prefix to title if it's a draft PR
+    if is_draft:
+        title = f"[WIP] {title}"
 
     return create_pull_request(
         repo_owner=repo_owner,
@@ -242,6 +255,7 @@ def create_leader_pull_request(
             "staking_signature": staking_signature,
             "public_signature": public_signature,
         },
+        is_draft=is_draft,  # Pass through the draft status
         **kwargs,
     )
 

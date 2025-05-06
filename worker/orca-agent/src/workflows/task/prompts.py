@@ -109,4 +109,20 @@ PROMPTS = {
         "   - How each acceptance criterion is met\n"
         "   - Any important notes or considerations"
     ),
+    "create_draft_pr": (
+        "You are creating an initial draft pull request for the following task:\n"
+        "Task Description:\n"
+        "{todo}\n\n"
+        "Available files: {current_files}\n\n"
+        "IMPORTANT: Always use relative paths (e.g., 'src/file.py' not '/src/file.py')\n\n"
+        "Steps to create the draft pull request:\n"
+        "1. First examine the available files to understand the current state\n"
+        "2. Create a clear and descriptive PR title\n"
+        "3. Write an initial PR description that includes:\n"
+        "   - Brief overview of the planned changes\n"
+        "   - Initial approach to implementation\n"
+        "   - List of acceptance criteria to be met\n"
+        "   - Note that this is a work in progress\n"
+        "4. The PR will be created as a draft automatically"
+    ),
 }

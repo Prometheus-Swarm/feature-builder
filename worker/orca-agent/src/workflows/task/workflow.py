@@ -166,6 +166,19 @@ class TaskWorkflow(Workflow):
 
             self.context["head_branch"] = branch_result["data"]["branch_name"]
 
+            # Create initial draft PR
+            self.context["is_draft"] = True
+            draft_pr_phase = phases.DraftPullRequestPhase(
+                workflow=self, conversation_id=branch_phase.conversation_id
+            )
+            draft_pr_result = draft_pr_phase.execute()
+
+            if not draft_pr_result:
+                return None
+
+            # Store PR URL in context for later use
+            self.context["pr_url"] = draft_pr_result["data"]["pr_url"]
+
             # Implementation loop
             for attempt in range(self.max_implementation_attempts):
                 log_section(
@@ -222,12 +235,13 @@ class TaskWorkflow(Workflow):
 
                 time.sleep(5)  # Brief pause before retry
 
-            # Create PR
+            # Create final PR (non-draft)
+            self.context["is_draft"] = False
             self.context["current_files"] = get_current_files()
 
             # Base was already set in setup()
             log_value(
-                f"Creating PR from {self.context['head_branch']} to {self.context['base_branch']}",
+                f"Creating final PR from {self.context['head_branch']} to {self.context['base_branch']}",
             )
 
             pr_phase = phases.PullRequestPhase(
@@ -237,10 +251,10 @@ class TaskWorkflow(Workflow):
 
             if pr_result.get("success"):
                 pr_url = pr_result.get("data", {}).get("pr_url")
-                log_key_value("PR created successfully", pr_url)
+                log_key_value("PR finalized successfully", pr_url)
                 return pr_url
             else:
-                log_error(Exception(pr_result.get("error")), "PR creation failed")
+                log_error(Exception(pr_result.get("error")), "PR finalization failed")
                 return None
 
         except Exception as e:

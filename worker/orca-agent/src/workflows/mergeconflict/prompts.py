@@ -1,91 +1,96 @@
-"""Prompts for the merge conflict resolver workflow."""
+"""Merge conflict workflow prompts."""
 
 PROMPTS = {
-    "system_prompt": (
-        "You are an expert software architect and technical lead specializing in resolving merge conflicts "
-        "and consolidating changes from multiple pull requests. You understand software development best "
-        "practices and focus on maintaining code quality while resolving conflicts."
-    ),
-    "verify_tests": (
-        "You need to verify that all tests pass after merging multiple PRs. If any tests fail:\n"
-        "1. Analyze the test output to understand the failures\n"
-        "2. Review the relevant code to identify the cause\n"
-        "3. Propose and implement fixes that maintain the intent of the merged changes\n"
-        "4. Verify the fixes by running tests again\n\n"
-        "Continue until all tests pass.\n\n"
-        "Guidelines:\n"
-        "- Run the full test suite to catch any regressions\n"
-        "- Make minimal changes needed to fix test failures\n"
-        "- Document any fixes made in commit messages\n"
-        "- Ensure fixes don't break the functionality from merged PRs\n"
-        "- Consider test dependencies and environment setup\n\n"
-        "Current repository state:\n{current_files}\n\n"
-    ),
-    "resolve_conflicts": (
-        "You need to resolve merge conflicts in the following files. For each conflict:\n"
-        "1. Analyze both versions of the code\n"
-        "2. Understand the intent of each change\n"
-        "3. Determine how to combine the changes while preserving functionality\n"
-        "4. Ensure the resolution maintains code quality and follows project conventions\n\n"
-        "Guidelines for conflict resolution:\n"
-        "- Preserve the intent of both changes when possible\n"
-        "- Maintain consistent code style\n"
-        "- Ensure the resolution doesn't introduce new bugs\n"
-        "- Add comments to explain complex resolutions\n"
-        "- Consider implications for other parts of the codebase\n\n"
-        "Current repository state:\n{current_files}\n\n"
-    ),
-    "create_consolidated_pr": (
-        "Create a descriptive title and summary for a pull request that consolidates multiple changes.\n\n"
-        "Guidelines:\n"
-        "1. Title should:\n"
-        "   - Be clear and descriptive\n"
-        "   - Summarize the main themes of the changes\n"
-        "   - Be concise but informative\n\n"
-        "2. Description should:\n"
-        "   - Explain the overall purpose of the changes\n"
-        "   - Highlight key modifications and their benefits\n"
-        "   - Note any important dependencies or considerations\n\n"
-        "3. Changes section should:\n"
-        "   - List major functional changes\n"
-        "   - Group related changes together\n"
-        "   - Highlight architectural changes\n\n"
-        "4. Tests section should:\n"
-        "   - Describe verification steps taken\n"
-        "   - Note any test additions or modifications\n"
-        "   - Highlight important test coverage\n\n"
-        "Focus on providing high-level insights about the changes rather than mechanical details.\n"
-        "The list of PRs, files changed, and other mechanical details will be added automatically.\n"
-    ),
-    "decompose_feature": (
-        "Your task is to break down the following feature request into small, discrete subtasks:\n\n"
-        "Feature: {feature_description}\n"
-        "Repository: {repo_url}\n\n"
-        "Output JSON: {output_json_path}\n\n"
-        "For each subtask, you must provide:\n"
-        "1. A clear, specific title\n"
-        "2. A detailed description of the work required\n"
-        "3. Clear acceptance criteria that can be verified\n\n"
-        "Guidelines for task breakdown:\n"
-        "- Each task should follow the Single Responsibility Principle - do one thing and do it well\n"
-        "- Tasks should represent a single logical change (e.g., one schema change, one API endpoint)\n"
-        "- Tasks should be independently testable\n"
-        "- Tasks should be small enough that their implementation approach is clear\n"
-        "- Consider separation of concerns (e.g., separate backend/frontend/database tasks)\n"
-        "- Include necessary setup/infrastructure tasks\n"
-        "- Consider testing requirements\n"
-        "- Account for documentation needs\n"
-        "- Work must be quantitative and measurable\n"
-        "Current repository structure:\n{current_files}\n\n"
-    ),
-    "validate_subtasks": (
-        "Review the following subtasks to ensure they meet these criteria:\n"
-        "1. Each task follows the Single Responsibility Principle\n"
-        "2. Each task represents a single logical change\n"
-        "3. Tasks are independently testable\n"
-        "4. Acceptance criteria are specific and verifiable\n"
-        "5. No critical aspects of the feature are missing\n\n"
-        "Subtasks to validate:\n{subtasks}\n\n"
-        "If any issues are found, provide specific recommendations for improvement."
-    ),
+    "resolve_conflicts": {
+        "system": "You are an AI assistant helping to resolve merge conflicts in a GitHub repository.",
+        "human": """I need help resolving merge conflicts in a Git repository.
+
+The conflicts occurred while merging PRs into a consolidated branch.
+
+Please help me resolve these conflicts by:
+1. Examining the conflicting files
+2. Understanding the changes from each PR
+3. Resolving conflicts in a way that preserves the intended functionality
+4. Ensuring the code remains valid and follows best practices
+
+Available files: {current_files}
+
+Please analyze the conflicts and suggest resolutions.""",
+    },
+    "create_draft_pr": {
+        "system": "You are an AI assistant helping to create a draft pull request for tracking work in progress.",
+        "human": """I need to create an initial draft pull request to track the progress of merging multiple PRs.
+
+The PR should:
+1. Be created as a draft PR with [WIP] prefix
+2. Include a description explaining that this is a work in progress
+3. List the PRs that will be merged
+4. Be created from the {head_branch} branch to the upstream default branch
+
+Source fork info:
+- URL: {source_fork[url]}
+- Owner: {source_fork[owner]}
+- Name: {source_fork[name]}
+- Branch: {source_fork[branch]}
+
+Working fork info:
+- URL: {working_fork[url]}
+- Owner: {working_fork[owner]}
+- Name: {working_fork[name]}
+
+Upstream repo info:
+- URL: {upstream[url]}
+- Owner: {upstream[owner]}
+- Name: {upstream[name]}
+- Default branch: {upstream[default_branch]}
+
+Please create a draft PR to track this work.""",
+    },
+    "create_consolidated_pr": {
+        "system": "You are an AI assistant helping to create a pull request that consolidates multiple PRs.",
+        "human": """I need to create a pull request that consolidates multiple PRs into a single PR.
+
+The PR should:
+1. Include a clear title describing the consolidated changes
+2. List all the PRs that were merged
+3. Credit the original PR authors
+4. Include relevant test results
+5. Be created from the {head_branch} branch to the upstream default branch
+
+Source fork info:
+- URL: {source_fork[url]}
+- Owner: {source_fork[owner]}
+- Name: {source_fork[name]}
+- Branch: {source_fork[branch]}
+
+Working fork info:
+- URL: {working_fork[url]}
+- Owner: {working_fork[owner]}
+- Name: {working_fork[name]}
+
+Upstream repo info:
+- URL: {upstream[url]}
+- Owner: {upstream[owner]}
+- Name: {upstream[name]}
+- Default branch: {upstream[default_branch]}
+
+Merged PRs:
+{pr_details}
+
+Please create a consolidated PR that properly credits all contributors.""",
+    },
+    "verify_tests": {
+        "system": "You are an AI assistant helping to verify and fix tests after merging multiple PRs.",
+        "human": """I need to verify that all tests pass after merging multiple PRs.
+
+Please:
+1. Run the test suite
+2. Analyze any failures
+3. Fix any issues found
+4. Ensure all tests pass before proceeding
+
+Available files: {current_files}
+
+Please run the tests and fix any issues.""",
+    },
 }
