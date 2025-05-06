@@ -6,6 +6,11 @@ from prometheus_test.utils import create_signature
 
 def prepare(runner, worker):
     """Prepare data for recording aggregator info"""
+    # Check if we should skip this step
+    if runner.get("no_repo"):
+        print("✓ Skipping record_repo step due to no eligible issues")
+        return None
+
     # Check required state values
     fork_url = runner.get("fork_url")
     issue_uuid = runner.get("issue_uuid")
@@ -32,6 +37,10 @@ def prepare(runner, worker):
 
 def execute(runner, worker, data):
     """Execute recording of aggregator info"""
+    # If prepare returned None, skip execution
+    if data is None:
+        return {"success": True, "message": "Step skipped"}
+
     url = f"{worker.get('url')}/add-aggregator-info/{data['taskId']}"
     response = requests.post(url, json=data)
     return response.json()
