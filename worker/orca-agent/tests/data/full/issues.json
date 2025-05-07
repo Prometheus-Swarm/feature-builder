@@ -1,5 +1,14 @@
 [
   {
+    "title": "Build a Number Theory Library",
+    "description": "Create a comprehensive number theory library by implementing functions that build upon each other",
+    "repoOwner": "koii-network",
+    "repoName": "builder-test",
+    "status": "initialized",
+    "bountyId": "bounty-1112",
+    "uuid": "issue-1113"
+  },
+  {
     "title": "Implement Independent Utility Functions",
     "description": "Create a collection of independent utility functions for various common programming tasks",
     "repoOwner": "koii-network",
@@ -16,14 +25,5 @@
     "status": "initialized",
     "bountyId": "bounty-1111",
     "uuid": "issue-1112"
-  },
-  {
-    "title": "Build a Number Theory Library",
-    "description": "Create a comprehensive number theory library by implementing functions that build upon each other",
-    "repoOwner": "koii-network",
-    "repoName": "builder-test",
-    "status": "initialized",
-    "bountyId": "bounty-1112",
-    "uuid": "issue-1113"
   }
 ]

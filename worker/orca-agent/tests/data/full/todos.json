@@ -81,5 +81,22 @@
     "bountyId": "bounty-1112",
     "issueUuid": "issue-1113",
     "uuid": "task-1115"
+  },
+  {
+    "title": "Implement GCD Calculator Using Prime Factors",
+    "description": "Create a function that finds the Greatest Common Divisor using prime factorization",
+    "acceptanceCriteria": [
+      "Use prime factorization function from previous todo",
+      "Calculate GCD using prime factors",
+      "Handle multiple input numbers",
+      "Optimize for efficiency"
+    ],
+    "repoOwner": "koii-network",
+    "repoName": "builder-test",
+    "status": "initialized",
+    "dependencyTasks": ["task-1115"],
+    "bountyId": "bounty-1112",
+    "issueUuid": "issue-1113",
+    "uuid": "task-1116"
   }
 ]
