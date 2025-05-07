@@ -6,7 +6,7 @@ task_id: "1112" # Task ID for the test sequence
 
 # Paths
 # relative to the test directory
-data_dir: data/minimal # Directory containing test data
+data_dir: data/full # Directory containing test data
 # workers_config: workers.json # Worker configuration file
 
 # MongoDB Configuration

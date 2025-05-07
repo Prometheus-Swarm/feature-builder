@@ -1,0 +1,85 @@
+[
+  {
+    "title": "Implement String Reversal Function",
+    "description": "Create a function that reverses a string without using built-in reverse methods",
+    "acceptanceCriteria": [
+      "Function should take a string input and return its reverse",
+      "Should handle empty strings",
+      "Should preserve spaces and special characters",
+      "Should be implemented without using string[::-1] or reverse()"
+    ],
+    "repoOwner": "koii-network",
+    "repoName": "builder-test",
+    "status": "initialized",
+    "bountyId": "bounty-1111",
+    "issueUuid": "issue-1111",
+    "uuid": "task-1111"
+  },
+  {
+    "title": "Create Array Flattening Function",
+    "description": "Implement a function that flattens a nested array to a single level",
+    "acceptanceCriteria": [
+      "Function should handle arrays of any nesting depth",
+      "Should preserve order of elements",
+      "Should handle empty arrays and non-array elements",
+      "Should work with mixed data types"
+    ],
+    "repoOwner": "koii-network",
+    "repoName": "builder-test",
+    "status": "initialized",
+    "bountyId": "bounty-1111",
+    "issueUuid": "issue-1111",
+    "uuid": "task-1112"
+  },
+  {
+    "title": "Implement RGB to Hex Converter",
+    "description": "Create a function that converts RGB color values to hexadecimal format",
+    "acceptanceCriteria": [
+      "Accept three integers (0-255) for R, G, and B",
+      "Return hex string in format '#RRGGBB'",
+      "Handle invalid input values",
+      "Pad single digit values with zeros"
+    ],
+    "repoOwner": "koii-network",
+    "repoName": "builder-test",
+    "status": "initialized",
+    "bountyId": "bounty-1111",
+    "issueUuid": "issue-1112",
+    "uuid": "task-1113"
+  },
+
+  {
+    "title": "Implement Prime Number Checker",
+    "description": "Create a function that efficiently determines if a number is prime",
+    "acceptanceCriteria": [
+      "Function should return boolean indicating if number is prime",
+      "Implement efficient primality test",
+      "Handle edge cases (negative numbers, 0, 1)",
+      "Include unit tests for various cases"
+    ],
+    "repoOwner": "koii-network",
+    "repoName": "builder-test",
+    "status": "initialized",
+    "dependencyTasks": [],
+    "bountyId": "bounty-1112",
+    "issueUuid": "issue-1113",
+    "uuid": "task-1114"
+  },
+  {
+    "title": "Create Prime Factorization Function",
+    "description": "Implement a function that finds all prime factors of a number using the prime checker",
+    "acceptanceCriteria": [
+      "Use the prime checker function from previous todo",
+      "Return list of prime factors in ascending order",
+      "Handle edge cases (negative numbers, 0, 1)",
+      "Include frequency of each prime factor"
+    ],
+    "repoOwner": "koii-network",
+    "repoName": "builder-test",
+    "status": "initialized",
+    "dependencyTasks": ["task-1114"],
+    "bountyId": "bounty-1112",
+    "issueUuid": "issue-1113",
+    "uuid": "task-1115"
+  }
+]
