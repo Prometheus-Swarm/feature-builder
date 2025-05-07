@@ -267,6 +267,9 @@ def run_todo_task(
             public_signature=public_signature,
             base_branch=base_branch,
             dependency_pr_urls=todo.get("dependency_pr_urls", []),
+            system_prompt=todo.get(
+                "system_prompt"
+            ),  # Pass the system prompt from todo data
         )
 
         # Run workflow and get PR URL
