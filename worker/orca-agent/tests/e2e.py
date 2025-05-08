@@ -134,6 +134,15 @@ def replace_placeholder_uuids(db):
         if "bountyId" in prompt:
             bounty_ids.add(prompt["bountyId"])
 
+    # Collect from specs
+    specs = list(db.specs.find({}))
+    print(f"\nFound {len(specs)} specs")
+    print("Specs in database:")
+    for spec in specs:
+        print(f"Spec: {spec}")
+        if "swarmBountyId" in spec:
+            bounty_ids.add(spec["swarmBountyId"])
+
     # Create mappings
     issue_uuid_mapping = {old: str(uuid.uuid4()) for old in issue_uuids}
     todo_uuid_mapping = {old: str(uuid.uuid4()) for old in todo_uuids}
@@ -208,6 +217,30 @@ def replace_placeholder_uuids(db):
             # Verify the update
             updated_prompt = db.systemprompts.find_one({"_id": prompt["_id"]})
             print(f"Verified prompt bountyId: {updated_prompt.get('bountyId')}")
+
+    # Update specs
+    print("\nUpdating specs...")
+    for spec in specs:
+        if "swarmBountyId" in spec:
+            old_bounty_id = spec["swarmBountyId"]
+            new_bounty_id = bounty_id_mapping[old_bounty_id]
+            print(
+                f"Updating spec swarmBountyId from {old_bounty_id} to {new_bounty_id}"
+            )
+
+            # Create a new document with the updated swarmBountyId
+            updated_spec = spec.copy()
+            updated_spec["swarmBountyId"] = new_bounty_id
+
+            # Replace the entire document
+            result = db.specs.replace_one({"_id": spec["_id"]}, updated_spec)
+            print(
+                f"Update result - matched: {result.matched_count}, modified: {result.modified_count}"
+            )
+
+            # Verify the update
+            updated_spec = db.specs.find_one({"_id": spec["_id"]})
+            print(f"Verified spec swarmBountyId: {updated_spec.get('swarmBountyId')}")
 
 
 def handle_uuids(db):

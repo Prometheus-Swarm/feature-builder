@@ -9,7 +9,7 @@
       "Should be implemented without using string[::-1] or reverse()"
     ],
     "repoOwner": "koii-network",
-    "repoName": "builder-test",
+    "repoName": "task-tester",
     "status": "initialized",
     "bountyId": "bounty-1111",
     "issueUuid": "issue-1111",
@@ -25,7 +25,7 @@
       "Should work with mixed data types"
     ],
     "repoOwner": "koii-network",
-    "repoName": "builder-test",
+    "repoName": "task-tester",
     "status": "initialized",
     "bountyId": "bounty-1111",
     "issueUuid": "issue-1111",
@@ -41,7 +41,7 @@
       "Pad single digit values with zeros"
     ],
     "repoOwner": "koii-network",
-    "repoName": "builder-test",
+    "repoName": "task-tester",
     "status": "initialized",
     "bountyId": "bounty-1111",
     "issueUuid": "issue-1112",
@@ -58,7 +58,7 @@
       "Include unit tests for various cases"
     ],
     "repoOwner": "koii-network",
-    "repoName": "builder-test",
+    "repoName": "task-tester",
     "status": "initialized",
     "dependencyTasks": [],
     "bountyId": "bounty-1112",
@@ -75,7 +75,7 @@
       "Include frequency of each prime factor"
     ],
     "repoOwner": "koii-network",
-    "repoName": "builder-test",
+    "repoName": "task-tester",
     "status": "initialized",
     "dependencyTasks": ["task-1114"],
     "bountyId": "bounty-1112",
@@ -92,7 +92,7 @@
       "Optimize for efficiency"
     ],
     "repoOwner": "koii-network",
-    "repoName": "builder-test",
+    "repoName": "task-tester",
     "status": "initialized",
     "dependencyTasks": ["task-1115"],
     "bountyId": "bounty-1112",

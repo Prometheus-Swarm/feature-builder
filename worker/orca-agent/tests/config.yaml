@@ -6,7 +6,7 @@ task_id: "1112" # Task ID for the test sequence
 
 # Paths
 # relative to the test directory
-data_dir: data/full # Directory containing test data
+data_dir: data/issue-deps # Directory containing test data
 # workers_config: workers.json # Worker configuration file
 
 # MongoDB Configuration
@@ -21,6 +21,9 @@ mongodb:
       required_count: 1
     systemprompts:
       data_file: prompts.json
+      required_count: 1
+    specs:
+      data_file: specs.json
       required_count: 1
     audits:
       required_count: 0 # No data file, just needs to exist
