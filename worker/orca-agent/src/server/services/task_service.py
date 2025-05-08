@@ -823,13 +823,8 @@ def create_aggregator_repo():
         repo_owner = issue_data["data"].get("repoOwner")
         repo_name = issue_data["data"].get("repoName")
         bounty_id = issue_data["data"].get("bountyId")
-        previous_pr_url = issue_data["data"].get(
-            "previousPrUrl"
-        )  # Get the previous PR URL if available
         logger.info(f"Using repo from issue: {repo_owner}/{repo_name}")
         logger.info(f"Extracted issue_uuid: {issue_uuid}")
-        if previous_pr_url:
-            logger.info(f"Previous PR URL: {previous_pr_url}")
 
         if not issue_uuid or not repo_owner or not repo_name:
             logger.error("Missing required data in assign_issue response")
@@ -898,35 +893,6 @@ def create_aggregator_repo():
                             f"Branch {branch_name} not yet available, retrying in {retry_delay} seconds..."
                         )
                         time.sleep(retry_delay)
-
-            # If we have a previous PR URL, merge its commits into our new branch
-            if previous_pr_url:
-                try:
-                    # Extract PR number from URL
-                    pr_number = int(previous_pr_url.split("/")[-1])
-                    logger.info(f"Found previous PR number: {pr_number}")
-
-                    # Get the PR
-                    previous_pr = fork.get_pull(pr_number)
-                    logger.info(f"Found previous PR: {previous_pr.html_url}")
-
-                    # Create a merge commit from the previous PR's head branch into our new branch
-                    merge_result = fork.merge(
-                        branch_name,
-                        previous_pr.head.ref,
-                        f"Merge changes from previous issue PR #{pr_number}",
-                    )
-                    logger.info(
-                        f"Successfully merged previous PR: {merge_result.commit.html_url}"
-                    )
-                except Exception as e:
-                    logger.error(f"Failed to merge previous PR: {str(e)}")
-                    return {
-                        "success": False,
-                        "error": f"Failed to merge previous PR: {str(e)}",
-                        "data": None,
-                        "status": 500,
-                    }
 
             return {
                 "status": 200,
