@@ -664,7 +664,6 @@ def consolidate_prs(
         issue_uuid = issue["issue_uuid"]  # Store issue_uuid for later use
         pr_list = issue["pr_list"]
         bounty_id = issue["bounty_id"]
-        aggregator_owner = issue["aggregator_owner"]  # Get aggregator owner
         fork_owner = issue["fork_owner"]  # Get fork owner
 
         # Check if we already have a PR URL for this submission
@@ -888,11 +887,19 @@ def create_aggregator_repo():
 
             # Create a temporary directory for the clone
             with tempfile.TemporaryDirectory() as temp_dir:
+                # Add token to URLs for authentication
+                auth_fork_url = fork.clone_url.replace(
+                    "https://", f'https://{os.environ["GITHUB_TOKEN"]}@'
+                )
+                auth_source_url = source_repo.clone_url.replace(
+                    "https://", f'https://{os.environ["GITHUB_TOKEN"]}@'
+                )
+
                 # Clone the fork
-                repo = Repo.clone_from(fork.clone_url, temp_dir)
+                repo = Repo.clone_from(auth_fork_url, temp_dir)
 
                 # Add upstream remote
-                upstream = repo.create_remote("upstream", source_repo.clone_url)
+                upstream = repo.create_remote("upstream", auth_source_url)
 
                 # Fetch from upstream
                 upstream.fetch()
