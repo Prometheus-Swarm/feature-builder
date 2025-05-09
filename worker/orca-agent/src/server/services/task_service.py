@@ -13,6 +13,8 @@ from src.workflows.task.prompts import PROMPTS as TASK_PROMPTS
 
 from dotenv import load_dotenv
 import time
+import tempfile
+from git import Repo
 
 load_dotenv()
 
@@ -883,20 +885,28 @@ def create_aggregator_repo():
         try:
             # Get default branch from source repo
             default_branch = source_repo.default_branch
-            # Get default branch's latest commit from source repo
-            source_branch = source_repo.get_branch(default_branch)
-            source_sha = source_branch.commit.sha
-            # Create or update default branch in fork
-            try:
-                fork_branch = fork.get_branch(default_branch)
-                # Update branch to match source
-                fork.get_git_ref(f"heads/{default_branch}").edit(source_sha)
-            except Exception:
-                # Branch doesn't exist, create it
-                fork.create_git_ref(f"refs/heads/{default_branch}", source_sha)
-            logger.info(
-                f"Successfully synced fork's {default_branch} branch with upstream"
-            )
+
+            # Create a temporary directory for the clone
+            with tempfile.TemporaryDirectory() as temp_dir:
+                # Clone the fork
+                repo = Repo.clone_from(fork.clone_url, temp_dir)
+
+                # Add upstream remote
+                upstream = repo.create_remote("upstream", source_repo.clone_url)
+
+                # Fetch from upstream
+                upstream.fetch()
+
+                # Reset the default branch to match upstream's version
+                repo.git.checkout(f"upstream/{default_branch}")
+                repo.git.checkout("-B", default_branch)  # Force update local branch
+
+                # Push the changes to origin
+                repo.git.push("origin", default_branch, "--force")
+
+                logger.info(
+                    f"Successfully synced fork's {default_branch} branch with upstream"
+                )
         except Exception as e:
             raise Exception(f"Failed to sync fork with upstream: {str(e)}")
 
