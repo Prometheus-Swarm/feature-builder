@@ -5,8 +5,8 @@ from prometheus_swarm.utils.logging import logger
 bp = Blueprint("submission", __name__)
 
 
-@bp.get("/submission/<round_number>")
-def fetch_submission(round_number):
+@bp.get("/submission/<task_id>/<round_number>")
+def fetch_submission(task_id, round_number):
     """Fetch submission for a given round and task.
 
     Query parameters:
@@ -39,6 +39,7 @@ def fetch_submission(round_number):
                 "repoName": submission.repo_name,
                 "nodeType": submission.node_type,
                 "uuid": submission.uuid,
+                "roundNumber": submission.round_number,
             }
         )
     else:
