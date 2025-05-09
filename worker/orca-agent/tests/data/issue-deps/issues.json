@@ -17,6 +17,7 @@
     "repoName": "task-tester",
     "status": "initialized",
     "bountyId": "bounty-1111",
-    "uuid": "issue-1112"
+    "uuid": "issue-1112",
+    "predecessorUuid": "issue-1111"
   }
 ]

@@ -1,294 +1,268 @@
-[{
-  "_id": {
-    "$oid": "681b505e821590043ffcdfdb"
+[
+  {
+    "title": "Create file input component for bulk bookmark upload",
+    "description": "Develop a new React component that allows users to select and upload files for bulk bookmark import. The component should:\n- Support file types: CSV, TXT, MD, and HTML\n- Include drag-and-drop functionality\n- Validate file types before upload\n- Display selected file name and size\n- Provide clear user feedback for file selection and errors",
+    "uuid": "6d278b8d-6e41-46f3-9b5b-14ef8964ab31",
+    "forkOwner": "koii-network",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "status": "initialized",
+    "aggregator": null,
+    "leaderDecidedRound": null,
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "assignedTo": [],
+    "createdAt": {
+      "$date": "2025-05-07T12:21:50.916Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:21:50.916Z"
+    }
   },
-  "title": "Create file input component for bulk bookmark upload",
-  "description": "Develop a new React component that allows users to select and upload files for bulk bookmark import. The component should:\n- Support file types: CSV, TXT, MD, and HTML\n- Include drag-and-drop functionality\n- Validate file types before upload\n- Display selected file name and size\n- Provide clear user feedback for file selection and errors",
-  "uuid": "6d278b8d-6e41-46f3-9b5b-14ef8964ab31",
-  "repoOwner": "labrocadabro",
-  "repoName": "easymarks-clone",
-  "status": "INITIALIZED",
-  "aggregator": null,
-  "leaderDecidedRound": null,
-  "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
-  "assignedTo": [],
-  "created_at": {
-    "$date": "2025-05-07T12:21:50.916Z"
+  {
+    "title": "Implement CSV file parsing logic",
+    "description": "Create a parser for CSV files to extract bookmark information. The parser should:\n- Handle different CSV formats (comma-separated, tab-separated)\n- Extract bookmark title and URL\n- Support optional columns like description or tags\n- Provide error handling for malformed CSV files\n- Validate URL format during parsing",
+    "uuid": "076b9933-05d5-49c8-ad6d-c644ea678549",
+    "forkOwner": "koii-network",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "status": "initialized",
+    "aggregator": null,
+    "leaderDecidedRound": null,
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "assignedTo": [],
+    "createdAt": {
+      "$date": "2025-05-07T12:21:50.917Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:21:50.917Z"
+    }
   },
-  "updated_at": {
-    "$date": "2025-05-07T12:21:50.916Z"
+  {
+    "title": "Develop HTML bookmark file parser",
+    "description": "Create a parser for HTML bookmark files (typically exported from browsers). The parser should:\n- Extract bookmark titles and URLs from HTML files\n- Support Netscape bookmark file format\n- Handle nested folder structures\n- Preserve any available metadata (created date, tags)\n- Implement robust error handling for invalid HTML files",
+    "uuid": "a395968e-eb77-4aa4-b099-f2fdcdee01f7",
+    "forkOwner": "koii-network",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "status": "initialized",
+    "aggregator": null,
+    "leaderDecidedRound": null,
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "assignedTo": [],
+    "createdAt": {
+      "$date": "2025-05-07T12:21:50.918Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:21:50.918Z"
+    }
+  },
+  {
+    "title": "Implement Markdown (.md) bookmark extraction",
+    "description": "Create a parser for Markdown files containing bookmarks. The parser should:\n- Extract URLs from markdown link syntax: [title](url)\n- Support different markdown link formats\n- Handle links within code blocks, lists, and paragraphs\n- Validate and sanitize extracted URLs\n- Provide meaningful error messages for unparseable markdown",
+    "uuid": "945273f3-9391-4397-b09a-dc917b44d2c2",
+    "forkOwner": "koii-network",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "status": "initialized",
+    "aggregator": null,
+    "leaderDecidedRound": null,
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "assignedTo": [],
+    "createdAt": {
+      "$date": "2025-05-07T12:21:50.918Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:21:50.918Z"
+    }
+  },
+  {
+    "title": "Create backend API endpoint for bulk bookmark import",
+    "description": "Develop a new API endpoint to handle bulk bookmark imports. The endpoint should:\n- Accept multipart file uploads\n- Support multiple file types (CSV, TXT, MD, HTML)\n- Validate and process uploaded files\n- Return detailed import results (successful imports, skipped/failed entries)\n- Implement authentication and authorization checks\n- Handle large file uploads efficiently",
+    "uuid": "b660c0b2-baeb-4a9a-9fb4-9f7e4b5955c6",
+    "forkOwner": "koii-network",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "status": "initialized",
+    "aggregator": null,
+    "leaderDecidedRound": null,
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "assignedTo": [],
+    "createdAt": {
+      "$date": "2025-05-07T12:21:50.919Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:21:50.919Z"
+    }
+  },
+  {
+    "title": "Implement database batch insert for imported bookmarks",
+    "description": "Create a database service method for efficiently inserting multiple bookmarks. The implementation should:\n- Use batch insert operations for performance\n- Handle potential duplicate bookmarks\n- Support optional tagging during import\n- Implement transaction management to ensure data integrity\n- Add logging for import operations\n- Provide rollback mechanism in case of partial failures",
+    "uuid": "4194c2dc-9107-4582-9bf1-b87f92cf89aa",
+    "forkOwner": "koii-network",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "status": "initialized",
+    "aggregator": null,
+    "leaderDecidedRound": null,
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "assignedTo": [],
+    "createdAt": {
+      "$date": "2025-05-07T12:21:50.919Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:21:50.919Z"
+    }
+  },
+  {
+    "title": "Add frontend UI for bulk import progress and results",
+    "description": "Create a user interface component to display bulk import process and results. The component should:\n- Show a progress bar during import\n- Display total number of bookmarks processed\n- List successful and failed bookmark imports\n- Provide clear error messages for problematic entries\n- Allow users to retry or modify failed imports\n- Implement responsive design for various screen sizes",
+    "uuid": "a9afc33c-0bc4-4c07-8c4d-a62a59e936a7",
+    "forkOwner": "koii-network",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "status": "initialized",
+    "aggregator": null,
+    "leaderDecidedRound": null,
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "assignedTo": [],
+    "createdAt": {
+      "$date": "2025-05-07T12:21:50.919Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:21:50.919Z"
+    }
+  },
+  {
+    "title": "Develop comprehensive input validation and sanitization",
+    "description": "Create a robust validation system for bookmark imports. The system should:\n- Validate URL formats\n- Check for and handle duplicate bookmarks\n- Sanitize input data to prevent XSS and injection attacks\n- Implement max file size and total bookmark limits\n- Provide clear, user-friendly error messages\n- Log validation failures for potential security analysis",
+    "uuid": "3df5c661-df7e-418c-9090-688cb8696bc0",
+    "forkOwner": "koii-network",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "status": "initialized",
+    "aggregator": null,
+    "leaderDecidedRound": null,
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "assignedTo": [],
+    "createdAt": {
+      "$date": "2025-05-07T12:21:50.919Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:21:50.919Z"
+    }
+  },
+  {
+    "title": "Create color palette for dark mode",
+    "description": "Define a comprehensive color palette for dark mode, including background colors, text colors, and accent colors. Create a color scheme that provides good contrast and readability while maintaining the application's design aesthetic. Store these colors in a centralized theme or CSS variables to ensure consistent application across the application.",
+    "uuid": "1d90cc80-44c3-42e9-a568-6e2d9a851414",
+    "forkOwner": "koii-network",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "status": "initialized",
+    "aggregator": null,
+    "leaderDecidedRound": null,
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "assignedTo": [],
+    "createdAt": {
+      "$date": "2025-05-07T12:35:58.454Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:35:58.454Z"
+    }
+  },
+  {
+    "title": "Implement dark mode toggle in user interface",
+    "description": "Add a toggle switch or mode selection option that allows users to switch between light and dark modes. This should include:\n- Creating a UI component for mode switching\n- Implementing the toggle functionality in the frontend\n- Storing user's mode preference in local storage or user preferences\n- Ensuring the toggle is accessible and works with keyboard navigation",
+    "uuid": "7f1788bc-9d60-4f71-a312-3c8efd140986",
+    "forkOwner": "koii-network",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "status": "initialized",
+    "aggregator": null,
+    "leaderDecidedRound": null,
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "assignedTo": [],
+    "createdAt": {
+      "$date": "2025-05-07T12:35:58.455Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:35:58.455Z"
+    }
+  },
+  {
+    "title": "Add dark mode CSS styles",
+    "description": "Create CSS styles that apply the dark mode color palette across all components. This includes:\n- Updating existing CSS to support dark mode variant\n- Creating dark mode specific CSS classes\n- Ensuring all components have appropriate dark mode styling\n- Verifying color contrast meets WCAG accessibility guidelines",
+    "uuid": "20d029a3-6add-42fb-be04-6d91358e8bb7",
+    "forkOwner": "koii-network",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "status": "initialized",
+    "aggregator": null,
+    "leaderDecidedRound": null,
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "assignedTo": [],
+    "createdAt": {
+      "$date": "2025-05-07T12:35:58.455Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:35:58.455Z"
+    }
+  },
+  {
+    "title": "Implement system preference detection",
+    "description": "Add functionality to detect and automatically apply dark mode based on the user's system preferences:\n- Use CSS `prefers-color-scheme` media query\n- Implement JavaScript detection for system color scheme\n- Set initial mode based on system preference\n- Allow user to override system default",
+    "uuid": "8dc76af5-a246-402b-804c-11065e45fb76",
+    "forkOwner": "koii-network",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "status": "initialized",
+    "aggregator": null,
+    "leaderDecidedRound": null,
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "assignedTo": [],
+    "createdAt": {
+      "$date": "2025-05-07T12:35:58.455Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:35:58.455Z"
+    }
+  },
+  {
+    "title": "Add dark mode support for external components",
+    "description": "Ensure that all third-party or external components (such as charts, modals, dropdowns) are compatible with dark mode:\n- Review and update styles for external libraries\n- Test and fix any styling issues with third-party components\n- Ensure consistent dark mode appearance across all UI elements",
+    "uuid": "1b9194bf-efb6-49ca-b8d3-9a02cbc2410c",
+    "forkOwner": "koii-network",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "status": "initialized",
+    "aggregator": null,
+    "leaderDecidedRound": null,
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "assignedTo": [],
+    "createdAt": {
+      "$date": "2025-05-07T12:35:58.456Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:35:58.456Z"
+    }
+  },
+  {
+    "title": "Create dark mode screenshot tests",
+    "description": "Develop screenshot tests to verify dark mode implementation:\n- Create test cases for different components in dark mode\n- Set up visual regression testing\n- Ensure consistent appearance across different screen sizes\n- Validate color contrast and readability in dark mode",
+    "uuid": "0d879825-e005-41af-a670-7b293d74493f",
+    "forkOwner": "koii-network",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "status": "initialized",
+    "aggregator": null,
+    "leaderDecidedRound": null,
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "assignedTo": [],
+    "createdAt": {
+      "$date": "2025-05-07T12:35:58.456Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:35:58.456Z"
+    }
   }
-},
-{
-  "_id": {
-    "$oid": "681b505e821590043ffcdfdc"
-  },
-  "title": "Implement CSV file parsing logic",
-  "description": "Create a parser for CSV files to extract bookmark information. The parser should:\n- Handle different CSV formats (comma-separated, tab-separated)\n- Extract bookmark title and URL\n- Support optional columns like description or tags\n- Provide error handling for malformed CSV files\n- Validate URL format during parsing",
-  "uuid": "076b9933-05d5-49c8-ad6d-c644ea678549",
-  "repoOwner": "labrocadabro",
-  "repoName": "easymarks-clone",
-  "status": "INITIALIZED",
-  "aggregator": null,
-  "leaderDecidedRound": null,
-  "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
-  "assignedTo": [],
-  "created_at": {
-    "$date": "2025-05-07T12:21:50.917Z"
-  },
-  "updated_at": {
-    "$date": "2025-05-07T12:21:50.917Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "681b505e821590043ffcdfdd"
-  },
-  "title": "Develop HTML bookmark file parser",
-  "description": "Create a parser for HTML bookmark files (typically exported from browsers). The parser should:\n- Extract bookmark titles and URLs from HTML files\n- Support Netscape bookmark file format\n- Handle nested folder structures\n- Preserve any available metadata (created date, tags)\n- Implement robust error handling for invalid HTML files",
-  "uuid": "a395968e-eb77-4aa4-b099-f2fdcdee01f7",
-  "repoOwner": "labrocadabro",
-  "repoName": "easymarks-clone",
-  "status": "INITIALIZED",
-  "aggregator": null,
-  "leaderDecidedRound": null,
-  "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
-  "assignedTo": [],
-  "created_at": {
-    "$date": "2025-05-07T12:21:50.918Z"
-  },
-  "updated_at": {
-    "$date": "2025-05-07T12:21:50.918Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "681b505e821590043ffcdfde"
-  },
-  "title": "Implement Markdown (.md) bookmark extraction",
-  "description": "Create a parser for Markdown files containing bookmarks. The parser should:\n- Extract URLs from markdown link syntax: [title](url)\n- Support different markdown link formats\n- Handle links within code blocks, lists, and paragraphs\n- Validate and sanitize extracted URLs\n- Provide meaningful error messages for unparseable markdown",
-  "uuid": "945273f3-9391-4397-b09a-dc917b44d2c2",
-  "repoOwner": "labrocadabro",
-  "repoName": "easymarks-clone",
-  "status": "INITIALIZED",
-  "aggregator": null,
-  "leaderDecidedRound": null,
-  "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
-  "assignedTo": [],
-  "created_at": {
-    "$date": "2025-05-07T12:21:50.918Z"
-  },
-  "updated_at": {
-    "$date": "2025-05-07T12:21:50.918Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "681b505e821590043ffcdfdf"
-  },
-  "title": "Create backend API endpoint for bulk bookmark import",
-  "description": "Develop a new API endpoint to handle bulk bookmark imports. The endpoint should:\n- Accept multipart file uploads\n- Support multiple file types (CSV, TXT, MD, HTML)\n- Validate and process uploaded files\n- Return detailed import results (successful imports, skipped/failed entries)\n- Implement authentication and authorization checks\n- Handle large file uploads efficiently",
-  "uuid": "b660c0b2-baeb-4a9a-9fb4-9f7e4b5955c6",
-  "repoOwner": "labrocadabro",
-  "repoName": "easymarks-clone",
-  "status": "INITIALIZED",
-  "aggregator": null,
-  "leaderDecidedRound": null,
-  "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
-  "assignedTo": [],
-  "created_at": {
-    "$date": "2025-05-07T12:21:50.919Z"
-  },
-  "updated_at": {
-    "$date": "2025-05-07T12:21:50.919Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "681b505e821590043ffcdfe0"
-  },
-  "title": "Implement database batch insert for imported bookmarks",
-  "description": "Create a database service method for efficiently inserting multiple bookmarks. The implementation should:\n- Use batch insert operations for performance\n- Handle potential duplicate bookmarks\n- Support optional tagging during import\n- Implement transaction management to ensure data integrity\n- Add logging for import operations\n- Provide rollback mechanism in case of partial failures",
-  "uuid": "4194c2dc-9107-4582-9bf1-b87f92cf89aa",
-  "repoOwner": "labrocadabro",
-  "repoName": "easymarks-clone",
-  "status": "INITIALIZED",
-  "aggregator": null,
-  "leaderDecidedRound": null,
-  "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
-  "assignedTo": [],
-  "created_at": {
-    "$date": "2025-05-07T12:21:50.919Z"
-  },
-  "updated_at": {
-    "$date": "2025-05-07T12:21:50.919Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "681b505e821590043ffcdfe1"
-  },
-  "title": "Add frontend UI for bulk import progress and results",
-  "description": "Create a user interface component to display bulk import process and results. The component should:\n- Show a progress bar during import\n- Display total number of bookmarks processed\n- List successful and failed bookmark imports\n- Provide clear error messages for problematic entries\n- Allow users to retry or modify failed imports\n- Implement responsive design for various screen sizes",
-  "uuid": "a9afc33c-0bc4-4c07-8c4d-a62a59e936a7",
-  "repoOwner": "labrocadabro",
-  "repoName": "easymarks-clone",
-  "status": "INITIALIZED",
-  "aggregator": null,
-  "leaderDecidedRound": null,
-  "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
-  "assignedTo": [],
-  "created_at": {
-    "$date": "2025-05-07T12:21:50.919Z"
-  },
-  "updated_at": {
-    "$date": "2025-05-07T12:21:50.919Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "681b505e821590043ffcdfe2"
-  },
-  "title": "Develop comprehensive input validation and sanitization",
-  "description": "Create a robust validation system for bookmark imports. The system should:\n- Validate URL formats\n- Check for and handle duplicate bookmarks\n- Sanitize input data to prevent XSS and injection attacks\n- Implement max file size and total bookmark limits\n- Provide clear, user-friendly error messages\n- Log validation failures for potential security analysis",
-  "uuid": "3df5c661-df7e-418c-9090-688cb8696bc0",
-  "repoOwner": "labrocadabro",
-  "repoName": "easymarks-clone",
-  "status": "INITIALIZED",
-  "aggregator": null,
-  "leaderDecidedRound": null,
-  "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
-  "assignedTo": [],
-  "created_at": {
-    "$date": "2025-05-07T12:21:50.919Z"
-  },
-  "updated_at": {
-    "$date": "2025-05-07T12:21:50.919Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "681b53aefb6352411d21dbe6"
-  },
-  "title": "Create color palette for dark mode",
-  "description": "Define a comprehensive color palette for dark mode, including background colors, text colors, and accent colors. Create a color scheme that provides good contrast and readability while maintaining the application's design aesthetic. Store these colors in a centralized theme or CSS variables to ensure consistent application across the application.",
-  "uuid": "1d90cc80-44c3-42e9-a568-6e2d9a851414",
-  "repoOwner": "labrocadabro",
-  "repoName": "ct-clone",
-  "status": "INITIALIZED",
-  "aggregator": null,
-  "leaderDecidedRound": null,
-  "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
-  "assignedTo": [],
-  "created_at": {
-    "$date": "2025-05-07T12:35:58.454Z"
-  },
-  "updated_at": {
-    "$date": "2025-05-07T12:35:58.454Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "681b53aefb6352411d21dbe7"
-  },
-  "title": "Implement dark mode toggle in user interface",
-  "description": "Add a toggle switch or mode selection option that allows users to switch between light and dark modes. This should include:\n- Creating a UI component for mode switching\n- Implementing the toggle functionality in the frontend\n- Storing user's mode preference in local storage or user preferences\n- Ensuring the toggle is accessible and works with keyboard navigation",
-  "uuid": "7f1788bc-9d60-4f71-a312-3c8efd140986",
-  "repoOwner": "labrocadabro",
-  "repoName": "ct-clone",
-  "status": "INITIALIZED",
-  "aggregator": null,
-  "leaderDecidedRound": null,
-  "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
-  "assignedTo": [],
-  "created_at": {
-    "$date": "2025-05-07T12:35:58.455Z"
-  },
-  "updated_at": {
-    "$date": "2025-05-07T12:35:58.455Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "681b53aefb6352411d21dbe8"
-  },
-  "title": "Add dark mode CSS styles",
-  "description": "Create CSS styles that apply the dark mode color palette across all components. This includes:\n- Updating existing CSS to support dark mode variant\n- Creating dark mode specific CSS classes\n- Ensuring all components have appropriate dark mode styling\n- Verifying color contrast meets WCAG accessibility guidelines",
-  "uuid": "20d029a3-6add-42fb-be04-6d91358e8bb7",
-  "repoOwner": "labrocadabro",
-  "repoName": "ct-clone",
-  "status": "INITIALIZED",
-  "aggregator": null,
-  "leaderDecidedRound": null,
-  "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
-  "assignedTo": [],
-  "created_at": {
-    "$date": "2025-05-07T12:35:58.455Z"
-  },
-  "updated_at": {
-    "$date": "2025-05-07T12:35:58.455Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "681b53aefb6352411d21dbe9"
-  },
-  "title": "Implement system preference detection",
-  "description": "Add functionality to detect and automatically apply dark mode based on the user's system preferences:\n- Use CSS `prefers-color-scheme` media query\n- Implement JavaScript detection for system color scheme\n- Set initial mode based on system preference\n- Allow user to override system default",
-  "uuid": "8dc76af5-a246-402b-804c-11065e45fb76",
-  "repoOwner": "labrocadabro",
-  "repoName": "ct-clone",
-  "status": "INITIALIZED",
-  "aggregator": null,
-  "leaderDecidedRound": null,
-  "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
-  "assignedTo": [],
-  "created_at": {
-    "$date": "2025-05-07T12:35:58.455Z"
-  },
-  "updated_at": {
-    "$date": "2025-05-07T12:35:58.455Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "681b53aefb6352411d21dbea"
-  },
-  "title": "Add dark mode support for external components",
-  "description": "Ensure that all third-party or external components (such as charts, modals, dropdowns) are compatible with dark mode:\n- Review and update styles for external libraries\n- Test and fix any styling issues with third-party components\n- Ensure consistent dark mode appearance across all UI elements",
-  "uuid": "1b9194bf-efb6-49ca-b8d3-9a02cbc2410c",
-  "repoOwner": "labrocadabro",
-  "repoName": "ct-clone",
-  "status": "INITIALIZED",
-  "aggregator": null,
-  "leaderDecidedRound": null,
-  "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
-  "assignedTo": [],
-  "created_at": {
-    "$date": "2025-05-07T12:35:58.456Z"
-  },
-  "updated_at": {
-    "$date": "2025-05-07T12:35:58.456Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "681b53aefb6352411d21dbeb"
-  },
-  "title": "Create dark mode screenshot tests",
-  "description": "Develop screenshot tests to verify dark mode implementation:\n- Create test cases for different components in dark mode\n- Set up visual regression testing\n- Ensure consistent appearance across different screen sizes\n- Validate color contrast and readability in dark mode",
-  "uuid": "0d879825-e005-41af-a670-7b293d74493f",
-  "repoOwner": "labrocadabro",
-  "repoName": "ct-clone",
-  "status": "INITIALIZED",
-  "aggregator": null,
-  "leaderDecidedRound": null,
-  "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
-  "assignedTo": [],
-  "created_at": {
-    "$date": "2025-05-07T12:35:58.456Z"
-  },
-  "updated_at": {
-    "$date": "2025-05-07T12:35:58.456Z"
-  }
-}]
+]
