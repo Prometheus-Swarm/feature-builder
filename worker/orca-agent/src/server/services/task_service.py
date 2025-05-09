@@ -662,6 +662,8 @@ def consolidate_prs(
         issue_uuid = issue["issue_uuid"]  # Store issue_uuid for later use
         pr_list = issue["pr_list"]
         bounty_id = issue["bounty_id"]
+        aggregator_owner = issue["aggregator_owner"]  # Get aggregator owner
+        fork_owner = issue["fork_owner"]  # Get fork owner
 
         # Check if we already have a PR URL for this submission
         existing_submission = (
@@ -741,6 +743,7 @@ def consolidate_prs(
                 bounty_id=bounty_id,  # Add bounty_id for signature validation
                 pr_list=pr_list,
                 expected_branch=source_branch,
+                fork_owner=fork_owner,  # Pass fork owner
             )
 
             # Run workflow
@@ -858,6 +861,44 @@ def create_aggregator_repo():
             # Create new fork if it doesn't exist
             fork = github.get_user().create_fork(source_repo)
             logger.info(f"Created new fork: {fork.html_url}")
+
+        # Wait for fork to be ready
+        max_retries = 10
+        retry_delay = 2  # seconds
+        for attempt in range(max_retries):
+            try:
+                fork.get_commits().get_page(0)
+                logger.info(f"Fork is ready after {attempt + 1} attempts")
+                break
+            except Exception as e:
+                if attempt == max_retries - 1:
+                    raise Exception(
+                        f"Fork not ready after {max_retries} attempts: {str(e)}"
+                    )
+                logger.info(f"Fork not ready, retrying in {retry_delay} seconds...")
+                time.sleep(retry_delay)
+
+        # Sync fork with upstream
+        logger.info("Syncing fork with upstream repository")
+        try:
+            # Get default branch from source repo
+            default_branch = source_repo.default_branch
+            # Get default branch's latest commit from source repo
+            source_branch = source_repo.get_branch(default_branch)
+            source_sha = source_branch.commit.sha
+            # Create or update default branch in fork
+            try:
+                fork_branch = fork.get_branch(default_branch)
+                # Update branch to match source
+                fork.get_git_ref(f"heads/{default_branch}").edit(source_sha)
+            except Exception:
+                # Branch doesn't exist, create it
+                fork.create_git_ref(f"refs/heads/{default_branch}", source_sha)
+            logger.info(
+                f"Successfully synced fork's {default_branch} branch with upstream"
+            )
+        except Exception as e:
+            raise Exception(f"Failed to sync fork with upstream: {str(e)}")
 
         branch_name = issue_uuid
         logger.info(f"Using branch_name: {branch_name}")

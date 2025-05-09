@@ -37,6 +37,7 @@ class MergeConflictWorkflow(Workflow):
         github_token="GITHUB_TOKEN",
         github_username="GITHUB_USERNAME",
         expected_branch=None,  # Branch where PRs are located
+        fork_owner=None,  # Owner of the target fork for PR creation
     ):
         # Extract source repo info from source fork URL
         parts = source_fork_url.strip("/").split("/")
@@ -61,6 +62,7 @@ class MergeConflictWorkflow(Workflow):
         self.is_source_fork_owner = consolidation_username == source_fork_owner
         self.task_id = task_id
         self.pr_list = pr_list
+        self.fork_owner = fork_owner  # Store fork owner for PR target
 
         # Verify source branch format matches expected_branch
         if source_branch != expected_branch:
@@ -87,18 +89,6 @@ class MergeConflictWorkflow(Workflow):
                 "public_signature": public_signature,
             }
         )
-
-        # Get upstream repo info and add to context
-        gh = Github(self.context["github_token"])
-        source_fork = gh.get_repo(f"{source_fork_owner}/{source_repo_name}")
-        upstream = source_fork.parent
-
-        self.context["upstream"] = {
-            "url": upstream.html_url,
-            "owner": upstream.owner.login,
-            "name": upstream.name,
-            "default_branch": upstream.default_branch,
-        }
 
     def validate_pr_for_merge(self, pr):
         """Validate a PR's signatures and check if it should be merged.
@@ -196,8 +186,8 @@ class MergeConflictWorkflow(Workflow):
                 }
 
             # Set required context variables for PR creation
-            self.context["repo_owner"] = self.context["upstream"]["owner"]
-            self.context["repo_name"] = self.context["upstream"]["name"]
+            self.context["repo_owner"] = self.fork_owner  # Use fork owner as PR target
+            self.context["repo_name"] = self.context["source_fork"]["name"]
 
             # Change to repo directory
             self.context["repo_path"] = result["data"]["clone_path"]
