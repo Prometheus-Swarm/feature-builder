@@ -9,22 +9,10 @@
       "Should be implemented without using string[::-1] or reverse()"
     ],
     "repoOwner": "koii-network",
-    "repoName": "builder-test",
+    "repoName": "task-tester",
     "status": "initialized",
-    "bountyId": "1112"
-  },
-  {
-    "title": "Create Array Flattening Function",
-    "description": "Implement a function that flattens a nested array to a single level",
-    "acceptanceCriteria": [
-      "Function should handle arrays of any nesting depth",
-      "Should preserve order of elements",
-      "Should handle empty arrays and non-array elements",
-      "Should work with mixed data types"
-    ],
-    "repoOwner": "koii-network",
-    "repoName": "builder-test",
-    "status": "initialized",
-    "bountyId": "1111"
+    "bountyId": "bounty-1111",
+    "issueUuid": "issue-1111",
+    "uuid": "task-1111"
   }
 ]
