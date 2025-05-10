@@ -13,6 +13,7 @@ def fetch_submission(task_id, round_number):
         taskId: The task ID to fetch submission for
     """
     logger.info(f"Fetching submission for round: {round_number}")
+    round_number = int(round_number)
 
     db = get_db()
     submission = (
@@ -39,7 +40,7 @@ def fetch_submission(task_id, round_number):
                 "repoName": submission.repo_name,
                 "nodeType": submission.node_type,
                 "uuid": submission.uuid,
-                "roundNumber": submission.round_number,
+                "roundNumber": round_number,
             }
         )
     else:
