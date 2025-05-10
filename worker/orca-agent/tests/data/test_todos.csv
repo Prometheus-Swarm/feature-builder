@@ -1,0 +1,2 @@
+todo,acceptance_criteria
+Create a function that takes in a string and returns the reverse of the string,Function should take a string input and return its reverse;Should handle empty strings;Should preserve spaces and special characters;Should be implemented without using string[::-1] or reverse()

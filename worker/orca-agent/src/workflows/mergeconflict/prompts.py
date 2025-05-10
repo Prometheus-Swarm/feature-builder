@@ -88,4 +88,13 @@ PROMPTS = {
         "Subtasks to validate:\n{subtasks}\n\n"
         "If any issues are found, provide specific recommendations for improvement."
     ),
+    "create_draft_pr": (
+        "You are creating an initial draft for a pull request that consolidates multiple changes.\n"
+        "IMPORTANT: Always use relative paths (e.g., 'src/file.py' not '/src/file.py')\n\n"
+        "Steps to create the draft pull request:\n"
+        "1. First examine the available files to understand the current state\n"
+        "2. Create a clear and descriptive PR title.\n"
+        "3. Write an initial PR description that includes a brief overview of the planned changes\n"
+        "4. The PR will be created as a draft automatically"
+    ),
 }

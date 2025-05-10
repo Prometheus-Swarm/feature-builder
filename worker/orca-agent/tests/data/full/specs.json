@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Utility Functions",
+    "description": "Implement a collection of utility functions for various common programming tasks",
+    "swarmBountyId": "bounty-1111"
+  },
+  {
+    "title": "Number Theory Library",
+    "description": "Create a comprehensive number theory library by implementing functions that build upon each other",
+    "swarmBountyId": "bounty-1112"
+  }
+]

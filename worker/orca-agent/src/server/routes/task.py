@@ -3,6 +3,7 @@ from src.server.services import task_service
 from prometheus_swarm.utils.logging import logger
 import requests
 import os
+from src.database import get_db, Submission
 
 bp = Blueprint("task", __name__)
 
@@ -23,7 +24,7 @@ def create_aggregator_repo(task_id):
     print(f"task_id: {task_id}")
 
     # Create the aggregator repo (which now handles assign_issue internally)
-    result = task_service.create_aggregator_repo(task_id)
+    result = task_service.create_aggregator_repo()
     print(f"result: {result}")
 
     # Extract status code from result if present, default to 200
@@ -67,7 +68,6 @@ def start_task(round_number, node_type, request):
     request_data = request.get_json()
     logger.info(f"Task data: {request_data}")
     required_fields = [
-        "taskId",
         "roundNumber",
         "stakingKey",
         "stakingSignature",
@@ -87,7 +87,6 @@ def start_task(round_number, node_type, request):
         )
 
     response = task_functions[node_type](
-        task_id=request_data["taskId"],
         round_number=int(round_number),
         staking_signature=request_data["stakingSignature"],
         staking_key=request_data["stakingKey"],
@@ -100,17 +99,18 @@ def start_task(round_number, node_type, request):
         error = response.get("error", "Unknown error")
         return jsonify({"success": False, "message": error}), status
 
+    logger.info("response_data: " + str(response_data))
     logger.info(response_data["message"])
 
-    # Record PR for both worker and leader tasks, but only workers record remotely
+    # Record PR for both worker and leader tasks
     response = task_service.record_pr(
         round_number=int(round_number),
         staking_signature=request_data["addPRSignature"],
         staking_key=request_data["stakingKey"],
         pub_key=request_data["pubKey"],
         pr_url=response_data["pr_url"],
-        task_id=request_data["taskId"],
         node_type=node_type,
+        bounty_id=response_data["bounty_id"],
     )
     response_data = response.get("data", {})
     if not response.get("success", False):
@@ -159,3 +159,16 @@ def update_audit_result(task_id, round_number):
         return jsonify({"success": False, "message": "Invalid round number"}), 400
     except requests.exceptions.RequestException as e:
         return jsonify({"success": False, "message": str(e)}), 500
+
+
+@bp.get("/check-availability")
+def check_availability():
+    """Check if there are any running tasks.
+
+    Returns:
+        bool: True if no running tasks, False if there is a running task
+    """
+    db = get_db()
+    running_task = db.query(Submission).filter(Submission.status == "running").first()
+
+    return jsonify({"available": running_task is None})

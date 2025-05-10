@@ -1,0 +1,1711 @@
+[
+  {
+    "title": "Create FileUploadComponent React Structure",
+    "uuid": "2c742c88-19f0-4873-808a-b6b7a7d3d3c0",
+    "issueUuid": "6d278b8d-6e41-46f3-9b5b-14ef8964ab31",
+    "description": "Develop the basic React component structure for file upload with placeholder UI elements. This will serve as the foundation for the bulk bookmark import functionality, focusing on creating a clean, modular component that can be easily integrated into existing pages.",
+    "acceptanceCriteria": "Component should render without errors in AddBookmarkPage\nComponent includes basic file input field\n100% unit test coverage for component rendering\nComponent follows React best practices (functional component, hooks)",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:23:17.805Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:23:17.805Z"
+    }
+  },
+  {
+    "title": "Implement Drag-and-Drop File Selection",
+    "uuid": "d29b2c34-7ddc-4ae9-a9aa-1ba0e3b842a1",
+    "issueUuid": "6d278b8d-6e41-46f3-9b5b-14ef8964ab31",
+    "description": "Add drag-and-drop functionality to the FileUploadComponent, allowing users to drag files from their local system into the upload area. Implement visual feedback for drag events and file hover states.",
+    "acceptanceCriteria": "Users can drag files into a designated drop zone\nDrop zone shows visual highlight when file is dragged over\nSupports dragging files from local file system\n90% test coverage for drag-and-drop event handlers\nDrag-and-drop works consistently across major browsers (Chrome, Firefox, Safari, Edge)",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [
+      "2c742c88-19f0-4873-808a-b6b7a7d3d3c0",
+      "fb627192-2da8-49d5-8293-9fcd71353c45",
+      "cb11ef01-fdc9-4878-9ef6-ea8da8633aa6",
+      "f777f135-5234-4a9b-b168-e655dee5237c",
+      "40d9c52b-0179-4210-84d9-5abb0a92d6f7"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:23:17.806Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:23:17.806Z"
+    }
+  },
+  {
+    "title": "File Type Validation Implementation",
+    "uuid": "fb627192-2da8-49d5-8293-9fcd71353c45",
+    "issueUuid": "6d278b8d-6e41-46f3-9b5b-14ef8964ab31",
+    "description": "Create robust file type validation logic to ensure only supported file formats (CSV, TXT, MD, HTML) can be uploaded. Implement client-side validation with clear error messaging and prevent upload of unsupported file types.",
+    "acceptanceCriteria": "Only CSV, TXT, MD, and HTML files are accepted\nImmediate user feedback for unsupported file types\nValidation occurs before file upload attempt\n100% branch coverage for file type validation logic\nClear, user-friendly error messages for each invalid file type",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [
+      "2c742c88-19f0-4873-808a-b6b7a7d3d3c0",
+      "f777f135-5234-4a9b-b168-e655dee5237c",
+      "40d9c52b-0179-4210-84d9-5abb0a92d6f7"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:23:17.806Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:23:17.806Z"
+    }
+  },
+  {
+    "title": "File Size and Metadata Display",
+    "uuid": "cb11ef01-fdc9-4878-9ef6-ea8da8633aa6",
+    "issueUuid": "6d278b8d-6e41-46f3-9b5b-14ef8964ab31",
+    "description": "Enhance the FileUploadComponent to display selected file's name, size, and provide visual feedback about the upload status. Implement size limits and corresponding error handling.",
+    "acceptanceCriteria": "Display full filename of selected/dropped file\nShow file size in human-readable format (KB/MB)\nPrevent upload of files exceeding 10MB\nGenerate clear error message for oversized files\n90% test coverage for file metadata extraction and display",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [
+      "2c742c88-19f0-4873-808a-b6b7a7d3d3c0",
+      "d29b2c34-7ddc-4ae9-a9aa-1ba0e3b842a1",
+      "fb627192-2da8-49d5-8293-9fcd71353c45",
+      "f777f135-5234-4a9b-b168-e655dee5237c"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:23:17.807Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:23:17.807Z"
+    }
+  },
+  {
+    "title": "Backend File Upload Endpoint",
+    "uuid": "f777f135-5234-4a9b-b168-e655dee5237c",
+    "issueUuid": "6d278b8d-6e41-46f3-9b5b-14ef8964ab31",
+    "description": "Create a secure backend endpoint in the Flask application to handle file uploads, validate server-side, and initiate bookmark import processing. Implement proper error handling and file processing mechanisms.",
+    "acceptanceCriteria": "Create POST endpoint at '/api/bookmarks/upload'\nServer-side file type re-validation\nTemporary file storage with cleanup mechanism\nReturn meaningful response codes (200 for success, 400 for errors)\n100% test coverage for file upload endpoint\nEndpoint handles concurrent upload requests",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [
+      "2c742c88-19f0-4873-808a-b6b7a7d3d3c0",
+      "fb627192-2da8-49d5-8293-9fcd71353c45",
+      "40d9c52b-0179-4210-84d9-5abb0a92d6f7"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:23:17.807Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:23:17.807Z"
+    }
+  },
+  {
+    "title": "Bookmark Import Processing Logic",
+    "uuid": "40d9c52b-0179-4210-84d9-5abb0a92d6f7",
+    "issueUuid": "6d278b8d-6e41-46f3-9b5b-14ef8964ab31",
+    "description": "Develop parsing logic for different supported file types (CSV, TXT, MD, HTML) to extract bookmark information. Create modular parsers that can handle various file formats and structures.",
+    "acceptanceCriteria": "Successfully parse bookmarks from CSV files\nExtract bookmark data from TXT files\nParse bookmarks embedded in Markdown files\nExtract links from HTML bookmark export files\n90% test coverage across different file type parsers\nGraceful error handling for malformed files",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [
+      "2c742c88-19f0-4873-808a-b6b7a7d3d3c0",
+      "f777f135-5234-4a9b-b168-e655dee5237c",
+      "fb627192-2da8-49d5-8293-9fcd71353c45"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:23:17.808Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:23:17.808Z"
+    }
+  },
+  {
+    "title": "User Feedback and Error Handling Integration",
+    "uuid": "ddde3e04-0946-4740-befe-436b421f3e6c",
+    "issueUuid": "6d278b8d-6e41-46f3-9b5b-14ef8964ab31",
+    "description": "Implement comprehensive user feedback mechanisms for the entire file upload and import process. Create toast/notification system to communicate upload status, success, and potential errors.",
+    "acceptanceCriteria": "Show loading spinner during file upload\nDisplay success message after successful bookmark import\nProvide detailed error messages for import failures\nImplement toast notifications for all major events\n100% test coverage for feedback component\nResponsive and accessible notification system",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [
+      "f777f135-5234-4a9b-b168-e655dee5237c",
+      "40d9c52b-0179-4210-84d9-5abb0a92d6f7",
+      "fb627192-2da8-49d5-8293-9fcd71353c45",
+      "d29b2c34-7ddc-4ae9-a9aa-1ba0e3b842a1",
+      "cb11ef01-fdc9-4878-9ef6-ea8da8633aa6"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:23:17.808Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:23:17.808Z"
+    }
+  },
+  {
+    "title": "Create CSV Parser Base Class with Format Detection",
+    "uuid": "8c5d2c85-478b-48e7-8c28-ba6ff9602fa9",
+    "issueUuid": "076b9933-05d5-49c8-ad6d-c644ea678549",
+    "description": "Develop a base CSV parser class in the backend that can automatically detect and handle different CSV delimiter formats (comma, tab). The parser should provide a flexible mechanism for detecting the delimiter and initial parsing of CSV files.\n\nKey considerations:\n- Implement delimiter auto-detection logic\n- Support common delimiters: comma, tab, semicolon\n- Create a robust and extensible base parsing mechanism\n- Include initial error checking for file readability",
+    "acceptanceCriteria": "Parser can successfully detect and parse CSV files with comma, tab, and semicolon delimiters\nRaise a clear exception if the file cannot be read or parsed\nImplement type hints and docstrings for clear method documentation\nAchieve 90% unit test coverage for delimiter detection and parsing logic\nPerformance: Parse a 1000-row CSV file in under 500ms",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:24:26.276Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:24:26.276Z"
+    }
+  },
+  {
+    "title": "Implement Bookmark Data Extraction Logic",
+    "uuid": "28c0e574-b043-46cc-8ccc-e0cdfa2988c2",
+    "issueUuid": "076b9933-05d5-49c8-ad6d-c644ea678549",
+    "description": "Create a specialized bookmark extraction method within the CSV parser that can:\n- Extract mandatory fields: title and URL\n- Support optional fields like description and tags\n- Validate URL format during extraction\n- Handle missing or malformed data gracefully\n\nSteps:\n- Define expected CSV column structure\n- Implement field mapping and validation\n- Create robust error handling for incomplete data",
+    "acceptanceCriteria": "Successfully extract title and URL from a valid CSV file\nOptionally extract description and tags if present\nValidate URL format using a comprehensive regex pattern\nRaise specific exceptions for missing mandatory fields\nUnit tests should cover 100% of URL validation scenarios\nProvide clear error messages for each validation failure",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": ["8c5d2c85-478b-48e7-8c28-ba6ff9602fa9"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:24:26.277Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:24:26.277Z"
+    }
+  },
+  {
+    "description": "Create a comprehensive error handling mechanism for CSV import that:\n- Tracks and logs parsing errors\n- Supports partial file processing\n- Provides detailed error reporting\n- Allows configurable error handling strategies\n\nImplement strategies like:\n- Skip invalid rows\n- Collect and report all errors\n- Option to stop processing on first error",
+    "acceptanceCriteria": "Generate a detailed error report for problematic CSV imports\nSupport multiple error handling modes (strict, lenient)\nLog all parsing errors with specific row and column information\nAchieve 95% test coverage for error handling scenarios\nPerformance: Generate error report for a 5000-row CSV within 1 second",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": ["8c5d2c85-478b-48e7-8c28-ba6ff9602fa9", "28c0e574-b043-46cc-8ccc-e0cdfa2988c2"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:24:26.277Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:24:26.277Z"
+    }
+  },
+  {
+    "title": "Create CSV Import Backend API Endpoint",
+    "uuid": "2e55ab30-fa5b-4a36-a90a-9ce1a89d989c",
+    "issueUuid": "076b9933-05d5-49c8-ad6d-c644ea678549",
+    "description": "Design and implement a backend API endpoint for CSV file imports that:\n- Accepts CSV file upload\n- Uses the CSV parser to process the file\n- Validates and saves parsed bookmarks\n- Handles authentication and authorization\n- Provides comprehensive response with import statistics\n\nConsider:\n- Multipart file upload handling\n- Integration with existing bookmark storage mechanism\n- Secure file processing",
+    "acceptanceCriteria": "API endpoint accepts CSV file and returns import results\nRequire user authentication for import\nReturn total imported bookmarks, successful and failed rows\nImplement rate limiting for file imports\n100% integration test coverage for endpoint\nHandle files up to 10MB efficiently",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [
+      "8c5d2c85-478b-48e7-8c28-ba6ff9602fa9",
+      "28c0e574-b043-46cc-8ccc-e0cdfa2988c2",
+      "b8312d5e-8c09-4c5e-9b5d-cfac88d80d0b"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:24:26.277Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:24:26.277Z"
+    }
+  },
+  {
+    "title": "Implement Frontend CSV Import Component",
+    "uuid": "4a3997d4-51c8-4c15-b295-113b5d424e25",
+    "issueUuid": "076b9933-05d5-49c8-ad6d-c644ea678549",
+    "description": "Develop a React component for CSV file upload and import in the frontend that:\n- Provides file drag-and-drop or file selection\n- Shows real-time import progress\n- Displays parsing errors and import results\n- Integrates with backend CSV import API\n- Handles loading and error states\n\nFocus on:\n- User-friendly error messaging\n- Responsive design\n- Accessibility considerations",
+    "acceptanceCriteria": "Support CSV file upload via drag-and-drop and file selector\nDisplay comprehensive import results and errors\nShow loading spinner during import process\nResponsive design working on mobile and desktop\nImplement WCAG 2.1 AA accessibility standards\n100% component test coverage",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [
+      "2e55ab30-fa5b-4a36-a90a-9ce1a89d989c",
+      "8c5d2c85-478b-48e7-8c28-ba6ff9602fa9",
+      "28c0e574-b043-46cc-8ccc-e0cdfa2988c2",
+      "b8312d5e-8c09-4c5e-9b5d-cfac88d80d0b"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:24:26.278Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:24:26.278Z"
+    }
+  },
+  {
+    "title": "Design HTML Bookmark Parser Data Model",
+    "uuid": "78145d42-a6d9-48dc-bb2a-888ff7d20293",
+    "issueUuid": "a395968e-eb77-4aa4-b099-f2fdcdee01f7",
+    "description": "Create a structured data model to represent bookmarks with nested folder support. Define a schema that can capture bookmark details including title, URL, folder hierarchy, creation date, and optional metadata.",
+    "acceptanceCriteria": "Data model supports nested folder structure with arbitrary depth\nSchema includes fields: title (str), url (str), folder_path (list), created_date (datetime), tags (list), folder_name (str)\nImplement type hints and validation for each field\n100% type coverage for the data model class\nCreate unit tests validating model instantiation and field constraints",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [
+      "b85ddf9d-6aa9-443d-9fe6-34b25bd2519c",
+      "0e29bb50-d179-4f5d-ac8b-004023e12cb4",
+      "cf6eda26-159e-46b6-8e22-dab68dbb1fe0",
+      "bf1ab2e0-15b0-49c8-ac82-c18ae8555e58"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:25:37.384Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:25:37.384Z"
+    }
+  },
+  {
+    "title": "Implement Netscape Bookmark HTML Parsing Logic",
+    "uuid": "b85ddf9d-6aa9-443d-9fe6-34b25bd2519c",
+    "issueUuid": "a395968e-eb77-4aa4-b099-f2fdcdee01f7",
+    "description": "Develop a robust parsing mechanism to extract bookmarks from standard Netscape-style HTML bookmark export files. The parser should handle various HTML structures and extract bookmark information accurately.",
+    "acceptanceCriteria": "Successfully parse bookmarks from standard browser export formats (Chrome, Firefox, Safari)\nExtract complete bookmark information: title, URL, folder path\nHandle nested folder structures with multiple levels\nImplement error handling for malformed HTML or incomplete bookmark entries\nAchieve 95% branch coverage in parsing logic\nCreate test cases with at least 5 different bookmark HTML file samples",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [
+      "78145d42-a6d9-48dc-bb2a-888ff7d20293",
+      "0e29bb50-d179-4f5d-ac8b-004023e12cb4",
+      "efec31ba-6369-4ddf-b746-a7fd57bcea81"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:25:37.384Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:25:37.384Z"
+    }
+  },
+  {
+    "title": "Develop Bookmark Metadata Extraction Mechanism",
+    "uuid": "0e29bb50-d179-4f5d-ac8b-004023e12cb4",
+    "issueUuid": "a395968e-eb77-4aa4-b099-f2fdcdee01f7",
+    "description": "Create a specialized module to extract and preserve additional metadata from bookmark files, such as creation dates, tags, and any other available supplementary information.",
+    "acceptanceCriteria": "Extract creation timestamp when available in bookmark file\nCapture and preserve tags if present in HTML metadata\nHandle cases where metadata is partially or completely missing\nLog and report missing metadata without interrupting parsing\n100% test coverage for metadata extraction functions\nImplement fallback mechanisms for missing metadata fields",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": ["b85ddf9d-6aa9-443d-9fe6-34b25bd2519c", "78145d42-a6d9-48dc-bb2a-888ff7d20293"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:25:37.385Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:25:37.385Z"
+    }
+  },
+  {
+    "title": "Implement Robust Error Handling for Bookmark Parsing",
+    "uuid": "efec31ba-6369-4ddf-b746-a7fd57bcea81",
+    "issueUuid": "a395968e-eb77-4aa4-b099-f2fdcdee01f7",
+    "description": "Design a comprehensive error handling strategy for various potential parsing scenarios, including invalid HTML, corrupted files, unsupported formats, and unexpected input structures.",
+    "acceptanceCriteria": "Gracefully handle parsing errors without crashing the application\nProvide detailed error logs for debugging\nImplement custom exception classes for different parsing error types\nReturn meaningful error messages for different failure scenarios\nAchieve 100% coverage of error handling paths\nCreate test suite simulating various error conditions",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:25:37.385Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:25:37.385Z"
+    }
+  },
+  {
+    "title": "Create Backend Endpoint for Bookmark File Upload and Parsing",
+    "uuid": "cf6eda26-159e-46b6-8e22-dab68dbb1fe0",
+    "issueUuid": "a395968e-eb77-4aa4-b099-f2fdcdee01f7",
+    "description": "Develop a secure API endpoint that allows users to upload HTML bookmark files, triggers the parsing mechanism, and returns structured bookmark data.",
+    "acceptanceCriteria": "Implement file upload endpoint with proper authentication\nValidate file type and size before parsing\nReturn parsed bookmarks in a standardized JSON format\nHandle concurrent file parsing requests\nImplement request timeout and file size limit\nAchieve 90% integration test coverage for the endpoint\nValidate endpoint performance can handle files up to 10MB",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [
+      "78145d42-a6d9-48dc-bb2a-888ff7d20293",
+      "b85ddf9d-6aa9-443d-9fe6-34b25bd2519c",
+      "0e29bb50-d179-4f5d-ac8b-004023e12cb4",
+      "efec31ba-6369-4ddf-b746-a7fd57bcea81"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:25:37.385Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:25:37.385Z"
+    }
+  },
+  {
+    "title": "Develop Frontend Bookmark Import Interface",
+    "uuid": "bf1ab2e0-15b0-49c8-ac82-c18ae8555e58",
+    "issueUuid": "a395968e-eb77-4aa4-b099-f2fdcdee01f7",
+    "description": "Create a user-friendly interface for selecting and uploading HTML bookmark files, with clear feedback and error handling for the import process.",
+    "acceptanceCriteria": "Implement file selection component supporting .html files\nDisplay real-time parsing progress and status\nShow meaningful error messages for import failures\nProvide preview of imported bookmarks before final confirmation\nResponsive design working across desktop and mobile browsers\nImplement client-side file type and size validation\nCreate comprehensive user interaction test cases",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [
+      "78145d42-a6d9-48dc-bb2a-888ff7d20293",
+      "b85ddf9d-6aa9-443d-9fe6-34b25bd2519c",
+      "0e29bb50-d179-4f5d-ac8b-004023e12cb4",
+      "cf6eda26-159e-46b6-8e22-dab68dbb1fe0"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:25:37.385Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:25:37.385Z"
+    }
+  },
+  {
+    "title": "Create Markdown Link Regex Pattern Utility",
+    "uuid": "127a6399-0a12-4a72-8c02-8d05eb3cf4cc",
+    "issueUuid": "945273f3-9391-4397-b09a-dc917b44d2c2",
+    "description": "Develop a utility function in the backend to define and compile robust regex patterns for extracting links from markdown text. This function should support multiple markdown link formats and be flexible enough to handle various scenarios.",
+    "acceptanceCriteria": "Regex pattern must match standard markdown link syntax: [title](url)\nPattern should match links with or without titles\nSupport links with escaped characters in URLs\nRegex should work with inline, list, and paragraph links\nUnit tests must cover 100% of regex pattern matching scenarios\nPerformance test: Pattern matching should complete under 10ms for documents up to 10KB",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:26:51.134Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:26:51.134Z"
+    }
+  },
+  {
+    "title": "Implement URL Validation and Sanitization",
+    "uuid": "048bf94f-9d30-4cf2-84e4-9741180dfbc4",
+    "issueUuid": "945273f3-9391-4397-b09a-dc917b44d2c2",
+    "description": "Create a robust URL validation and sanitization module to ensure extracted markdown links are safe, well-formed, and adhere to security standards. The module should reject potentially malicious or invalid URLs.",
+    "acceptanceCriteria": "Validate URL format using RFC 3986 standard\nSupport HTTP, HTTPS, and other common protocols\nReject URLs with potentially dangerous characters or scripts\nImplement URL normalization (e.g., lowercase domain, remove redundant parameters)\nCreate comprehensive test suite covering 95% of potential URL validation scenarios\nEnsure no false positives or negatives in URL validation",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": ["127a6399-0a12-4a72-8c02-8d05eb3cf4cc", "d8a89300-b6d5-4ac0-b2af-d8749888cc80"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:26:51.135Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:26:51.135Z"
+    }
+  },
+  {
+    "title": "Develop Markdown Link Extraction Parser",
+    "uuid": "d8a89300-b6d5-4ac0-b2af-d8749888cc80",
+    "issueUuid": "945273f3-9391-4397-b09a-dc917b44d2c2",
+    "description": "Build a specialized parser function to extract URLs from markdown files, handling different contexts like code blocks, lists, and paragraphs. The parser should be context-aware and handle edge cases gracefully.",
+    "acceptanceCriteria": "Successfully extract links from various markdown contexts\nIgnore links within code blocks (```...```)\nHandle links in ordered and unordered lists\nSupport multi-line markdown documents\nProvide meaningful error messages for unparseable sections\nAchieve 100% branch coverage for parsing logic\nProcess markdown files up to 1MB in under 500ms",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": ["127a6399-0a12-4a72-8c02-8d05eb3cf4cc", "048bf94f-9d30-4cf2-84e4-9741180dfbc4"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:26:51.135Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:26:51.135Z"
+    }
+  },
+  {
+    "title": "Create Backend Markdown Parsing Endpoint",
+    "uuid": "c79eb244-da87-47b0-bd5a-4403995d21c9",
+    "issueUuid": "945273f3-9391-4397-b09a-dc917b44d2c2",
+    "description": "Implement a new API endpoint in the backend to handle markdown file upload and link extraction. The endpoint should integrate the previously developed parsing utilities and provide a structured response.",
+    "acceptanceCriteria": "Accept markdown file upload via a dedicated REST endpoint\nReturn JSON response with extracted URLs\nInclude metadata like source file, line numbers for each link\nHandle file size limits (max 10MB)\nImplement proper error handling for invalid files\nCreate integration tests covering successful and error scenarios\nEndpoint response time should be under 1 second",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [
+      "127a6399-0a12-4a72-8c02-8d05eb3cf4cc",
+      "048bf94f-9d30-4cf2-84e4-9741180dfbc4",
+      "d8a89300-b6d5-4ac0-b2af-d8749888cc80",
+      "90113519-3085-4ff3-b5ec-f45f4a3d33ff"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:26:51.135Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:26:51.135Z"
+    }
+  },
+  {
+    "title": "Add Frontend Markdown File Upload Component",
+    "uuid": "7124f095-1416-4235-aaae-a9dfe3c3412a",
+    "issueUuid": "945273f3-9391-4397-b09a-dc917b44d2c2",
+    "description": "Develop a new React component in the frontend to allow users to upload markdown files and trigger link extraction. Implement file input, preview, and integration with the backend parsing endpoint.",
+    "acceptanceCriteria": "Create a new file upload interface in the SingleAdd or a dedicated component\nSupport drag-and-drop and file selection\nValidate file type (*.md only)\nDisplay loading state during file processing\nShow extracted links in a user-friendly format\nHandle and display backend parsing errors\nAchieve 90% component test coverage\nResponsive design for mobile and desktop",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": ["c79eb244-da87-47b0-bd5a-4403995d21c9"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:26:51.136Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:26:51.136Z"
+    }
+  },
+  {
+    "title": "Implement Error Handling and Logging for Markdown Parsing",
+    "uuid": "90113519-3085-4ff3-b5ec-f45f4a3d33ff",
+    "issueUuid": "945273f3-9391-4397-b09a-dc917b44d2c2",
+    "description": "Create a comprehensive error handling and logging mechanism for the markdown parsing process. Capture detailed information about parsing failures to aid debugging and provide user feedback.",
+    "acceptanceCriteria": "Log detailed parsing errors with context\nGenerate unique error codes for different failure scenarios\nStore error logs in a structured format\nProvide user-friendly error messages\nInclude stack trace and context for backend debugging\nCreate unit tests for all error handling paths\nEnsure no sensitive information is logged",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [
+      "127a6399-0a12-4a72-8c02-8d05eb3cf4cc",
+      "048bf94f-9d30-4cf2-84e4-9741180dfbc4",
+      "d8a89300-b6d5-4ac0-b2af-d8749888cc80"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:26:51.136Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:26:51.136Z"
+    }
+  },
+  {
+    "title": "Design Bulk Import API Endpoint Schema and Request Validation",
+    "uuid": "b04be878-7007-408b-a6dc-562982f261ba",
+    "issueUuid": "b660c0b2-baeb-4a9a-9fb4-9f7e4b5955c6",
+    "description": "Create a robust schema for the bulk import API endpoint that defines the expected input structure, file types, and validation rules. Implement input validation to ensure data integrity and prevent malformed requests.\n\nSteps:\n- Define accepted file types (CSV, TXT, MD, HTML)\n- Create a validation schema for file upload\n- Implement input size and type checks\n- Define error response formats for different validation scenarios",
+    "acceptanceCriteria": "Validate that only supported file types (CSV, TXT, MD, HTML) are accepted\nReject files larger than 10MB with a clear error message\nValidate file content structure matches expected format\nReturn 400 Bad Request with descriptive errors for invalid uploads\nImplement input validation with 100% branch coverage for error handling paths",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": ["099b6940-18e8-4b52-9937-efe992c53dc5", "26272f8c-f975-48d7-a2ec-bcc411537abd"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:28:07.403Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:28:07.403Z"
+    }
+  },
+  {
+    "title": "Implement File Parsing Logic for Multiple Bookmark File Formats",
+    "uuid": "099b6940-18e8-4b52-9937-efe992c53dc5",
+    "issueUuid": "b660c0b2-baeb-4a9a-9fb4-9f7e4b5955c6",
+    "description": "Develop robust parsing mechanisms to handle different bookmark export file formats (CSV, TXT, MD, HTML). Create modular parsers that can extract bookmark URLs, titles, and optional metadata.\n\nSteps:\n- Create abstract base parser class\n- Implement specific parsers for each file type\n- Handle variations in file structures\n- Implement error handling for malformed files",
+    "acceptanceCriteria": "Successfully parse bookmarks from CSV, TXT, MD, and HTML files\nExtract at least URL and title for each bookmark\nHandle files with missing or incomplete data gracefully\nAchieve 90% test coverage across parser implementations\nProvide meaningful error messages for unparseable files",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": ["b04be878-7007-408b-a6dc-562982f261ba", "26272f8c-f975-48d7-a2ec-bcc411537abd"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:28:07.403Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:28:07.403Z"
+    }
+  },
+  {
+    "title": "Create Bulk Import Database Insertion Service",
+    "uuid": "32adeb06-4f09-483a-a845-cfee563a481c",
+    "issueUuid": "b660c0b2-baeb-4a9a-9fb4-9f7e4b5955c6",
+    "description": "Develop a service to efficiently insert parsed bookmarks into the database. Implement batch insertion, deduplication, and handling of existing bookmarks.\n\nSteps:\n- Create a bulk insertion method that minimizes database round trips\n- Implement logic to skip or update existing bookmarks\n- Add transaction management to ensure data consistency\n- Handle potential unique constraint violations",
+    "acceptanceCriteria": "Insert bulk bookmarks with less than 500ms latency for 100 entries\nSkip duplicate bookmarks based on URL\nProvide detailed import results (total processed, successful, skipped)\nMaintain database integrity during bulk operations\nAchieve 100% test coverage for insertion edge cases",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": ["099b6940-18e8-4b52-9937-efe992c53dc5", "b04be878-7007-408b-a6dc-562982f261ba"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:28:07.403Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:28:07.403Z"
+    }
+  },
+  {
+    "title": "Implement Authentication and Authorization for Bulk Import",
+    "uuid": "44645318-b02c-4e0b-b613-b420f27b8207",
+    "issueUuid": "b660c0b2-baeb-4a9a-9fb4-9f7e4b5955c6",
+    "description": "Secure the bulk import endpoint with robust authentication and authorization checks. Ensure only authenticated and authorized users can perform bulk imports.\n\nSteps:\n- Require JWT token for endpoint access\n- Validate user permissions for bookmark creation\n- Implement rate limiting to prevent abuse\n- Log import attempts for audit purposes",
+    "acceptanceCriteria": "Reject unauthenticated requests with 401 Unauthorized\nBlock users without 'create_bookmark' permission\nImplement rate limit of 5 bulk imports per hour per user\nLog all import attempts with user ID and timestamp\nAchieve 100% coverage of authentication and authorization paths",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": ["b04be878-7007-408b-a6dc-562982f261ba", "26272f8c-f975-48d7-a2ec-bcc411537abd"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:28:07.404Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:28:07.404Z"
+    }
+  },
+  {
+    "title": "Create Comprehensive Bulk Import API Endpoint",
+    "uuid": "26272f8c-f975-48d7-a2ec-bcc411537abd",
+    "issueUuid": "b660c0b2-baeb-4a9a-9fb4-9f7e4b5955c6",
+    "description": "Implement the final API endpoint that orchestrates the entire bulk import process. Integrate file upload handling, parsing, validation, and database insertion.\n\nSteps:\n- Set up multipart file upload handling\n- Integrate file parsing and validation services\n- Create a comprehensive import workflow\n- Design detailed response with import statistics",
+    "acceptanceCriteria": "Support multipart file uploads via POST /api/bookmarks/import\nReturn detailed import report with total, successful, and failed entries\nHandle uploads of multiple files in a single request\nRespond within 2 seconds for files up to 1MB\nProvide clear, actionable error messages",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [
+      "b04be878-7007-408b-a6dc-562982f261ba",
+      "099b6940-18e8-4b52-9937-efe992c53dc5",
+      "44645318-b02c-4e0b-b613-b420f27b8207",
+      "32adeb06-4f09-483a-a845-cfee563a481c"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:28:07.404Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:28:07.404Z"
+    }
+  },
+  {
+    "title": "Implement Error Handling and Logging for Bulk Import",
+    "uuid": "81e70de4-f0dc-4fec-a39e-67bc8d336d3f",
+    "issueUuid": "b660c0b2-baeb-4a9a-9fb4-9f7e4b5955c6",
+    "description": "Create a comprehensive error handling and logging strategy for the bulk import process. Ensure all potential failure scenarios are gracefully managed and traceable.\n\nSteps:\n- Set up centralized error logging\n- Create specific error classes for different failure modes\n- Implement retry mechanisms for transient errors\n- Ensure no unhandled exceptions",
+    "acceptanceCriteria": "Log all errors with sufficient context for debugging\nNever expose raw error details to end-users\nImplement retry mechanism for database connection issues\nCreate custom error classes for different import failure scenarios\nAchieve 95% error path test coverage",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [
+      "b04be878-7007-408b-a6dc-562982f261ba",
+      "099b6940-18e8-4b52-9937-efe992c53dc5",
+      "32adeb06-4f09-483a-a845-cfee563a481c",
+      "44645318-b02c-4e0b-b613-b420f27b8207",
+      "26272f8c-f975-48d7-a2ec-bcc411537abd"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:28:07.404Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:28:07.404Z"
+    }
+  },
+  {
+    "title": "Design Batch Insert Database Schema for Bookmarks",
+    "uuid": "6d81dc77-2ec0-47a4-a51e-5edf1a8e945f",
+    "issueUuid": "4194c2dc-9107-4582-9bf1-b87f92cf89aa",
+    "description": "Extend the current database schema to support efficient batch bookmark insertion. Create a database migration script that adds any necessary columns or indexes to optimize batch insert performance and handle duplicate detection.",
+    "acceptanceCriteria": "Verify new database schema supports efficient batch insert operations\nEnsure schema includes fields for bookmark metadata, tags, and deduplication checks\nCreate a migration script that can be applied without data loss\nAchieve 100% coverage of schema modification test scenarios\nVerify schema changes do not break existing database relationships",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:29:06.926Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:29:06.926Z"
+    }
+  },
+  {
+    "title": "Implement Bookmark Batch Insert Database Method",
+    "uuid": "181e5d0e-55f4-472b-b6b2-b7b206635739",
+    "issueUuid": "4194c2dc-9107-4582-9bf1-b87f92cf89aa",
+    "description": "Create a database service method in db_utils.py that handles batch insertion of bookmarks with support for:\n- Efficient bulk insert using database-specific bulk insert methods\n- Deduplication logic to prevent inserting duplicate bookmarks\n- Transaction management to ensure data integrity\n- Optional tag association during import\n- Error handling for partial insertion scenarios",
+    "acceptanceCriteria": "Method successfully inserts multiple bookmarks in a single database transaction\nImplement duplicate detection based on URL or other unique identifiers\nSupport optional tag assignment during bookmark import\nProvide detailed error logging for any insertion failures\nAchieve 90% branch coverage for the batch insert method\nBatch insert should complete within 500ms for up to 100 bookmarks",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": ["6d81dc77-2ec0-47a4-a51e-5edf1a8e945f"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:29:06.927Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:29:06.927Z"
+    }
+  },
+  {
+    "title": "Create Backend API Endpoint for Bookmark Import",
+    "uuid": "55424313-d203-465e-b051-5c032c79da22",
+    "issueUuid": "4194c2dc-9107-4582-9bf1-b87f92cf89aa",
+    "description": "Develop a new API endpoint in the backend to handle bulk bookmark import. The endpoint should:\n- Accept a list of bookmark objects\n- Validate input data\n- Call the batch insert database method\n- Return detailed import results\n- Implement proper authentication and authorization checks",
+    "acceptanceCriteria": "API endpoint accepts JSON payload of bookmarks\nValidate all incoming bookmark objects against a strict schema\nRequire user authentication before allowing import\nReturn comprehensive import results (total processed, successful, failed)\nImplement proper error handling for various failure scenarios\nAchieve 95% test coverage for the import endpoint\nResponse time should be under 1 second for imports up to 100 bookmarks",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": ["6d81dc77-2ec0-47a4-a51e-5edf1a8e945f", "181e5d0e-55f4-472b-b6b2-b7b206635739"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:29:06.928Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:29:06.928Z"
+    }
+  },
+  {
+    "title": "Develop Frontend Bulk Import Component",
+    "uuid": "a0d1e0c2-4205-4fde-ac80-69219b0b788e",
+    "issueUuid": "4194c2dc-9107-4582-9bf1-b87f92cf89aa",
+    "description": "Create a new React component in the frontend to handle bulk bookmark imports. The component should:\n- Support file upload (CSV, JSON)\n- Provide a preview of parsed bookmarks\n- Handle file parsing and validation\n- Send import request to backend\n- Display import progress and results\n- Handle potential import errors gracefully",
+    "acceptanceCriteria": "Support CSV and JSON file formats for bookmark import\nValidate file contents before sending to backend\nDisplay a preview of parsed bookmarks before import\nShow detailed import results and error messages\nImplement loading state during import process\nAchieve 90% test coverage for import component\nProvide user-friendly error messages for import failures",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": ["55424313-d203-465e-b051-5c032c79da22"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:29:06.928Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:29:06.928Z"
+    }
+  },
+  {
+    "title": "Implement Comprehensive Import Logging and Monitoring",
+    "uuid": "2ad6e641-d2db-499c-9bbe-d710b741c358",
+    "issueUuid": "4194c2dc-9107-4582-9bf1-b87f92cf89aa",
+    "description": "Set up robust logging and monitoring for the bookmark import process. This includes:\n- Detailed logging of import operations\n- Error tracking for failed imports\n- Performance monitoring of batch insert operations\n- Integration with existing logging infrastructure",
+    "acceptanceCriteria": "Log all bookmark import attempts with timestamps and user information\nCapture and log detailed error information for failed imports\nCreate performance metrics for batch insert operations\nEnsure logs are stored in a searchable and analyzable format\nImplement log rotation and retention policies\nAchieve 100% logging coverage for import process",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [
+      "6d81dc77-2ec0-47a4-a51e-5edf1a8e945f",
+      "181e5d0e-55f4-472b-b6b2-b7b206635739",
+      "55424313-d203-465e-b051-5c032c79da22",
+      "a0d1e0c2-4205-4fde-ac80-69219b0b788e"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:29:06.929Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:29:06.929Z"
+    }
+  },
+  {
+    "title": "Design Bulk Import Progress Component Structure",
+    "uuid": "f5a1f538-ea17-4ceb-bf15-a7f85977979d",
+    "issueUuid": "a9afc33c-0bc4-4c07-8c4d-a62a59e936a7",
+    "description": "Create a new React component for displaying bulk import progress and results. This component will serve as the main container for tracking import status and displaying outcomes. Design the initial component structure with placeholders for progress bar, summary statistics, and result lists.",
+    "acceptanceCriteria": "Component renders without errors when imported\nComponent has clear prop types defined for expected data inputs\nInitial layout includes sections for progress bar, total processed count, and result lists\nComponent passes prop type validation tests with 100% coverage\nUses responsive design principles with mobile-first approach",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [
+      "ecf62764-28f3-40a0-b4f0-4f49b7a10985",
+      "f7ee2749-7436-4328-b4cf-6f2f80131cae",
+      "b133ed77-51a8-44e0-ad67-114cf25d4f77",
+      "3018af5d-f75b-4bf5-88e5-6c97b51e498c",
+      "ea3b705f-91e7-49b6-85ef-fe8dcae9d070",
+      "1475fd88-c70a-4073-91a9-14e8d25b8382"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:30:41.338Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:30:41.338Z"
+    }
+  },
+  {
+    "title": "Implement Progress Bar for Bulk Import",
+    "uuid": "ecf62764-28f3-40a0-b4f0-4f49b7a10985",
+    "issueUuid": "a9afc33c-0bc4-4c07-8c4d-a62a59e936a7",
+    "description": "Develop a reusable progress bar component that dynamically updates based on bulk import status. The progress bar should visually represent the percentage of bookmarks processed and support different states (in-progress, completed, error).",
+    "acceptanceCriteria": "Progress bar updates in real-time with percentage of processed bookmarks\nSupports different visual states: in-progress (blue), completed (green), error (red)\nAccessible with proper ARIA attributes for screen readers\nAnimated transitions between progress states\n100% branch coverage for progress state rendering",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [
+      "f5a1f538-ea17-4ceb-bf15-a7f85977979d",
+      "ea3b705f-91e7-49b6-85ef-fe8dcae9d070",
+      "1475fd88-c70a-4073-91a9-14e8d25b8382",
+      "f7ee2749-7436-4328-b4cf-6f2f80131cae"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:30:41.339Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:30:41.339Z"
+    }
+  },
+  {
+    "title": "Create Bulk Import Results Summary Section",
+    "uuid": "f7ee2749-7436-4328-b4cf-6f2f80131cae",
+    "issueUuid": "a9afc33c-0bc4-4c07-8c4d-a62a59e936a7",
+    "description": "Implement a summary section that displays aggregate statistics about the bulk import process, including total bookmarks processed, successful imports, and failed imports. Use clear, informative typography and color coding.",
+    "acceptanceCriteria": "Displays total number of bookmarks processed\nShows count of successful and failed imports\nUses distinct colors for success (green) and failure (red) counts\nProvides percentage calculation of successful vs. total imports\nResponsive design that adapts to different screen sizes\nUnit tests covering all calculation and display logic",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": ["ea3b705f-91e7-49b6-85ef-fe8dcae9d070", "ecf62764-28f3-40a0-b4f0-4f49b7a10985"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:30:41.340Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:30:41.340Z"
+    }
+  },
+  {
+    "title": "Develop Failed Imports Error Listing",
+    "uuid": "b133ed77-51a8-44e0-ad67-114cf25d4f77",
+    "issueUuid": "a9afc33c-0bc4-4c07-8c4d-a62a59e936a7",
+    "description": "Create a detailed error listing component that shows individual bookmark import failures. Each failure should include specific error messages, problematic bookmark details, and options for retry or manual correction.",
+    "acceptanceCriteria": "Displays a scrollable list of failed import entries\nEach failed entry shows detailed error message and bookmark metadata\nProvides 'Retry' button for individual failed entries\nAllows filtering of failed entries by error type\nImplements error message truncation with full message expansion\nValidates error display logic with comprehensive unit tests",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [
+      "f5a1f538-ea17-4ceb-bf15-a7f85977979d",
+      "3018af5d-f75b-4bf5-88e5-6c97b51e498c",
+      "ea3b705f-91e7-49b6-85ef-fe8dcae9d070",
+      "1475fd88-c70a-4073-91a9-14e8d25b8382"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:30:41.340Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:30:41.340Z"
+    }
+  },
+  {
+    "title": "Implement Bulk Import Retry and Modification Workflow",
+    "uuid": "3018af5d-f75b-4bf5-88e5-6c97b51e498c",
+    "issueUuid": "a9afc33c-0bc4-4c07-8c4d-a62a59e936a7",
+    "description": "Design and implement a workflow that allows users to retry failed imports or modify problematic bookmark entries. This includes error resolution UI, validation mechanisms, and re-import functionality.",
+    "acceptanceCriteria": "Provides modal/inline editing for failed bookmark entries\nValidates modified entries before re-import\nTracks and limits number of retry attempts\nGenerates detailed logs for retry attempts\nIncludes comprehensive error handling for retry process\nImplements 100% test coverage for retry logic",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [
+      "b133ed77-51a8-44e0-ad67-114cf25d4f77",
+      "f5a1f538-ea17-4ceb-bf15-a7f85977979d",
+      "ea3b705f-91e7-49b6-85ef-fe8dcae9d070"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:30:41.341Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:30:41.341Z"
+    }
+  },
+  {
+    "title": "Add Real-time Progress WebSocket Integration",
+    "uuid": "ea3b705f-91e7-49b6-85ef-fe8dcae9d070",
+    "issueUuid": "a9afc33c-0bc4-4c07-8c4d-a62a59e936a7",
+    "description": "Integrate WebSocket or Server-Sent Events (SSE) to provide real-time updates during the bulk import process. Ensure efficient, low-overhead communication between backend and frontend.",
+    "acceptanceCriteria": "Establishes persistent connection for progress updates\nHandles connection errors and automatic reconnection\nSupports concurrent bulk import tracking\nImplements backoff strategy for connection retries\nMinimal performance overhead (<50ms latency)\nComprehensive integration tests for WebSocket communication",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:30:41.341Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:30:41.341Z"
+    }
+  },
+  {
+    "title": "Responsive Design and Accessibility Optimization",
+    "uuid": "1475fd88-c70a-4073-91a9-14e8d25b8382",
+    "issueUuid": "a9afc33c-0bc4-4c07-8c4d-a62a59e936a7",
+    "description": "Ensure the bulk import progress UI is fully responsive across devices and complies with WCAG accessibility guidelines. Implement adaptive layouts, proper color contrast, and screen reader support.",
+    "acceptanceCriteria": "Fully responsive design working on mobile, tablet, and desktop\nPasses WCAG 2.1 Level AA accessibility standards\nSupports keyboard navigation for all interactive elements\nProvides appropriate color contrast (4.5:1 minimum)\nScreen reader compatibility verified\nCross-browser compatibility testing",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [
+      "f5a1f538-ea17-4ceb-bf15-a7f85977979d",
+      "ecf62764-28f3-40a0-b4f0-4f49b7a10985",
+      "b133ed77-51a8-44e0-ad67-114cf25d4f77"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:30:41.342Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:30:41.342Z"
+    }
+  },
+  {
+    "title": "Implement URL Validation Utility Function",
+    "uuid": "1a72aba7-087e-4806-9e26-e2a20039b366",
+    "issueUuid": "3df5c661-df7e-418c-9090-688cb8696bc0",
+    "description": "Create a robust URL validation function in the backend that checks the format, structure, and basic validity of imported bookmark URLs. This function should:\n- Validate URL protocol (http/https)\n- Check URL length constraints\n- Verify URL syntax using regex\n- Handle international domain names\n- Prevent null or empty URL submissions",
+    "acceptanceCriteria": "Validate 100 different URL scenarios, including valid and invalid formats\nFunction should return boolean result for URL validity\nAchieve 100% branch coverage for URL validation logic\nHandle URLs with international characters and domain names\nReject URLs longer than 2048 characters",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": ["bf2bc86a-2d3a-4f29-aadc-5ff20af5fd3e", "36570675-6bca-4d29-8b9a-54ac3b106a84"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:32:02.001Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:32:02.001Z"
+    }
+  },
+  {
+    "title": "Create Bookmark Deduplication Service",
+    "uuid": "9fa90577-01ff-42d5-a741-1654d3f546b7",
+    "issueUuid": "3df5c661-df7e-418c-9090-688cb8696bc0",
+    "description": "Develop a service to detect and handle duplicate bookmarks during import process. The service should:\n- Compare incoming bookmarks against existing user bookmarks\n- Use URL normalization techniques (remove trailing slashes, query parameters)\n- Decide how to handle duplicates (skip, update, or flag)\n- Provide detailed logging of deduplication decisions",
+    "acceptanceCriteria": "Successfully identify bookmarks with same normalized URL\nSupport deduplication across multiple import methods (single add, bulk import)\nLog detailed information about duplicate detection process\nProvide clear user feedback for skipped/existing bookmarks\nAchieve 95% test coverage for deduplication logic",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [
+      "1a72aba7-087e-4806-9e26-e2a20039b366",
+      "bf2bc86a-2d3a-4f29-aadc-5ff20af5fd3e",
+      "36570675-6bca-4d29-8b9a-54ac3b106a84",
+      "53caad74-fb62-454c-be7e-79916951332e"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:32:02.002Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:32:02.002Z"
+    }
+  },
+  {
+    "title": "Implement Input Sanitization Middleware",
+    "uuid": "bf2bc86a-2d3a-4f29-aadc-5ff20af5fd3e",
+    "issueUuid": "3df5c661-df7e-418c-9090-688cb8696bc0",
+    "description": "Create a backend middleware component to sanitize and protect against potential security vulnerabilities in bookmark import data. The middleware should:\n- Sanitize all input fields to prevent XSS attacks\n- Remove/escape potentially dangerous HTML and script tags\n- Validate and sanitize metadata fields (title, description)\n- Implement input length restrictions\n- Log potential security events",
+    "acceptanceCriteria": "Sanitize input with 100% removal of potential XSS script tags\nRestrict input length for title and description fields\nGenerate security logs for suspicious input patterns\nPrevent HTML/script injection in bookmark metadata\nAchieve 100% coverage for input sanitization paths",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": ["36570675-6bca-4d29-8b9a-54ac3b106a84", "53caad74-fb62-454c-be7e-79916951332e"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:32:02.003Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:32:02.003Z"
+    }
+  },
+  {
+    "title": "Design Bookmark Import Size and Quantity Constraints",
+    "uuid": "fd0fcf2e-9413-4942-ade2-b9cfc17a4622",
+    "issueUuid": "3df5c661-df7e-418c-9090-688cb8696bc0",
+    "description": "Implement file size and total bookmark quantity limits for bookmark imports to prevent system abuse and manage resource consumption. Requirements include:\n- Set maximum file size for bulk imports (e.g., 10MB)\n- Limit total number of bookmarks per import (e.g., 500)\n- Validate file size before processing\n- Provide clear error messages for exceeding limits\n- Log import attempts that exceed constraints",
+    "acceptanceCriteria": "Reject file imports larger than 10MB\nPrevent importing more than 500 bookmarks in a single operation\nGenerate specific error messages for size and quantity violations\nLog all import attempts with size/quantity information\nAchieve 100% test coverage for import constraint validation",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [
+      "1a72aba7-087e-4806-9e26-e2a20039b366",
+      "bf2bc86a-2d3a-4f29-aadc-5ff20af5fd3e",
+      "36570675-6bca-4d29-8b9a-54ac3b106a84",
+      "53caad74-fb62-454c-be7e-79916951332e"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:32:02.004Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:32:02.004Z"
+    }
+  },
+  {
+    "title": "Develop Comprehensive Error Handling and User Feedback",
+    "uuid": "36570675-6bca-4d29-8b9a-54ac3b106a84",
+    "issueUuid": "3df5c661-df7e-418c-9090-688cb8696bc0",
+    "description": "Create a centralized error handling system for bookmark import validation. The system should:\n- Map validation errors to user-friendly messages\n- Support multiple languages for error descriptions\n- Provide detailed, actionable feedback\n- Log validation failures with context\n- Implement a structured error response format",
+    "acceptanceCriteria": "Generate human-readable error messages for each validation failure type\nSupport error localization for multiple languages\nInclude detailed error context in backend logs\nCreate standardized error response JSON structure\nAchieve 90% test coverage for error handling logic",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [
+      "1a72aba7-087e-4806-9e26-e2a20039b366",
+      "bf2bc86a-2d3a-4f29-aadc-5ff20af5fd3e",
+      "53caad74-fb62-454c-be7e-79916951332e"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:32:02.004Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:32:02.004Z"
+    }
+  },
+  {
+    "title": "Configure Validation Logging and Monitoring Infrastructure",
+    "uuid": "53caad74-fb62-454c-be7e-79916951332e",
+    "issueUuid": "3df5c661-df7e-418c-9090-688cb8696bc0",
+    "description": "Set up a comprehensive logging and monitoring system for bookmark import validation events. This includes:\n- Configuring log levels for different validation stages\n- Creating structured log entries for security and validation events\n- Implementing log rotation and retention policies\n- Setting up alerts for suspicious import patterns\n- Integrating with existing logging infrastructure",
+    "acceptanceCriteria": "Log all validation events with appropriate severity levels\nImplement log rotation to manage storage\nCreate alert mechanisms for repeated validation failures\nEnsure logs contain sufficient context for security analysis\nAchieve 85% coverage of logging code paths",
+    "repoOwner": "labrocadabro",
+    "repoName": "easymarks-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2",
+    "dependencyTasks": [
+      "bf2bc86a-2d3a-4f29-aadc-5ff20af5fd3e",
+      "36570675-6bca-4d29-8b9a-54ac3b106a84",
+      "1a72aba7-087e-4806-9e26-e2a20039b366",
+      "9fa90577-01ff-42d5-a741-1654d3f546b7",
+      "fd0fcf2e-9413-4942-ade2-b9cfc17a4622"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:32:02.005Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:32:02.005Z"
+    }
+  },
+  {
+    "title": "Define Dark Mode Color Variables in CSS",
+    "uuid": "44a61b86-b22a-4432-bedf-fead387951c5",
+    "issueUuid": "1d90cc80-44c3-42e9-a568-6e2d9a851414",
+    "description": "Create a comprehensive set of CSS custom properties (variables) for the dark mode color palette. This will include background colors, text colors, accent colors, and semantic colors for various UI elements. The variables should be defined in a centralized location to ensure easy maintenance and consistent application across the entire website.",
+    "acceptanceCriteria": "All color variables must follow a semantic naming convention (e.g., --dark-background, --dark-text-primary, --dark-accent-primary)\nColor variables must provide sufficient contrast ratio (minimum WCAG 2.1 Level AA standard of 4.5:1 for text)\nColor palette must include at least 10 distinct color variables covering backgrounds, text, borders, and interactive elements\nImplement a comprehensive set of color variables for different UI states (default, hover, active, disabled)\nWrite unit tests to validate color contrast and naming consistency\nAchieve 100% branch coverage for color variable definitions",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": [
+      "e2fa306c-6500-4df0-8529-0ca9f0c5f563",
+      "9ca17e70-aae7-4976-bcc7-7bf958ec79c9",
+      "aff50c11-4b70-4fff-b307-89e88f2932c1",
+      "14bbb479-2a3b-4015-a1fd-54ad3eafebb6"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:37:05.440Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:37:05.440Z"
+    }
+  },
+  {
+    "title": "Implement Dark Mode Toggle Functionality",
+    "uuid": "e2fa306c-6500-4df0-8529-0ca9f0c5f563",
+    "issueUuid": "1d90cc80-44c3-42e9-a568-6e2d9a851414",
+    "description": "Create a mechanism to switch between light and dark modes, storing user preference and applying the appropriate color scheme. This will involve adding a toggle in the UI and implementing logic to persist the user's color mode preference.",
+    "acceptanceCriteria": "Implement a toggle switch in the site header that allows users to switch between light and dark modes\nStore user's color mode preference in localStorage for persistence across sessions\nAutomatically detect user's system preference for color mode on initial load\nEnsure smooth transition between color modes with CSS transition effects\nWrite integration tests to verify toggle functionality and preference persistence\nAchieve 90% test coverage for color mode switching logic",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": [
+      "44a61b86-b22a-4432-bedf-fead387951c5",
+      "9ca17e70-aae7-4976-bcc7-7bf958ec79c9",
+      "aff50c11-4b70-4fff-b307-89e88f2932c1",
+      "14bbb479-2a3b-4015-a1fd-54ad3eafebb6"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:37:05.441Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:37:05.441Z"
+    }
+  },
+  {
+    "title": "Update Tailwind CSS Configuration for Dark Mode",
+    "uuid": "9ca17e70-aae7-4976-bcc7-7bf958ec79c9",
+    "issueUuid": "1d90cc80-44c3-42e9-a568-6e2d9a851414",
+    "description": "Modify the Tailwind CSS configuration to support the new dark mode color palette. This includes defining dark mode color classes and ensuring all existing components can adapt to the new color scheme.",
+    "acceptanceCriteria": "Update tailwind.config.cjs to include dark mode color palette\nDefine dark mode variants for all critical UI components\nEnsure all existing components have appropriate dark mode styling\nWrite visual regression tests to compare light and dark mode renderings\nValidate that dark mode styling works consistently across different screen sizes\nAchieve 100% coverage of dark mode styling for core components",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": ["44a61b86-b22a-4432-bedf-fead387951c5", "aff50c11-4b70-4fff-b307-89e88f2932c1"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:37:05.441Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:37:05.441Z"
+    }
+  },
+  {
+    "title": "Accessibility Audit for Dark Mode Color Palette",
+    "uuid": "aff50c11-4b70-4fff-b307-89e88f2932c1",
+    "issueUuid": "1d90cc80-44c3-42e9-a568-6e2d9a851414",
+    "description": "Conduct a comprehensive accessibility review of the dark mode color palette to ensure it meets WCAG 2.1 guidelines. This includes color contrast analysis, readability testing, and validation of color perception across different types of color blindness.",
+    "acceptanceCriteria": "Verify color contrast meets WCAG 2.1 Level AA standard (4.5:1 for normal text, 3:1 for large text)\nTest color palette with color blindness simulation tools\nEnsure all text remains readable in dark mode\nValidate color perception for deuteranopia, protanopia, and tritanopia color blindness types\nWrite automated accessibility tests using tools like axe-core\nAchieve 100% compliance with WCAG 2.1 Level AA color contrast requirements",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": ["44a61b86-b22a-4432-bedf-fead387951c5", "9ca17e70-aae7-4976-bcc7-7bf958ec79c9"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:37:05.441Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:37:05.441Z"
+    }
+  },
+  {
+    "title": "Performance Optimization for Color Mode Switching",
+    "uuid": "14bbb479-2a3b-4015-a1fd-54ad3eafebb6",
+    "issueUuid": "1d90cc80-44c3-42e9-a568-6e2d9a851414",
+    "description": "Optimize the performance of color mode switching by minimizing repaints and ensuring smooth transitions. Implement efficient method for applying color modes with minimal performance overhead.",
+    "acceptanceCriteria": "Measure and limit total layout reflow time during color mode switch to under 50ms\nImplement CSS transitions for color changes to reduce visual jarring\nWrite performance benchmark tests to validate smooth color mode transitions\nEnsure color mode switch causes no more than 2 browser repaints\nProfile and optimize JavaScript used in color mode switching\nAchieve a Lighthouse performance score of 90+ for color mode switching interaction",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": [
+      "44a61b86-b22a-4432-bedf-fead387951c5",
+      "e2fa306c-6500-4df0-8529-0ca9f0c5f563",
+      "9ca17e70-aae7-4976-bcc7-7bf958ec79c9",
+      "aff50c11-4b70-4fff-b307-89e88f2932c1"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:37:05.441Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:37:05.441Z"
+    }
+  },
+  {
+    "title": "Create Dark Mode CSS Variables and Base Styles",
+    "uuid": "c171e8ec-aa7d-4f07-bac4-b0e3cf6556be",
+    "issueUuid": "7f1788bc-9d60-4f71-a312-3c8efd140986",
+    "description": "Define a comprehensive set of CSS variables for light and dark color schemes to enable easy theme switching. This will include background colors, text colors, accent colors, and other UI element colors. Create base styles in the main CSS file that can toggle between these color schemes.",
+    "acceptanceCriteria": "Create a set of CSS variables for light mode in :root\nCreate a set of CSS variables for dark mode that can override light mode variables\nEnsure all primary UI elements have color definitions for both modes\nVerify 100% coverage of color variable definitions for main site elements\nValidate that color transitions between modes are smooth and consistent",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": [],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:38:10.527Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:38:10.527Z"
+    }
+  },
+  {
+    "title": "Implement Dark Mode Toggle Component",
+    "uuid": "13950671-d6ff-4d01-a235-85ce548e08f2",
+    "issueUuid": "7f1788bc-9d60-4f71-a312-3c8efd140986",
+    "description": "Create a responsive and accessible toggle component in the application's header or user settings area. The toggle should support mouse and keyboard interactions and provide clear visual feedback about the current mode.",
+    "acceptanceCriteria": "Create a toggle switch with clear visual indicators for light/dark mode\nImplement keyboard navigation (Tab and Space/Enter key support)\nEnsure ARIA attributes are correctly applied for screen reader compatibility\nWrite unit tests covering all interactive states of the toggle\nAchieve 100% branch coverage for toggle component logic",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": ["c171e8ec-aa7d-4f07-bac4-b0e3cf6556be", "b2570d76-e178-483a-b634-b2ba6d01d054"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:38:10.527Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:38:10.527Z"
+    }
+  },
+  {
+    "title": "Add Dark Mode Preference Persistence",
+    "uuid": "5efcb57b-260f-45bc-9e45-e6f7507c9c7a",
+    "issueUuid": "7f1788bc-9d60-4f71-a312-3c8efd140986",
+    "description": "Implement user preference storage mechanism to remember the user's selected mode across page reloads and browser sessions. Use browser's localStorage for client-side storage and consider future extension to backend user preferences.",
+    "acceptanceCriteria": "Successfully store and retrieve dark mode preference in localStorage\nValidate that mode preference persists across page reloads\nHandle edge cases like localStorage being disabled\nWrite unit tests covering preference saving and loading\nEnsure 90% code coverage for preference management logic",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": ["b2570d76-e178-483a-b634-b2ba6d01d054", "13950671-d6ff-4d01-a235-85ce548e08f2"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:38:10.527Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:38:10.527Z"
+    }
+  },
+  {
+    "title": "Dark Mode JavaScript Theme Switching Logic",
+    "uuid": "b2570d76-e178-483a-b634-b2ba6d01d054",
+    "issueUuid": "7f1788bc-9d60-4f71-a312-3c8efd140986",
+    "description": "Develop the JavaScript logic to dynamically apply and switch between light and dark themes. This includes detecting user's system preference, applying initial theme, and handling user-initiated theme changes.",
+    "acceptanceCriteria": "Detect and respect user's system color scheme preference on initial load\nImplement theme switching function that updates CSS variables\nEnsure smooth transitions when changing themes\nWrite integration tests for theme switching functionality\nAchieve 95% code coverage for theme switching logic",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": ["c171e8ec-aa7d-4f07-bac4-b0e3cf6556be"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:38:10.528Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:38:10.528Z"
+    }
+  },
+  {
+    "title": "Responsive Dark Mode UI Adaptation",
+    "uuid": "ad4aa292-35a5-4a16-8e80-4354f3ee6c26",
+    "issueUuid": "7f1788bc-9d60-4f71-a312-3c8efd140986",
+    "description": "Review and adjust all major UI components to ensure they look good and remain readable in both light and dark modes. This includes checking contrast ratios, adjusting image filters, and ensuring consistent design across different screen sizes.",
+    "acceptanceCriteria": "Verify WCAG 2.1 contrast ratio compliance for text and interactive elements\nTest dark mode rendering across all major breakpoints (mobile, tablet, desktop)\nEnsure images and icons are legible in both modes\nCreate visual regression tests to compare light and dark mode renderings\nCover at least 80% of major UI components with responsive design tests",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": [
+      "c171e8ec-aa7d-4f07-bac4-b0e3cf6556be",
+      "13950671-d6ff-4d01-a235-85ce548e08f2",
+      "5efcb57b-260f-45bc-9e45-e6f7507c9c7a",
+      "b2570d76-e178-483a-b634-b2ba6d01d054"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:38:10.528Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:38:10.528Z"
+    }
+  },
+  {
+    "title": "Define Dark Mode Color Palette Variables",
+    "uuid": "9a397c3d-b97b-4163-8829-a62fa2836297",
+    "issueUuid": "20d029a3-6add-42fb-be04-6d91358e8bb7",
+    "description": "Create a comprehensive set of CSS custom properties (variables) that define the dark mode color scheme in the main CSS file. This will establish a consistent and reusable color palette for dark mode across the entire application.",
+    "acceptanceCriteria": "Verify all color variables are defined in a single CSS file (src/assets/css/index.css)\nEnsure color variables cover background, text, primary, secondary, and accent colors\n100% code coverage for color variable definitions\nVerify that color variables follow a clear and semantic naming convention (e.g., --dark-background, --dark-text-primary)\nPerformance test to confirm zero runtime overhead for color variable definitions",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": [
+      "242e6bb9-0fd8-4b29-9e3c-74d2711a8d58",
+      "a0dac51f-e877-476d-aa3b-44c4c3e3a529",
+      "f9088336-dbdf-4d39-a25b-a444c2237e96",
+      "a5c37cf4-5ade-409e-a7e0-143bfdcc8524"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:39:28.884Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:39:28.884Z"
+    }
+  },
+  {
+    "title": "Implement Dark Mode Toggle Mechanism",
+    "uuid": "242e6bb9-0fd8-4b29-9e3c-74d2711a8d58",
+    "issueUuid": "20d029a3-6add-42fb-be04-6d91358e8bb7",
+    "description": "Create a JavaScript mechanism to toggle between light and dark modes, utilizing CSS variables and local storage to persist user preferences. This will include adding a dark mode switch and managing theme state.",
+    "acceptanceCriteria": "Implement a dark mode toggle function in src/assets/js/main.js\nEnsure theme preference is saved to and retrieved from localStorage\nWrite unit tests covering theme toggle functionality with 90% branch coverage\nVerify immediate application of theme without page reload\nTest that theme persists across page navigations",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": [
+      "9a397c3d-b97b-4163-8829-a62fa2836297",
+      "a0dac51f-e877-476d-aa3b-44c4c3e3a529",
+      "f9088336-dbdf-4d39-a25b-a444c2237e96",
+      "a5c37cf4-5ade-409e-a7e0-143bfdcc8524"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:39:28.884Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:39:28.884Z"
+    }
+  },
+  {
+    "title": "Update Global Layout CSS for Dark Mode",
+    "uuid": "a0dac51f-e877-476d-aa3b-44c4c3e3a529",
+    "issueUuid": "20d029a3-6add-42fb-be04-6d91358e8bb7",
+    "description": "Modify core layout CSS to support dark mode variants, focusing on background colors, text colors, and overall contrast. This will involve updating the index.css and tailwind.css files to include dark mode variants for base elements.",
+    "acceptanceCriteria": "Ensure all base HTML elements have dark mode style variants\nVerify WCAG 2.1 Level AA color contrast ratios (minimum 4.5:1 for normal text, 3:1 for large text)\n100% coverage of dark mode styles for semantic HTML elements\nPerformance benchmark showing no more than 5% rendering performance impact\nCross-browser compatibility tests for dark mode styles",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": [
+      "9a397c3d-b97b-4163-8829-a62fa2836297",
+      "242e6bb9-0fd8-4b29-9e3c-74d2711a8d58",
+      "f9088336-dbdf-4d39-a25b-a444c2237e96",
+      "a5c37cf4-5ade-409e-a7e0-143bfdcc8524"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:39:28.885Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:39:28.885Z"
+    }
+  },
+  {
+    "title": "Add Dark Mode Styles to Pug Templates",
+    "uuid": "f9088336-dbdf-4d39-a25b-a444c2237e96",
+    "issueUuid": "20d029a3-6add-42fb-be04-6d91358e8bb7",
+    "description": "Update Pug templates to support dynamic dark mode class application. This will involve modifying layout and partial templates to conditionally apply dark mode classes based on the current theme state.",
+    "acceptanceCriteria": "Update src/views/layouts/default.pug to support dynamic theme classes\nEnsure all view templates can accommodate dark mode styling\nWrite integration tests verifying correct class application\n90% test coverage for theme-related template modifications\nValidate that no hardcoded color values remain in templates",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": [
+      "9a397c3d-b97b-4163-8829-a62fa2836297",
+      "242e6bb9-0fd8-4b29-9e3c-74d2711a8d58",
+      "a0dac51f-e877-476d-aa3b-44c4c3e3a529",
+      "a5c37cf4-5ade-409e-a7e0-143bfdcc8524"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:39:28.885Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:39:28.885Z"
+    }
+  },
+  {
+    "title": "Implement Dark Mode for Complex Components",
+    "uuid": "a5c37cf4-5ade-409e-a7e0-143bfdcc8524",
+    "issueUuid": "20d029a3-6add-42fb-be04-6d91358e8bb7",
+    "description": "Create dark mode variants for complex UI components such as forms, buttons, cards, and interactive elements. This task focuses on ensuring visual consistency and readability in dark mode.",
+    "acceptanceCriteria": "Update styles for form inputs, buttons, and interactive elements in dark mode\nVerify hover and active states have appropriate dark mode styling\nImplement 100% coverage for component-specific dark mode styles\nConduct visual regression tests to ensure design consistency\nValidate accessibility of interactive elements in dark mode (color contrast, focus states)",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": [
+      "9a397c3d-b97b-4163-8829-a62fa2836297",
+      "242e6bb9-0fd8-4b29-9e3c-74d2711a8d58",
+      "a0dac51f-e877-476d-aa3b-44c4c3e3a529",
+      "f9088336-dbdf-4d39-a25b-a444c2237e96"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:39:28.886Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:39:28.886Z"
+    }
+  },
+  {
+    "title": "Dark Mode Accessibility Compliance Testing",
+    "uuid": "60adb393-c9ae-4484-8513-1113b94d8bb1",
+    "issueUuid": "20d029a3-6add-42fb-be04-6d91358e8bb7",
+    "description": "Conduct comprehensive accessibility testing to ensure the dark mode implementation meets WCAG 2.1 Level AA guidelines. This includes color contrast, keyboard navigation, and screen reader compatibility.",
+    "acceptanceCriteria": "Run automated accessibility tests using tools like axe-core or pa11y\nVerify WCAG 2.1 Level AA compliance for color contrast (4.5:1 text, 3:1 large text)\nConduct manual screen reader testing in dark mode\n100% pass rate for automated accessibility checks\nDocument and resolve any accessibility issues discovered during testing",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": [
+      "9a397c3d-b97b-4163-8829-a62fa2836297",
+      "242e6bb9-0fd8-4b29-9e3c-74d2711a8d58",
+      "a0dac51f-e877-476d-aa3b-44c4c3e3a529",
+      "f9088336-dbdf-4d39-a25b-a444c2237e96",
+      "a5c37cf4-5ade-409e-a7e0-143bfdcc8524"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:39:28.886Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:39:28.886Z"
+    }
+  },
+  {
+    "title": "Implement CSS Dark Mode Media Query Styles",
+    "uuid": "90d59f46-2216-4414-82aa-e9fc188aaf3c",
+    "issueUuid": "8dc76af5-a246-402b-804c-11065e45fb76",
+    "description": "Add CSS styles that respond to the prefers-color-scheme media query, creating a comprehensive dark mode color palette for the entire application. This will involve defining color variables and theme-specific styles for different UI components.",
+    "acceptanceCriteria": "Verify that dark mode styles are correctly applied when system preference is set to dark mode\nEnsure 100% coverage of color variations for main UI elements (backgrounds, text, buttons, links)\nTest media query compatibility across major browsers (Chrome, Firefox, Safari, Edge)\nValidate that light mode remains the default when no preference is set",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": ["24ca92ab-ae73-4e11-a64e-3697e3327c44"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:40:37.294Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:40:37.294Z"
+    }
+  },
+  {
+    "title": "Create JavaScript System Color Scheme Detection",
+    "uuid": "24ca92ab-ae73-4e11-a64e-3697e3327c44",
+    "issueUuid": "8dc76af5-a246-402b-804c-11065e45fb76",
+    "description": "Develop a JavaScript module to detect the user's system color scheme preference and provide programmatic access to this information. The module should offer methods to query the current system preference and listen for changes.",
+    "acceptanceCriteria": "Implement a function that returns the current system color scheme ('dark' or 'light')\nCreate an event listener that detects changes in system color scheme preference\nEnsure 100% branch coverage for color scheme detection logic\nVerify cross-browser compatibility for color scheme detection",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": [],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:40:37.295Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:40:37.295Z"
+    }
+  },
+  {
+    "title": "Add User Preference Persistence for Color Scheme",
+    "uuid": "ae54e10b-b9f1-4ba7-b4b3-bba17a381ce9",
+    "issueUuid": "8dc76af5-a246-402b-804c-11065e45fb76",
+    "description": "Implement a mechanism to store and retrieve the user's color scheme preference, allowing them to override the system default. Use browser's localStorage for persistence and ensure the preference is remembered across sessions.",
+    "acceptanceCriteria": "Create a function to save user's color scheme preference\nImplement logic to retrieve and apply saved preference\nVerify that user preference takes precedence over system default\nTest localStorage interaction with 100% branch coverage\nEnsure preference persists after browser restart",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": ["24ca92ab-ae73-4e11-a64e-3697e3327c44"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:40:37.295Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:40:37.295Z"
+    }
+  },
+  {
+    "title": "Update Default Layout Template with Color Scheme Toggle",
+    "uuid": "26f4b6e7-1484-4ed3-8513-ad6ce74bcb9d",
+    "issueUuid": "8dc76af5-a246-402b-804c-11065e45fb76",
+    "description": "Modify the default Pug layout template to integrate the new color scheme detection and user preference system. Add a toggle mechanism that allows users to switch between light and dark modes manually.",
+    "acceptanceCriteria": "Add a color scheme toggle button/switch in the site header\nEnsure toggle updates both CSS classes and JavaScript state\nVerify that toggle state is consistent with saved user preference\nTest accessibility of color scheme toggle (keyboard navigable, screen reader compatible)\nImplement smooth transition between light and dark modes",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": [
+      "24ca92ab-ae73-4e11-a64e-3697e3327c44",
+      "90d59f46-2216-4414-82aa-e9fc188aaf3c",
+      "ae54e10b-b9f1-4ba7-b4b3-bba17a381ce9"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:40:37.295Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:40:37.295Z"
+    }
+  },
+  {
+    "title": "Create Cypress E2E Tests for Color Scheme Feature",
+    "uuid": "ef3cb2cd-9d3c-41c0-b7aa-b373c17ea963",
+    "issueUuid": "8dc76af5-a246-402b-804c-11065e45fb76",
+    "description": "Develop comprehensive end-to-end tests using Cypress to validate the color scheme detection, user preference, and toggle functionality across different scenarios and user interactions.",
+    "acceptanceCriteria": "Create test cases simulating different system color scheme preferences\nTest manual color scheme toggle functionality\nVerify preference persistence across page reloads\nEnsure 90% or higher E2E test coverage for color scheme feature\nTest color scheme behavior in different browsers",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": [
+      "24ca92ab-ae73-4e11-a64e-3697e3327c44",
+      "90d59f46-2216-4414-82aa-e9fc188aaf3c",
+      "ae54e10b-b9f1-4ba7-b4b3-bba17a381ce9",
+      "26f4b6e7-1484-4ed3-8513-ad6ce74bcb9d"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:40:37.296Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:40:37.296Z"
+    }
+  },
+  {
+    "title": "Create Dark Mode CSS Variables and Base Theme",
+    "uuid": "5333ff34-f915-4e6d-8bae-6105eea9ceb4",
+    "issueUuid": "1b9194bf-efb6-49ca-b8d3-9a02cbc2410c",
+    "description": "Define a comprehensive set of CSS variables for dark mode colors and establish a base dark theme configuration that can be applied globally across the application. This will serve as the foundation for consistent dark mode styling.",
+    "acceptanceCriteria": "Create a new CSS file with dark mode color variables (e.g., `dark-theme.css`)\nDefine variables for background colors, text colors, primary/secondary colors, and accent colors\nEnsure variables follow a consistent naming convention like `--dark-background`, `--dark-text-primary`\nAdd unit tests to verify correct CSS variable definitions\nValidate that all defined variables have valid color values\nAchieve 100% coverage of dark mode variable definitions",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": [],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:41:52.995Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:41:52.995Z"
+    }
+  },
+  {
+    "title": "Implement Dark Mode Toggle Functionality",
+    "uuid": "884f50c9-23de-4085-b7ba-6e922e44fddc",
+    "issueUuid": "1b9194bf-efb6-49ca-b8d3-9a02cbc2410c",
+    "description": "Develop a mechanism to switch between light and dark modes, including user preference persistence and system preference detection. This task focuses on the user interaction and state management for theme switching.",
+    "acceptanceCriteria": "Create a theme toggle button/switch in the UI\nImplement client-side logic to toggle between light and dark themes\nUse localStorage to remember user's theme preference\nDetect and respect system-level dark mode preferences using `prefers-color-scheme` media query\nWrite integration tests to verify theme switching works correctly\nEnsure theme state persists across page reloads\nAchieve 90% test coverage for theme switching logic",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": [
+      "5333ff34-f915-4e6d-8bae-6105eea9ceb4",
+      "56333b25-cd42-4e04-9a74-7d71bbaae96e",
+      "9d1f65e0-bea1-4546-aecb-9e08b69f0f11",
+      "1916d773-7bcc-4a3b-8668-a59358d4ec7a"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:41:52.996Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:41:52.996Z"
+    }
+  },
+  {
+    "title": "Update Third-Party Component Styles for Dark Mode",
+    "uuid": "56333b25-cd42-4e04-9a74-7d71bbaae96e",
+    "issueUuid": "1b9194bf-efb6-49ca-b8d3-9a02cbc2410c",
+    "description": "Audit and modify styles for external libraries and components to ensure they are visually compatible with the dark theme. Focus on maintaining readability and design consistency.",
+    "acceptanceCriteria": "Identify all third-party components in the application (charts, modals, dropdowns)\nManually review and document current color incompatibilities\nApply dark mode overrides using CSS or component-specific theming options\nTest each third-party component under dark mode\nEnsure text readability and contrast ratios meet WCAG 2.1 Level AA standards\nWrite visual regression tests to capture dark mode rendering\nAchieve 100% dark mode compatibility for identified components",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": ["5333ff34-f915-4e6d-8bae-6105eea9ceb4", "1916d773-7bcc-4a3b-8668-a59358d4ec7a"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:41:52.996Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:41:52.996Z"
+    }
+  },
+  {
+    "title": "Responsive Dark Mode Design Validation",
+    "uuid": "9d1f65e0-bea1-4546-aecb-9e08b69f0f11",
+    "issueUuid": "1b9194bf-efb6-49ca-b8d3-9a02cbc2410c",
+    "description": "Conduct comprehensive testing to ensure dark mode rendering is consistent across different screen sizes and devices. Verify that theme switching works smoothly on mobile, tablet, and desktop viewports.",
+    "acceptanceCriteria": "Create responsive design test cases for mobile, tablet, and desktop viewports\nVerify dark mode styles apply correctly at all Bootstrap/Tailwind breakpoints\nTest theme switching on different devices and browsers\nUse Cypress for cross-browser and responsive dark mode E2E tests\nValidate that no layout breaks occur during theme switching\nAchieve 95% responsive dark mode test coverage\nPerformance test to ensure theme switching is under 100ms",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": [
+      "5333ff34-f915-4e6d-8bae-6105eea9ceb4",
+      "884f50c9-23de-4085-b7ba-6e922e44fddc",
+      "56333b25-cd42-4e04-9a74-7d71bbaae96e",
+      "1916d773-7bcc-4a3b-8668-a59358d4ec7a"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:41:52.996Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:41:52.996Z"
+    }
+  },
+  {
+    "title": "Dark Mode Accessibility Compliance",
+    "uuid": "1916d773-7bcc-4a3b-8668-a59358d4ec7a",
+    "issueUuid": "1b9194bf-efb6-49ca-b8d3-9a02cbc2410c",
+    "description": "Ensure that the dark mode implementation meets web accessibility standards, focusing on color contrast, screen reader compatibility, and keyboard navigation.",
+    "acceptanceCriteria": "Run WCAG 2.1 color contrast tests for all dark mode UI elements\nVerify minimum contrast ratio of 4.5:1 for normal text and 3:1 for large text\nTest screen reader compatibility with dark mode\nValidate keyboard navigation works identically in light and dark modes\nUse automated accessibility testing tools like axe-core\nAchieve WCAG 2.1 Level AA compliance for dark mode\nCreate automated accessibility test suite with 100% coverage",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": [],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:41:52.997Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:41:52.997Z"
+    }
+  },
+  {
+    "title": "Configure Dark Mode Theme Variables in CSS",
+    "uuid": "593b1fdd-7031-466f-b1d4-abbdd8a44c83",
+    "issueUuid": "0d879825-e005-41af-a670-7b293d74493f",
+    "description": "Set up CSS custom properties (variables) to define dark mode color palette and ensure consistent theming across the application. This will involve creating a comprehensive dark mode color scheme that maintains readability and design consistency.",
+    "acceptanceCriteria": "Create a set of CSS custom properties for dark mode colors in the main CSS file\nEnsure color variables cover background, text, borders, and interactive elements\nValidate that color contrast meets WCAG 2.1 Level AA standards (minimum contrast ratio of 4.5:1 for normal text and 3:1 for large text)\n100% coverage of color variable definitions with unit tests",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": ["b68d7006-fef0-4949-8e6e-7798999922f1", "4d944e86-bf13-41eb-bbb2-e61d6d39615f"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:42:56.476Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:42:56.476Z"
+    }
+  },
+  {
+    "title": "Implement Dark Mode Toggle Mechanism",
+    "uuid": "62f70ac0-15d5-4209-bb5c-257a09d12f62",
+    "issueUuid": "0d879825-e005-41af-a670-7b293d74493f",
+    "description": "Develop a robust dark mode toggle functionality that allows users to switch between light and dark modes. The implementation should persist the user's preference and provide a smooth transition between modes.",
+    "acceptanceCriteria": "Create a toggle switch or button that changes the application's color scheme\nImplement local storage or user preference setting to remember the selected mode\nEnsure the dark mode can be activated through multiple methods (manual toggle, system preference)\nWrite integration tests covering all dark mode activation scenarios\nAchieve 90% code coverage for the dark mode toggle logic",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": ["593b1fdd-7031-466f-b1d4-abbdd8a44c83", "b68d7006-fef0-4949-8e6e-7798999922f1"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:42:56.477Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:42:56.477Z"
+    }
+  },
+  {
+    "title": "Create Cypress Screenshot Tests for Dark Mode Components",
+    "uuid": "8680bce1-bf03-437d-9101-1683a84d4f2f",
+    "issueUuid": "0d879825-e005-41af-a670-7b293d74493f",
+    "description": "Develop comprehensive Cypress screenshot tests to verify the visual consistency of key application components in dark mode. Focus on creating snapshot tests for critical UI elements and pages.",
+    "acceptanceCriteria": "Create Cypress tests for screenshot comparison of at least 10 key pages/components in dark mode\nSet up visual regression testing using cypress-image-snapshot or similar tool\nVerify screenshot tests pass on multiple screen sizes (mobile, tablet, desktop)\nImplement pixel difference threshold of maximum 2% for visual comparisons\nGenerate baseline screenshots for initial dark mode visual reference",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": [
+      "593b1fdd-7031-466f-b1d4-abbdd8a44c83",
+      "62f70ac0-15d5-4209-bb5c-257a09d12f62",
+      "4d944e86-bf13-41eb-bbb2-e61d6d39615f",
+      "b68d7006-fef0-4949-8e6e-7798999922f1"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:42:56.477Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:42:56.477Z"
+    }
+  },
+  {
+    "title": "Dark Mode Responsive Design Validation",
+    "uuid": "4d944e86-bf13-41eb-bbb2-e61d6d39615f",
+    "issueUuid": "0d879825-e005-41af-a670-7b293d74493f",
+    "description": "Ensure that the dark mode implementation looks consistent and functions correctly across different device sizes and screen resolutions. Test responsive design breakpoints and layout adaptations.",
+    "acceptanceCriteria": "Create Cypress tests that verify dark mode rendering on at least 3 device size categories (mobile, tablet, desktop)\nValidate that UI components maintain readability and design integrity in dark mode\nTest dark mode compatibility with responsive grid systems and flex layouts\nAchieve 100% responsive layout test coverage across different screen sizes\nVerify that no layout shifts occur when switching between light and dark modes",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": [
+      "593b1fdd-7031-466f-b1d4-abbdd8a44c83",
+      "62f70ac0-15d5-4209-bb5c-257a09d12f62",
+      "b68d7006-fef0-4949-8e6e-7798999922f1"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:42:56.478Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:42:56.478Z"
+    }
+  },
+  {
+    "title": "Accessibility and Color Contrast Testing",
+    "uuid": "b68d7006-fef0-4949-8e6e-7798999922f1",
+    "issueUuid": "0d879825-e005-41af-a670-7b293d74493f",
+    "description": "Conduct thorough accessibility testing to ensure the dark mode meets WCAG accessibility guidelines, with a focus on color contrast, readability, and usability for users with visual impairments.",
+    "acceptanceCriteria": "Use automated accessibility testing tools (like axe-core) to validate dark mode accessibility\nMeasure color contrast ratios for all text and interactive elements\nEnsure a minimum contrast ratio of 4.5:1 for normal text and 3:1 for large text\nVerify that color is not the only means of conveying information\nTest screen reader compatibility in dark mode\nAchieve a minimum WCAG 2.1 Level AA compliance score of 95%",
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840",
+    "dependencyTasks": [
+      "593b1fdd-7031-466f-b1d4-abbdd8a44c83",
+      "62f70ac0-15d5-4209-bb5c-257a09d12f62",
+      "8680bce1-bf03-437d-9101-1683a84d4f2f",
+      "4d944e86-bf13-41eb-bbb2-e61d6d39615f"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-07T12:42:56.478Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-07T12:42:56.478Z"
+    }
+  }
+]

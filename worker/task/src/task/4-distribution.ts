@@ -1,6 +1,7 @@
 import { Submitter, DistributionList } from "@_koii/task-manager";
 import { namespaceWrapper } from "@_koii/namespace-wrapper";
 import { Submission } from "@_koii/namespace-wrapper/dist/types";
+import { bountyReward } from "../orcaSettings";
 
 const getSubmissionList = async (roundNumber: number): Promise<Record<string, Submission>> => {
   const submissionInfo = await namespaceWrapper.getTaskSubmissionInfo(roundNumber);
@@ -38,14 +39,11 @@ export const distribution = async (
         continue;
       } else {
         if (submitter.votes > 0) {
-          eligibleSubmitters.push(submitter);
+          distributionList[submitter.publicKey] = bountyReward;
         } else {
           distributionList[submitter.publicKey] = 0;
         }
       }
-    }
-    for (const submitter of eligibleSubmitters) {
-      distributionList[submitter.publicKey] = Math.floor(bounty / eligibleSubmitters.length);
     }
 
     console.log(`[DISTRIBUTION] ✅ Distribution completed successfully`);

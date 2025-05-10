@@ -8,26 +8,30 @@ def prepare(runner, worker, role: str):
     """Prepare data for updating audit results"""
     # Create payload with all required fields
     payload = {
-        "taskId": runner.config.task_id,
-        "roundNumber": runner.current_round,
+        "taskId": runner.get("task_id"),
+        "roundNumber": runner.get("current_round"),
         "role": role,
-        "stakingKey": worker.staking_public_key,
-        "pubKey": worker.public_key,
+        "stakingKey": worker.get_key("staking_public"),
+        "pubKey": worker.get_key("main_public"),
+        "bountyId": runner.get("bounty_id"),
     }
+    print(f"payload: {payload}")
 
     return {
         **payload,
-        "stakingSignature": create_signature(worker.staking_signing_key, payload),
+        "stakingSignature": create_signature(
+            worker.get_key("staking_signing"), payload
+        ),
     }
 
 
 def execute(runner, worker, data):
     """Execute audit results update"""
-    url = f"{worker.get('url')}/update-audit-result/{runner.config.task_id}/{data['roundNumber']}"
+    url = f"{worker.get('url')}/update-audit-result/{runner.get('task_id')}/{data['roundNumber']}"
 
     # Structure the payload according to what the server expects
     payload = {
-        "taskId": runner.config.task_id,
+        "taskId": runner.get("task_id"),
         "round": data["roundNumber"],
         "auditType": data["role"],
     }

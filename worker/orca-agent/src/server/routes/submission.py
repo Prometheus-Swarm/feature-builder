@@ -13,33 +13,35 @@ def fetch_submission(task_id, round_number):
         taskId: The task ID to fetch submission for
     """
     logger.info(f"Fetching submission for round: {round_number}")
-
-    if not task_id:
-        return jsonify({"error": "Missing task_id parameter"}), 400
+    round_number = int(round_number)
 
     db = get_db()
     submission = (
         db.query(Submission)
         .filter(
-            Submission.round_number == int(round_number),
-            Submission.task_id == task_id,
             Submission.status == "completed",
         )
+        .order_by(Submission.round_number.asc())
         .first()
     )
 
     if submission:
+        db.query(Submission).filter(Submission.uuid == submission.uuid).update(
+            {"status": "submitted"}
+        )
+        db.commit()
+
         return jsonify(
             {
-                "roundNumber": submission.round_number,
-                "taskId": submission.task_id,  # Include task ID in response
+                "bountyId": submission.bounty_id,
                 "prUrl": submission.pr_url,
                 "githubUsername": submission.username,
                 "repoOwner": submission.repo_owner,
                 "repoName": submission.repo_name,
                 "nodeType": submission.node_type,
                 "uuid": submission.uuid,
+                "roundNumber": round_number,
             }
         )
     else:
-        return jsonify("No submission")
+        return jsonify({"message": "No submission"}), 409

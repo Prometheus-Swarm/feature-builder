@@ -5,8 +5,8 @@ import shutil
 from github import Github
 from git import Repo
 from prometheus_swarm.utils.logging import log_key_value, log_error
-from src.tools.file_operations.implementations import list_files
-from src.tools.github_operations.parser import extract_section
+from prometheus_swarm.tools.file_operations.implementations import list_files
+from prometheus_swarm.tools.github_operations.parser import extract_section
 from src.utils.signatures import verify_and_parse_signature
 from typing import Optional, Tuple
 
