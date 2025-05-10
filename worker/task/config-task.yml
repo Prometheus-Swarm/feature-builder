@@ -13,7 +13,7 @@ author: "Koii"
 # Task Description Markdown ##
 # If you specify a markdown file, the description field will be ignored.
 # Markdown is recommended for better formatting.
-markdownDescriptionPath: "../../README.md"
+markdownDescriptionPath: "TASK_DESCRIPTION.md"
 
 ## Task Description ##
 # Ignored if you specify a markdown file.
@@ -21,7 +21,7 @@ description: "Task description."
 
 ## Repository URL ##
 # Must be public for whitelisted tasks.
-repositoryUrl: "https://github.com/koii-network/builder-247"
+repositoryUrl: "https://github.com/Prometheus-Swarm/feature-builder"
 
 ## Image URL ##
 # 230x86 pixels.
