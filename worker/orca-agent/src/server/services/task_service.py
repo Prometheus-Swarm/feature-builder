@@ -928,7 +928,7 @@ def create_aggregator_repo():
             except Exception:
                 # Create a branch with the issue UUID name
                 # Branch doesn't exist, create it
-                default_branch = fork.default_branch
+                default_branch = source_repo.default_branch
                 default_branch_sha = fork.get_branch(default_branch).commit.sha
                 fork.create_git_ref(f"refs/heads/{branch_name}", default_branch_sha)
                 logger.info(f"Created new branch: {branch_name}")
