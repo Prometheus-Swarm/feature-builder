@@ -28,6 +28,11 @@ class TaskExecution(WorkflowExecution):
                     "help": "Path to CSV file containing todos and acceptance criteria",
                     "default": "test_todos.csv",
                 },
+                "base-branch": {
+                    "type": str,
+                    "help": "Base branch to create new branches from (default: main)",
+                    "default": "main",
+                },
             },
             prompts=PROMPTS,
         )
@@ -103,6 +108,7 @@ class TaskExecution(WorkflowExecution):
             repo_owner=self.leader_user.login,
             repo_name=self.source_repo,
             branch_name=self.base_branch,
+            base_branch=self.args.base_branch,
             github_token=self.leader_token,
         )
         if not create_result["success"]:
