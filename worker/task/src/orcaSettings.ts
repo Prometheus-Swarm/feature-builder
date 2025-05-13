@@ -1,7 +1,7 @@
 import { TASK_ID, namespaceWrapper } from "@_koii/namespace-wrapper";
 import "dotenv/config";
 
-const imageUrl = "docker.io/labrocadabro/builder-test:0.2";
+const imageUrl = "docker.io/labrocadabro/feature-builder:0.1";
 
 export const bountyReward = 300;
 
