@@ -110,7 +110,7 @@ def replace_placeholder_uuids(db):
             issue_uuids.add(issue["uuid"])
         if "bountyId" in issue:
             bounty_ids.add(issue["bountyId"])
-        if "predecessorUuid" in issue:
+        if "predecessorUuid" in issue and issue["predecessorUuid"] is not None:
             issue_uuids.add(issue["predecessorUuid"])
 
     # Collect from todos
@@ -167,7 +167,7 @@ def replace_placeholder_uuids(db):
             updates["uuid"] = issue_uuid_mapping[issue["uuid"]]
         if "bountyId" in issue:
             updates["bountyId"] = bounty_id_mapping[issue["bountyId"]]
-        if "predecessorUuid" in issue:
+        if "predecessorUuid" in issue and issue["predecessorUuid"] is not None:
             updates["predecessorUuid"] = issue_uuid_mapping[issue["predecessorUuid"]]
 
         if updates:
