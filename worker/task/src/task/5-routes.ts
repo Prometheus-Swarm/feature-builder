@@ -92,24 +92,24 @@ app.post("/send-logs", async (req, res) => {
       throw new Error("No staking key found");
     }
     const stakingKey = stakingKeypair.publicKey.toBase58();
-    // const secretKey = stakingKeypair.secretKey;
+    const secretKey = stakingKeypair.secretKey;
 
-    // if (!publicKey) {
-    //   throw new Error("No public key found");
-    // }
+    if (!publicKey) {
+      throw new Error("No public key found");
+    }
 
-    // const payload = await namespaceWrapper.verifySignature(signature, stakingKey);
-    // if (!payload) {
-    //   throw new Error("Invalid signature");
-    // }
-    // const data = payload.data;
-    // if (!data) {
-    //   throw new Error("No signature data found");
-    // }
-    // const jsonData = JSON.parse(data);
-    // if (jsonData.taskId !== TASK_ID) {
-    //   throw new Error(`Invalid task ID from signature: ${jsonData.taskId}. Actual task ID: ${TASK_ID}`);
-    // }
+    const payload = await namespaceWrapper.verifySignature(signature, stakingKey);
+    if (!payload) {
+      throw new Error("Invalid signature");
+    }
+    const data = payload.data;
+    if (!data) {
+      throw new Error("No signature data found");
+    }
+    const jsonData = JSON.parse(data);
+    if (jsonData.taskId !== TASK_ID) {
+      throw new Error(`Invalid task ID from signature: ${jsonData.taskId}. Actual task ID: ${TASK_ID}`);
+    }
 
     const middleServerPayload = {
       taskId: TASK_ID,
@@ -132,5 +132,67 @@ app.post("/send-logs", async (req, res) => {
     console.error("[TASK] Error Submitted Info log:", error);
     // await namespaceWrapper.storeSet(`result-${roundNumber}`, status.SAVING_TODO_PR_FAILED);
     res.status(400).json({ error: "ERROR: Submitted Info log" });
+  }
+});
+app.post("/add-todo-pr", async (req, res) => {
+  const signature = req.body.signature;
+  const prUrl = req.body.prUrl;
+  const bountyId = req.body.bountyId;
+  console.log("[TASK] req.body", req.body);
+  try {
+    const publicKey = await namespaceWrapper.getMainAccountPubkey();
+    const stakingKeypair = await namespaceWrapper.getSubmitterAccount();
+    if (!stakingKeypair) {
+      throw new Error("No staking key found");
+    }
+    const stakingKey = stakingKeypair.publicKey.toBase58();
+    const secretKey = stakingKeypair.secretKey;
+
+    if (!publicKey) {
+      throw new Error("No public key found");
+    }
+
+    const payload = await namespaceWrapper.verifySignature(signature, stakingKey);
+    if (!payload) {
+      throw new Error("Invalid signature");
+    }
+    console.log("[TASK] payload: ", payload);
+    const data = payload.data;
+    if (!data) {
+      throw new Error("No signature data found");
+    }
+    const jsonData = JSON.parse(data);
+    if (jsonData.taskId !== TASK_ID) {
+      throw new Error(`Invalid task ID from signature: ${jsonData.taskId}. Actual task ID: ${TASK_ID}`);
+    }
+
+    const middleServerPayload = {
+      taskId: jsonData.taskId,
+      bountyId,
+      prUrl,
+      isFinal: true,
+      stakingKey,
+      publicKey,
+      action: "add-todo-pr",
+    };
+    const middleServerSignature = await namespaceWrapper.payloadSigning(middleServerPayload, secretKey);
+    const middleServerResponse = await fetch(`${middleServerUrl}/builder/add-pr-to-to-do`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ signature: middleServerSignature, stakingKey: stakingKey }),
+    });
+
+    console.log("[TASK] Add PR Response: ", middleServerResponse);
+
+    if (middleServerResponse.status !== 200) {
+      throw new Error(`Posting to middle server failed: ${middleServerResponse.statusText}`);
+    }
+    res.status(200).json({ result: "Successfully saved PR" });
+  } catch (error) {
+    console.error("[TASK] Error adding PR to summarizer todo:", error);
+    // await namespaceWrapper.storeSet(`result-${roundNumber}`, status.SAVING_TODO_PR_FAILED);
+    res.status(400).json({ error: "Failed to save PR" });
   }
 });

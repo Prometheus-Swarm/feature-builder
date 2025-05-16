@@ -96,6 +96,7 @@ async function runTask(
       githubUsername: process.env.GITHUB_USERNAME,
       stakingKey,
       pubKey,
+      isFinal: false,
       action: taskConfig[taskType].addAction,
     };
 

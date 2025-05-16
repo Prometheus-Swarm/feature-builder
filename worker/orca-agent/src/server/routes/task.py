@@ -4,8 +4,69 @@ from prometheus_swarm.utils.logging import logger
 import requests
 import os
 from src.database import get_db, Submission
+from concurrent.futures import ThreadPoolExecutor
 
 bp = Blueprint("task", __name__)
+executor = ThreadPoolExecutor(max_workers=2)
+
+# Track in-progress tasks
+in_progress_tasks = set()
+
+
+def post_task_result(future, round_number, request_data, node_type, task_id):
+    try:
+        # Remove from in-progress tasks when done
+        task_key = f"{node_type}_{round_number}"
+        in_progress_tasks.discard(task_key)
+
+        response = future.result()
+        response_data = response.get("data", {})
+
+        if not response.get("success", False):
+            logger.error(f"Task failed: {response.get('error', 'Unknown error')}")
+            return
+
+        # Record PR locally
+        record_response = task_service.record_pr(
+            round_number=int(round_number),
+            staking_signature=request_data["addPRSignature"],
+            staking_key=request_data["stakingKey"],
+            pub_key=request_data["pubKey"],
+            pr_url=response_data["pr_url"],
+            node_type=node_type,
+            bounty_id=response_data["bounty_id"],
+        )
+
+        if not record_response.get("success", False):
+            logger.error(
+                f"Failed to record PR locally: {record_response.get('error', 'Unknown error')}"
+            )
+            return
+
+        # Send PR URL back to JS side
+        try:
+            js_response = requests.post(
+                f"http://host.docker.internal:30017/task/{task_id}/add-todo-pr",
+                json={
+                    "prUrl": response_data["pr_url"],
+                    "signature": request_data["addPRSignature"],
+                    "success": True,
+                    "message": response_data.get(
+                        "message", "Task completed successfully"
+                    ),
+                },
+            )
+            js_response.raise_for_status()
+            logger.info(f"Successfully sent PR URL to JS side for task {task_id}")
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Failed to send PR URL to JS side: {str(e)}")
+
+    except Exception as e:
+        logger.error(f"Error in post_task_result: {str(e)}")
+        if hasattr(e, "__traceback__"):
+            import traceback
+
+            logger.error(f"Traceback: {''.join(traceback.format_tb(e.__traceback__))}")
 
 
 @bp.post("/worker-task/<round_number>")
@@ -67,6 +128,12 @@ def start_task(round_number, node_type, request):
 
     request_data = request.get_json()
     logger.info(f"Task data: {request_data}")
+
+    # Extract task_id from request data
+    task_id = request_data.get("task_id")
+    if not task_id:
+        return jsonify({"success": False, "message": "Missing task_id"}), 401
+
     required_fields = [
         "roundNumber",
         "stakingKey",
@@ -74,6 +141,7 @@ def start_task(round_number, node_type, request):
         "pubKey",
         "publicSignature",
         "addPRSignature",
+        "task_id",
     ]
 
     if any(request_data.get(field) is None for field in required_fields):
@@ -86,7 +154,17 @@ def start_task(round_number, node_type, request):
             401,
         )
 
-    response = task_functions[node_type](
+    # Check if this task is already being processed
+    task_key = f"{node_type}_{round_number}"
+    if task_key in in_progress_tasks:
+        return jsonify({"status": "Task is already being processed"}), 200
+
+    # Mark this task as in progress
+    in_progress_tasks.add(task_key)
+
+    # Submit task to executor
+    future = executor.submit(
+        task_functions[node_type],
         round_number=int(round_number),
         staking_signature=request_data["stakingSignature"],
         staking_key=request_data["stakingKey"],
@@ -94,38 +172,13 @@ def start_task(round_number, node_type, request):
         pub_key=request_data["pubKey"],
         pr_signature=request_data["addPRSignature"],
     )
-    response_data = response.get("data", {})
-    if not response.get("success", False):
-        status = response.get("status", 500)
-        error = response.get("error", "Unknown error")
-        return jsonify({"success": False, "message": error}), status
 
-    logger.info("response_data: " + str(response_data))
-    logger.info(response_data["message"])
-
-    # Record PR for both worker and leader tasks
-    response = task_service.record_pr(
-        round_number=int(round_number),
-        staking_signature=request_data["addPRSignature"],
-        staking_key=request_data["stakingKey"],
-        pub_key=request_data["pubKey"],
-        pr_url=response_data["pr_url"],
-        node_type=node_type,
-        bounty_id=response_data["bounty_id"],
+    # Add callback to handle the result
+    future.add_done_callback(
+        lambda f: post_task_result(f, round_number, request_data, node_type, task_id)
     )
-    response_data = response.get("data", {})
-    if not response.get("success", False):
-        status = response.get("status", 500)
-        error = response.get("error", "Unknown error")
-        return jsonify({"success": False, "message": error}), status
 
-    return jsonify(
-        {
-            "success": True,
-            "message": response_data["message"],
-            "pr_url": response_data["pr_url"],
-        }
-    )
+    return jsonify({"status": "Task is being processed"}), 200
 
 
 @bp.post("/update-audit-result/<task_id>/<round_number>")

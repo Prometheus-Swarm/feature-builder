@@ -533,7 +533,7 @@ def record_pr(
     bounty_id,
     node_type="worker",
 ):
-    """Record PR URL both remotely and locally.
+    """Record PR URL locally in the database.
 
     Args:
         staking_key: Node's staking key
@@ -542,7 +542,7 @@ def record_pr(
         pr_url: URL of the PR to record
         round_number: Round number
         bounty_id: Bounty ID
-        node_type: Type of node ("worker" or "leader") to determine which endpoint to use
+        node_type: Type of node ("worker" or "leader")
     """
     # Don't attempt to record if PR URL is None
     if not pr_url:
@@ -553,23 +553,11 @@ def record_pr(
             "error": "Cannot record None PR URL",
         }
 
-    # First check if we already have a record locally
-    existing = _check_existing_pr(round_number, bounty_id)
-    existing_pr_url = None
-    if existing["success"]:
-        # Even if we have a local record, still attempt to record remotely
-        # but use the existing PR URL from the local record
-        existing_pr_url = existing["data"]["pr_url"]
-        logger.info(
-            f"Using existing PR URL: {existing_pr_url} for remote recording attempt"
-        )
-        pr_url = existing_pr_url
-
-    # For leader tasks, we need to get the issue UUID
-    uuid = None
-    # First, try to get UUID from the database
     try:
         db = get_db()
+        username = os.environ["GITHUB_USERNAME"]
+
+        # Update submission status
         submission = (
             db.query(Submission)
             .filter(
@@ -578,91 +566,36 @@ def record_pr(
             )
             .first()
         )
-        if submission and submission.uuid:
-            uuid = submission.uuid
-            logger.info(f"Found uuid={uuid} in database")
-    except Exception as e:
-        logger.warning(f"Error retrieving uuid from database: {str(e)}")
 
-    # If we couldn't find the UUID in the database and this is a leader task, try getting it from task details
-    if not uuid and node_type == "leader":
-        # Get task details to retrieve uuid
-        task_details = get_task_details(
-            staking_signature, staking_key, pub_key, "leader"
-        )
-        if task_details.get("success", False) and "data" in task_details:
-            uuid = task_details["data"].get("issue_uuid")
-            if not uuid:
-                logger.warning("No issue_uuid found in task details for leader task")
+        if submission:
+            submission.status = "completed"
+            if not submission.pr_url:  # Only update PR URL if not already set
+                submission.pr_url = pr_url
+            submission.username = username
+            submission.node_type = node_type
 
-    # If we're processing a worker task and couldn't find the UUID, try to get it from task details
-    if not uuid and node_type == "worker":
-        # Get task details to retrieve uuid
-        task_details = get_task_details(
-            staking_signature, staking_key, pub_key, "worker"
-        )
-        if task_details.get("success", False) and "data" in task_details:
-            uuid = task_details["data"].get("todo_uuid")
-            if not uuid:
-                logger.warning("No todo_uuid found in task details for worker task")
-
-    # Step 1: Always attempt to record with middle server, even for existing PRs
-    remote_result = _store_pr_remotely(
-        staking_key,
-        staking_signature,
-        pub_key,
-        pr_url,
-        node_type,
-        uuid,
-        bounty_id,
-        round_number,
-    )
-    if not remote_result["success"]:
-        # If the error is because the PR is already recorded, treat it as a success
-        if "already" in str(remote_result.get("error", "")).lower():
-            logger.info("PR already recorded remotely, continuing")
+            db.commit()
+            logger.info("Local database updated successfully")
+            return {
+                "success": True,
+                "data": {
+                    "message": "PR recorded locally",
+                    "pr_url": pr_url,
+                    "bounty_id": bounty_id,
+                },
+            }
         else:
-            # For other errors, return the error
-            return remote_result
-
-    # Step 2: Record locally if not already recorded
-    if existing["success"] and existing.get("skip_local_recording"):
-        logger.info("Skipping local recording as PR already exists locally")
-
-        # But we should update the uuid and node_type if we have new information
-        if existing_pr_url and (uuid or node_type):
-            try:
-                db = get_db()
-                submission = (
-                    db.query(Submission)
-                    .filter(
-                        Submission.round_number == round_number,
-                        Submission.bounty_id == bounty_id,
-                    )
-                    .first()
-                )
-                if submission:
-                    if uuid and not submission.uuid:
-                        submission.uuid = uuid
-                    if node_type:
-                        submission.node_type = node_type
-                    db.commit()
-                    logger.info(
-                        f"Updated submission with uuid={uuid}, node_type={node_type}"
-                    )
-            except Exception as e:
-                logger.warning(f"Failed to update existing submission: {str(e)}")
-    else:
-        local_result = _store_pr_locally(
-            round_number, pr_url, bounty_id, uuid, node_type
-        )
-        if not local_result["success"]:
-            return local_result
-
-    return {
-        "success": True,
-        "data": {"message": "PR recorded successfully", "pr_url": pr_url},
-    }
+            error_msg = (
+                f"No submission found for bounty {bounty_id}, round {round_number}"
+            )
+            log_error(
+                Exception("Submission not found"),
+                context=error_msg,
+            )
+            return {"success": False, "status": 409, "error": error_msg}
+    except Exception as e:
+        log_error(e, "Failed to store PR locally")
+        return {"success": False, "status": 500, "error": str(e)}
 
 
 def consolidate_prs(
