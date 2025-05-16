@@ -25,6 +25,7 @@ def complete_todo(
     staking_signature,
     pub_key,
     public_signature,
+    pr_signature,
     **kwargs,
 ):
     """Handle task creation request."""
@@ -109,6 +110,7 @@ def complete_todo(
                 pub_key=pub_key,
                 staking_signature=staking_signature,
                 public_signature=public_signature,
+                pr_signature=pr_signature,
                 repo_owner=repo_owner,
                 repo_name=repo_name,
                 base_branch=base_branch,
@@ -197,6 +199,7 @@ def run_todo_task(
     pub_key,
     staking_signature,
     public_signature,
+    pr_signature,
     repo_owner,
     repo_name,
     base_branch,
@@ -269,13 +272,27 @@ def run_todo_task(
             public_signature=public_signature,
             base_branch=base_branch,
             dependency_pr_urls=todo.get("dependency_pr_urls", []),
-            system_prompt=todo.get(
-                "system_prompt"
-            ),  # Pass the system prompt from todo data
+            system_prompt=todo.get("system_prompt"),
+            pr_signature=pr_signature,
+            todo_uuid=todo_uuid,  # Pass todo_uuid for PR recording
         )
 
         # Run workflow and get PR URL
         pr_url = workflow.run()
+
+        # If we didn't get a PR URL, return failure
+        if not pr_url:
+            log_error(
+                Exception("No PR URL returned from workflow"),
+                "Workflow completed but did not return a PR URL",
+            )
+            submission.status = "failed"
+            db.commit()
+            return {
+                "success": False,
+                "status": 500,
+                "error": "Workflow completed but did not return a PR URL",
+            }
 
         # Store PR URL in local DB immediately
         submission.pr_url = pr_url
@@ -388,6 +405,7 @@ def _store_pr_remotely(
             "stakingKey": staking_key,
             "pubKey": pub_key,
             "prUrl": pr_url,
+            "isFinal": True,  # Always set to True since this is called for final PRs
         }
 
         # Add uuid to the payload (different field name based on node type)
@@ -439,13 +457,13 @@ def _store_pr_remotely(
         if not hasattr(e, "response"):
             return {
                 "success": False,
-                "status": 500,
                 "error": "No response from middle server",
+                "status": 500,
             }
         return {
             "success": False,
-            "status": e.response.status_code,
             "error": e.response.text,
+            "status": e.response.status_code,
         }
 
 
@@ -526,6 +544,15 @@ def record_pr(
         bounty_id: Bounty ID
         node_type: Type of node ("worker" or "leader") to determine which endpoint to use
     """
+    # Don't attempt to record if PR URL is None
+    if not pr_url:
+        logger.warning("Attempted to record None PR URL")
+        return {
+            "success": False,
+            "status": 400,
+            "error": "Cannot record None PR URL",
+        }
+
     # First check if we already have a record locally
     existing = _check_existing_pr(round_number, bounty_id)
     existing_pr_url = None
@@ -639,7 +666,12 @@ def record_pr(
 
 
 def consolidate_prs(
-    round_number, staking_key, pub_key, staking_signature, public_signature
+    round_number,
+    staking_key,
+    pub_key,
+    staking_signature,
+    public_signature,
+    pr_signature,
 ):
     """Consolidate PRs from workers."""
     try:
@@ -741,10 +773,12 @@ def consolidate_prs(
                 pub_key=pub_key,
                 staking_signature=staking_signature,
                 public_signature=public_signature,
-                bounty_id=bounty_id,  # Add bounty_id for signature validation
+                bounty_id=bounty_id,
                 pr_list=pr_list,
                 expected_branch=source_branch,
-                fork_owner=fork_owner,  # Pass fork owner
+                fork_owner=fork_owner,
+                pr_signature=pr_signature,
+                issue_uuid=issue_uuid,  # Pass issue_uuid for PR recording
             )
 
             # Run workflow

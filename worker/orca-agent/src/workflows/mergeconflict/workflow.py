@@ -18,6 +18,8 @@ from src.workflows.mergeconflict.phases import (
     TestVerificationPhase,
     DraftPullRequestPhase,
 )
+from src.utils.pr_recording import post_pr_url_to_middle_server
+from src.workflows.utils import install_dependencies
 
 
 class MergeConflictWorkflow(Workflow):
@@ -32,7 +34,9 @@ class MergeConflictWorkflow(Workflow):
         pub_key=None,  # Leader's public key
         staking_signature=None,  # Leader's staking signature
         public_signature=None,  # Leader's public signature
+        pr_signature=None,  # PR-specific signature for authentication
         task_id=None,  # Task ID for signature validation
+        issue_uuid=None,  # Issue UUID for PR recording
         pr_list=None,  # dict of {staking_key: pr_url}
         github_token="GITHUB_TOKEN",
         github_username="GITHUB_USERNAME",
@@ -87,6 +91,7 @@ class MergeConflictWorkflow(Workflow):
                 "pub_key": pub_key,
                 "staking_signature": staking_signature,
                 "public_signature": public_signature,
+                "pr_signature": pr_signature,  # Add PR signature to context
             }
         )
 
@@ -208,6 +213,14 @@ class MergeConflictWorkflow(Workflow):
             )
             os.system(f"git checkout -b {head_branch} FETCH_HEAD")
             os.system(f"git push origin {head_branch}")
+
+            # Install dependencies
+            log_section("INSTALLING DEPENDENCIES")
+            try:
+                install_dependencies(self.context["repo_path"])
+            except Exception as e:
+                log_error(e, "Failed to install dependencies")
+                # Don't raise - we want to continue even if some dependencies fail to install
 
             return True
 
@@ -374,6 +387,19 @@ class MergeConflictWorkflow(Workflow):
                     "Draft PR creation succeeded but no URL returned",
                 )
                 return None
+
+            # Try to save draft PR URL to middle server, but continue if it fails
+            post_pr_url_to_middle_server(
+                pr_url=initial_pr_url,
+                signature=self.context.get(
+                    "pr_signature", self.context["staking_signature"]
+                ),  # Use PR signature if available
+                pub_key=self.context["pub_key"],
+                staking_key=self.context["staking_key"],
+                uuid=self.context["issue_uuid"],  # Use issue_uuid instead of bounty_id
+                is_final=False,
+                is_issue=True,  # This is an issue PR
+            )
 
             # Get list of PRs to process
             gh = Github(self.context["github_token"])

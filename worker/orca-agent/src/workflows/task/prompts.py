@@ -1,20 +1,6 @@
 """Prompts for the task workflow."""
 
 PROMPTS = {
-    "system_prompt": (
-        "You are an software development assistant specializing in solving coding challenges "
-        "and creating GitHub pull requests.\n"
-        "Follow these rules:\n"
-        "1. Create a new file in the /src directory.\n"
-        "2. Write a single Python function that accomplishes the assigned task.\n"
-        "3. Write a series of tests that thoroughly test the function, including edge cases and error handling, "
-        "using PyTest.\n"
-        "4. Run the tests to ensure they pass.\n"
-        "5. Continue to make changes until the tests pass.\n"
-        "6. IMPORTANT: ALWAYS use relative paths (e.g., 'src/file.py' not '/src/file.py')\n"
-        "7. IMPORTANT: Implementation code MUST go in the 'src' directory\n"
-        "8. IMPORTANT: Test files MUST go in the 'tests' directory"
-    ),
     "create_branch": (
         "Create a descriptive branch name for the following task: {todo}. The branch name should:\n"
         "1. Be kebab-case (lowercase with hyphens)\n"
@@ -28,10 +14,13 @@ PROMPTS = {
         "{todo}\n\n"
         "All available files: {current_files}\n\n"
         "IMPORTANT: ALWAYS use relative paths (e.g., 'src/file.py' not '/src/file.py')\n\n"
+        "IMPORTANT: Before you begin your task, make sure a test runner is installed and configured correctly.\n"
+        "IMPORTANT: If this is a Typescript project and a test framework is not already configured, use Vitest.\n"
         "Use the available tools to:\n"
         "Create necessary files using relative paths\n"
         "Run tests to verify your implementation\n"
         "Fix any issues until all tests pass\n\n"
+        "IMPORTANT: Ignore tests that require an end to end test runner like playwright or cypress\n"
         "Please implement the task following these guidelines:\n"
         "1. Write clear, well-documented code\n"
         "2. Include comprehensive tests\n"
@@ -47,6 +36,7 @@ PROMPTS = {
         "{todo}\n\n"
         "Available files: {current_files}\n\n"
         "IMPORTANT: Always use relative paths (e.g., 'src/file.py' not '/src/file.py')\n\n"
+        "IMPORTANT: Ignore tests that require an end to end test runner like playwright or cypress\n"
         "Use the available tools to:\n"
         "1. Review and understand the reported problems\n"
         "2. Make necessary changes to fix each issue\n"
@@ -71,6 +61,7 @@ PROMPTS = {
         "6. Verify correct directory structure:\n"
         "   - Implementation code MUST be in 'src' directory\n"
         "   - Test files MUST be in 'tests' directory\n\n"
+        "IMPORTANT: Ignore tests that require an end to end test runner like playwright or cypress\n"
         "Provide a detailed validation report with:\n"
         "1. Test Results:\n"
         "   - List of passing tests\n"
@@ -91,6 +82,8 @@ PROMPTS = {
         "- directory_check: object with valid boolean and issues list\n"
         "- issues: list of all issues found\n"
         "- required_fixes: list of fixes needed\n\n"
+        "DO NOT reject a task because acceptance criteria cannot be verified. "
+        "Only reject if the implementation is known to be incorrect."
         "STOP after submitting the validation report."
     ),
     "create_pr": (
@@ -99,6 +92,7 @@ PROMPTS = {
         "{todo}\n\n"
         "Available files: {current_files}\n\n"
         "IMPORTANT: Always use relative paths (e.g., 'src/file.py' not '/src/file.py')\n\n"
+        "IMPORTANT: Ignore tests that require an end to end test runner like playwright or cypress\n"
         "Steps to create the pull request:\n"
         "1. First examine the available files to understand the implementation\n"
         "2. Create a clear and descriptive PR title\n"

@@ -145,7 +145,11 @@ class TaskExecution(WorkflowExecution):
             todos = []
             with self.todos_file.open("r") as f:
                 reader = csv.reader(f)
-                next(reader)  # Skip header
+                header = next(reader)  # Skip header
+                has_dependencies = (
+                    len(header) >= 4
+                )  # Check if file has dependency columns
+
                 for row in reader:
                     if len(row) >= 2:
                         todo, acceptance_criteria_str = row[0], row[1]
@@ -156,18 +160,19 @@ class TaskExecution(WorkflowExecution):
                             if criterion.strip()
                         ]
 
-                        # Parse task UUID and dependencies if present
+                        # Parse task UUID and dependencies if present and if file has those columns
                         task_uuid = None
                         dependency_uuids = []
-                        if len(row) >= 3 and row[2]:
-                            task_uuid = row[2]
-                        if len(row) >= 4 and row[3]:
-                            # Split on comma and strip whitespace
-                            dependency_uuids = [
-                                uuid.strip()
-                                for uuid in row[3].split(",")
-                                if uuid.strip()
-                            ]
+                        if has_dependencies:
+                            if len(row) >= 3 and row[2]:
+                                task_uuid = row[2]
+                            if len(row) >= 4 and row[3]:
+                                # Split on comma and strip whitespace
+                                dependency_uuids = [
+                                    uuid.strip()
+                                    for uuid in row[3].split(",")
+                                    if uuid.strip()
+                                ]
 
                         todos.append(
                             {
@@ -219,6 +224,8 @@ class TaskExecution(WorkflowExecution):
                     github_username="WORKER_GITHUB_USERNAME",  # Pass env var name instead of value
                     dependency_pr_urls=dependency_pr_urls,
                     bounty_id=self.args.task_id,
+                    todo_uuid=todo_data["task_uuid"],
+                    pr_signature=self.context.get("pr_signature"),
                 )
 
                 result = self.workflow.run()

@@ -1,6 +1,7 @@
 """Centralized workflow utilities."""
 
 import os
+import glob
 import shutil
 from github import Github
 from git import Repo
@@ -417,3 +418,90 @@ def create_remote_branch(
             "data": None,
             "error": error_msg,
         }
+
+
+def install_dependencies(repo_path: str) -> None:
+    """Install dependencies for all package managers found in the repository."""
+    original_dir = os.getcwd()
+    os.chdir(repo_path)
+
+    try:
+        # Find all package.json files (including in subdirectories)
+        package_jsons = glob.glob("**/package.json", recursive=True)
+        for pkg_json in package_jsons:
+            pkg_dir = os.path.dirname(pkg_json) or "."
+            if "node_modules" in pkg_dir:
+                continue
+
+            # Change to package directory
+            if pkg_dir != ".":
+                os.chdir(pkg_dir)
+
+            # Detect package manager from lock files
+            if os.path.exists("pnpm-lock.yaml"):
+                cmd = "pnpm install --no-fund"
+            elif os.path.exists("yarn.lock"):
+                cmd = "yarn install --non-interactive"
+            else:
+                cmd = "npm install --no-fund --no-audit"
+
+            log_key_value("Installing Node.js dependencies", f"in {pkg_dir}")
+            result = os.system(cmd)
+            if result != 0:
+                log_error(
+                    Exception(f"Command failed with code {result}"),
+                    f"Failed to install Node.js dependencies in {pkg_dir}",
+                )
+
+            # Return to repo directory
+            if pkg_dir != ".":
+                os.chdir(os.path.join(repo_path))
+
+        # Find all requirements.txt files
+        requirements_txts = glob.glob("**/requirements.txt", recursive=True)
+        for req_txt in requirements_txts:
+            req_dir = os.path.dirname(req_txt) or "."
+            if "venv" in req_dir or "env" in req_dir:
+                continue
+
+            # Change to requirements directory
+            if req_dir != ".":
+                os.chdir(req_dir)
+
+            log_key_value("Installing Python dependencies", f"from {req_txt}")
+            result = os.system(f"pip install -r {os.path.basename(req_txt)}")
+            if result != 0:
+                log_error(
+                    Exception(f"Command failed with code {result}"),
+                    f"Failed to install Python dependencies in {req_dir}",
+                )
+
+            # Return to repo directory
+            if req_dir != ".":
+                os.chdir(os.path.join(repo_path))
+
+        # Find all setup.py files
+        setup_pys = glob.glob("**/setup.py", recursive=True)
+        for setup_py in setup_pys:
+            setup_dir = os.path.dirname(setup_py) or "."
+            if "venv" in setup_dir or "env" in setup_dir:
+                continue
+
+            # Change to setup directory
+            if setup_dir != ".":
+                os.chdir(setup_dir)
+
+            log_key_value("Installing Python package", f"from {setup_py}")
+            result = os.system("pip install -e .")
+            if result != 0:
+                log_error(
+                    Exception(f"Command failed with code {result}"),
+                    f"Failed to install Python package in {setup_dir}",
+                )
+
+            # Return to repo directory
+            if setup_dir != ".":
+                os.chdir(os.path.join(repo_path))
+
+    finally:
+        os.chdir(original_dir)

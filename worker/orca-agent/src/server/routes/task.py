@@ -92,6 +92,7 @@ def start_task(round_number, node_type, request):
         staking_key=request_data["stakingKey"],
         public_signature=request_data["publicSignature"],
         pub_key=request_data["pubKey"],
+        pr_signature=request_data["addPRSignature"],
     )
     response_data = response.get("data", {})
     if not response.get("success", False):
