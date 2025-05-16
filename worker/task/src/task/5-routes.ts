@@ -1,4 +1,5 @@
-import { namespaceWrapper, app } from "@_koii/task-manager/namespace-wrapper";
+import { namespaceWrapper, app, TASK_ID } from "@_koii/task-manager/namespace-wrapper";
+import { middleServerUrl } from "../utils/constant";
 import { getLeaderNode } from "../utils/leader";
 /**
  *
@@ -17,7 +18,119 @@ export async function routes() {
   app.get("/leader/:roundNumber/:submitterPublicKey", async (req, res) => {
     const roundNumber = req.params.roundNumber;
     const submitterPublicKey = req.params.submitterPublicKey;
-    const {isLeader, leaderNode} = await getLeaderNode({roundNumber: Number(roundNumber), submitterPublicKey: submitterPublicKey});
+    const { isLeader, leaderNode } = await getLeaderNode({
+      roundNumber: Number(roundNumber),
+      submitterPublicKey: submitterPublicKey,
+    });
     res.status(200).json({ isLeader: isLeader, leaderNode: leaderNode });
   });
 }
+app.post("/send-error-logs", async (req, res) => {
+  const signature = req.body.signature;
+  const swarmBountyId = req.body.swarmBountyId;
+  const error = req.body.error;
+
+  try {
+    const publicKey = await namespaceWrapper.getMainAccountPubkey();
+    const stakingKeypair = await namespaceWrapper.getSubmitterAccount();
+    if (!stakingKeypair) {
+      throw new Error("No staking key found");
+    }
+    const stakingKey = stakingKeypair.publicKey.toBase58();
+    const secretKey = stakingKeypair.secretKey;
+
+    if (!publicKey) {
+      throw new Error("No public key found");
+    }
+
+    const payload = await namespaceWrapper.verifySignature(signature, stakingKey);
+    if (!payload) {
+      throw new Error("Invalid signature");
+    }
+    const data = payload.data;
+    if (!data) {
+      throw new Error("No signature data found");
+    }
+    const jsonData = JSON.parse(data);
+    if (jsonData.taskId !== TASK_ID) {
+      throw new Error(`Invalid task ID from signature: ${jsonData.taskId}. Actual task ID: ${TASK_ID}`);
+    }
+
+    const middleServerPayload = {
+      taskId: jsonData.taskId,
+      swarmBountyId,
+      stakingKey,
+      publicKey,
+      error,
+    };
+    const middleServerSignature = await namespaceWrapper.payloadSigning(middleServerPayload, secretKey);
+    await fetch(`${middleServerUrl}/bug-finder/worker/record-error-log`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ stakingKey, swarmBountyId, error, signature: middleServerSignature }),
+    });
+
+    res.status(200).json({ result: "Submitted Failed Info log" });
+  } catch (error) {
+    console.error("[TASK] Error Submitted Failed Info log:", error);
+    // await namespaceWrapper.storeSet(`result-${roundNumber}`, status.SAVING_TODO_PR_FAILED);
+    res.status(400).json({ error: "ERROR: Submitted Failed Info log" });
+  }
+});
+app.post("/send-logs", async (req, res) => {
+  const signature = req.body.signature;
+  const swarmBountyId = req.body.swarmBountyId;
+  const logMessage = req.body.logMessage;
+  const logLevel = req.body.logLevel;
+
+  try {
+    const publicKey = await namespaceWrapper.getMainAccountPubkey();
+    const stakingKeypair = await namespaceWrapper.getSubmitterAccount();
+    if (!stakingKeypair) {
+      throw new Error("No staking key found");
+    }
+    const stakingKey = stakingKeypair.publicKey.toBase58();
+    // const secretKey = stakingKeypair.secretKey;
+
+    // if (!publicKey) {
+    //   throw new Error("No public key found");
+    // }
+
+    // const payload = await namespaceWrapper.verifySignature(signature, stakingKey);
+    // if (!payload) {
+    //   throw new Error("Invalid signature");
+    // }
+    // const data = payload.data;
+    // if (!data) {
+    //   throw new Error("No signature data found");
+    // }
+    // const jsonData = JSON.parse(data);
+    // if (jsonData.taskId !== TASK_ID) {
+    //   throw new Error(`Invalid task ID from signature: ${jsonData.taskId}. Actual task ID: ${TASK_ID}`);
+    // }
+
+    const middleServerPayload = {
+      taskId: TASK_ID,
+      swarmBountyId,
+      stakingKey,
+      publicKey,
+      logMessage,
+      logLevel,
+    };
+    // const middleServerSignature = await namespaceWrapper.payloadSigning(middleServerPayload, secretKey);
+    await fetch(`${middleServerUrl}/builder/record-log`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ stakingKey, swarmBountyId, logMessage, logLevel, signature: null }),
+    });
+    res.status(200).json({ result: "Submitted log" });
+  } catch (error) {
+    console.error("[TASK] Error Submitted Info log:", error);
+    // await namespaceWrapper.storeSet(`result-${roundNumber}`, status.SAVING_TODO_PR_FAILED);
+    res.status(400).json({ error: "ERROR: Submitted Info log" });
+  }
+});
