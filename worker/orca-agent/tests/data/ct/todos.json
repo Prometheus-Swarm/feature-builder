@@ -1,0 +1,402 @@
+[
+  {
+    "_id": {
+      "$oid": "682736a86e16e96039557ae2"
+    },
+    "title": "Define Base Dark Mode Color Palette in Tailwind Configuration",
+    "uuid": "0120a560-1323-45d6-86cc-fcf8b1936985",
+    "issueUuid": "f717a7d6-90ca-4cf3-88ae-ed80bb1755fb",
+    "description": "Extend the Tailwind configuration to include a comprehensive dark mode color palette. This will involve creating a set of consistent, accessible color scales for different UI elements that work well in dark mode. The palette should cover backgrounds, text, borders, and interactive elements.",
+    "acceptanceCriteria": [
+      "Tailwind configuration must include a new 'dark' color palette with at least 10 color stops (50-900)",
+      "The dark color palette should include shades for primary, secondary, background, text, and accent colors",
+      "Color values must be carefully chosen to ensure readability and visual comfort",
+      "The color palette should be added to the 'extend.colors' section of the Tailwind configuration"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "29a2cbca-d754-4eae-a58a-3882960f49d4",
+    "dependencyTasks": [],
+    "status": "initialized",
+    "bountyType": "build-feature",
+    "createdAt": {
+      "$date": "2025-05-16T12:59:20.596Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-16T12:59:20.596Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "682736a86e16e96039557ae3"
+    },
+    "title": "Add Dark Mode Color Contrast Validation",
+    "uuid": "86edad2e-d634-4c1d-ba2d-7122a15dd8b6",
+    "issueUuid": "f717a7d6-90ca-4cf3-88ae-ed80bb1755fb",
+    "description": "Implement a script or use a tool to validate the color contrast ratios of the new dark mode color palette. Ensure that text and background colors meet WCAG 2.1 level AA contrast requirements for accessibility.",
+    "acceptanceCriteria": [
+      "Create a test script that checks color contrast ratios",
+      "Verify that text colors have a minimum contrast ratio of 4.5:1 against their background",
+      "Verify that large text (18pt or 14pt bold) has a minimum contrast ratio of 3:1",
+      "Generate a report of color contrast checks that can be reviewed"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "29a2cbca-d754-4eae-a58a-3882960f49d4",
+    "dependencyTasks": ["0120a560-1323-45d6-86cc-fcf8b1936985"],
+    "status": "initialized",
+    "bountyType": "build-feature",
+    "createdAt": {
+      "$date": "2025-05-16T12:59:20.596Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-16T12:59:20.596Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "682736a86e16e96039557ae4"
+    },
+    "title": "Document Dark Mode Color Palette Design Decisions",
+    "uuid": "1ba3a7a4-32e9-48b8-a4fc-ba0cc6e7a57d",
+    "issueUuid": "f717a7d6-90ca-4cf3-88ae-ed80bb1755fb",
+    "description": "Create documentation explaining the rationale behind the dark mode color choices, including how the palette supports readability, visual hierarchy, and user experience in low-light conditions.",
+    "acceptanceCriteria": [
+      "Create a markdown file explaining the dark mode color palette design",
+      "Document the purpose of each color in the dark mode palette",
+      "Include examples of how different colors should be used in the UI",
+      "Provide color palette with hex codes and their intended uses"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "29a2cbca-d754-4eae-a58a-3882960f49d4",
+    "dependencyTasks": ["0120a560-1323-45d6-86cc-fcf8b1936985"],
+    "status": "initialized",
+    "bountyType": "build-feature",
+    "createdAt": {
+      "$date": "2025-05-16T12:59:20.597Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-16T12:59:20.597Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "682736d66e16e96039557ae5"
+    },
+    "title": "Create Dark Mode Toggle Component in Layout",
+    "uuid": "002088b0-cd8f-410e-bde6-d005c5d0eb20",
+    "issueUuid": "ca09f1a9-5af0-48ce-86ac-726eb56d0c47",
+    "description": "Add a theme toggle switch to the page layout that allows users to switch between light and dark modes. The toggle should be visually clear and placed in an easily accessible location, such as the header or navigation area.\n\nSpecific implementation steps:\n1. Design a visually appealing toggle switch using HTML and Tailwind CSS\n2. Position the toggle in the header or site navigation\n3. Ensure the toggle is responsive and works across different screen sizes\n4. Add appropriate aria labels for accessibility",
+    "acceptanceCriteria": [
+      "Toggle switch is visible and clickable on all device sizes",
+      "Toggle has appropriate accessibility attributes (aria-label, role)",
+      "Toggle changes appearance when clicked to indicate current mode",
+      "Toggle is positioned consistently in the site layout"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "29a2cbca-d754-4eae-a58a-3882960f49d4",
+    "dependencyTasks": ["2d37eae9-6623-4bf1-bc22-883a4cdc7d2e", "7728ea9a-5f9e-42e3-90fc-6857575cf2b4"],
+    "status": "initialized",
+    "bountyType": "build-feature",
+    "createdAt": {
+      "$date": "2025-05-16T13:00:06.167Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-16T13:00:06.167Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "682736d66e16e96039557ae6"
+    },
+    "title": "Implement Theme Switching Logic with JavaScript",
+    "uuid": "7728ea9a-5f9e-42e3-90fc-6857575cf2b4",
+    "issueUuid": "ca09f1a9-5af0-48ce-86ac-726eb56d0c47",
+    "description": "Develop client-side JavaScript to handle theme switching functionality.\n\nSpecific implementation steps:\n1. Create a function to toggle between light and dark classes\n2. Apply dark/light mode classes to the root HTML element\n3. Handle initial theme detection (system preference or default)\n4. Ensure smooth transition between light and dark modes\n5. Prevent potential errors during theme switching",
+    "acceptanceCriteria": [
+      "JavaScript function successfully toggles between light and dark modes",
+      "Theme change is applied instantly without page reload",
+      "No console errors occur during theme switching",
+      "Initial theme is correctly detected based on system preference"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "29a2cbca-d754-4eae-a58a-3882960f49d4",
+    "dependencyTasks": ["2d37eae9-6623-4bf1-bc22-883a4cdc7d2e"],
+    "status": "initialized",
+    "bountyType": "build-feature",
+    "createdAt": {
+      "$date": "2025-05-16T13:00:06.167Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-16T13:00:06.167Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "682736d66e16e96039557ae7"
+    },
+    "title": "Add Basic Dark Mode CSS Variables",
+    "uuid": "2d37eae9-6623-4bf1-bc22-883a4cdc7d2e",
+    "issueUuid": "ca09f1a9-5af0-48ce-86ac-726eb56d0c47",
+    "description": "Define foundational CSS variables for dark mode color scheme in the global stylesheet.\n\nSpecific implementation steps:\n1. Create CSS variables for background colors, text colors, and primary/secondary colors\n2. Ensure variables provide sufficient color contrast\n3. Implement base dark mode styles using the :root [data-theme='dark'] selector\n4. Include smooth color transition for user experience",
+    "acceptanceCriteria": [
+      "CSS variables are defined for key color elements (background, text, primary, secondary)",
+      "Dark mode colors meet WCAG contrast ratio requirements",
+      "Color transition is smooth when switching themes",
+      "Base elements (body, headings, links) have appropriate dark mode styles"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "29a2cbca-d754-4eae-a58a-3882960f49d4",
+    "dependencyTasks": [],
+    "status": "initialized",
+    "bountyType": "build-feature",
+    "createdAt": {
+      "$date": "2025-05-16T13:00:06.168Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-16T13:00:06.168Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "682737106e16e96039557ae8"
+    },
+    "title": "Update Tailwind Configuration with Dark Mode Color Scheme",
+    "uuid": "f0977ff9-736e-4f83-886a-dede6338e84b",
+    "issueUuid": "9ba22f3d-4e36-40a7-bc37-a54ef850e0b5",
+    "description": "Extend the Tailwind configuration to include a dark mode color palette that complements the existing light mode colors. This will involve defining dark variants for existing color classes like twilight, pink, and other frequently used colors to ensure visual consistency.",
+    "acceptanceCriteria": [
+      "Dark mode color palette is added to the tailwind.config.cjs file",
+      "New dark mode color classes follow the existing color naming convention (e.g., twilight-dark-50, twilight-dark-100)",
+      "The color palette includes appropriate dark variants for text, background, and accent colors"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "29a2cbca-d754-4eae-a58a-3882960f49d4",
+    "dependencyTasks": [
+      "463a5e7f-3790-4d23-be43-0a454ec982ee",
+      "8c72e602-3699-4e02-82f9-141cc3574fe5",
+      "647a2c48-d660-43f1-a7e7-33b7338757b5"
+    ],
+    "status": "initialized",
+    "bountyType": "build-feature",
+    "createdAt": {
+      "$date": "2025-05-16T13:01:04.025Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-16T13:01:04.025Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "682737106e16e96039557ae9"
+    },
+    "title": "Add Dark Mode CSS Variables and Base Styles",
+    "uuid": "463a5e7f-3790-4d23-be43-0a454ec982ee",
+    "issueUuid": "9ba22f3d-4e36-40a7-bc37-a54ef850e0b5",
+    "description": "Modify the src/tailwind.css file to add base dark mode styles using Tailwind's dark mode classes. This will involve updating existing CSS rules to provide appropriate contrast and readability in dark mode for typography, links, headings, and other core elements.",
+    "acceptanceCriteria": [
+      "Add dark mode variants to existing @layer base styles",
+      "Ensure text and background colors have sufficient contrast in dark mode",
+      "Update link, heading, and paragraph styles to be readable in dark mode",
+      "Add dark mode styling for core elements like a, h1, h2, h3 tags"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "29a2cbca-d754-4eae-a58a-3882960f49d4",
+    "dependencyTasks": [],
+    "status": "initialized",
+    "bountyType": "build-feature",
+    "createdAt": {
+      "$date": "2025-05-16T13:01:04.026Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-16T13:01:04.026Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "682737106e16e96039557aea"
+    },
+    "title": "Style Dark Mode for Component Classes",
+    "uuid": "8c72e602-3699-4e02-82f9-141cc3574fe5",
+    "issueUuid": "9ba22f3d-4e36-40a7-bc37-a54ef850e0b5",
+    "description": "Update component-level CSS classes in src/tailwind.css to have appropriate dark mode styling. This includes modifying existing classes like .btn, .nav-link, .auth-form, and other frequently used component classes to look cohesive in dark mode.",
+    "acceptanceCriteria": [
+      "Update .btn classes with dark mode variants (primary and secondary buttons)",
+      "Style .nav-link and .account-link for dark mode",
+      "Add dark mode styling for .auth-form inputs and labels",
+      "Ensure flash messages have dark mode variants",
+      "Verify all custom component classes have appropriate dark mode styling"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "29a2cbca-d754-4eae-a58a-3882960f49d4",
+    "dependencyTasks": ["463a5e7f-3790-4d23-be43-0a454ec982ee"],
+    "status": "initialized",
+    "bountyType": "build-feature",
+    "createdAt": {
+      "$date": "2025-05-16T13:01:04.026Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-16T13:01:04.026Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "682737106e16e96039557aeb"
+    },
+    "title": "Add Dark Mode Support for Specific Page Elements",
+    "uuid": "647a2c48-d660-43f1-a7e7-33b7338757b5",
+    "issueUuid": "9ba22f3d-4e36-40a7-bc37-a54ef850e0b5",
+    "description": "Implement dark mode styling for specific page-specific elements like the FAQ accordion, resource cards, and other unique UI components to ensure a consistent dark mode experience across the entire application.",
+    "acceptanceCriteria": [
+      "Add dark mode styling for FAQ accordion (dt, dd elements)",
+      "Update resource card styles for dark mode",
+      "Ensure special elements like code blocks, lists, and other unique components have appropriate dark mode styling",
+      "Verify visual hierarchy and readability in dark mode for all page-specific elements"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "29a2cbca-d754-4eae-a58a-3882960f49d4",
+    "dependencyTasks": ["463a5e7f-3790-4d23-be43-0a454ec982ee", "8c72e602-3699-4e02-82f9-141cc3574fe5"],
+    "status": "initialized",
+    "bountyType": "build-feature",
+    "createdAt": {
+      "$date": "2025-05-16T13:01:04.026Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-16T13:01:04.026Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "682737496e16e96039557aec"
+    },
+    "title": "Implement Local Storage Mechanism for Dark Mode Preference",
+    "uuid": "15d38177-9644-4e87-9d70-a80c97c9b711",
+    "issueUuid": "e3edbefe-d36d-44c4-9027-dd301f66f99c",
+    "description": "Create a mechanism to save the user's dark mode preference to browser local storage. This will allow the preference to persist across page reloads and browser sessions. The implementation should handle saving and retrieving the dark mode state.",
+    "acceptanceCriteria": [
+      "Local storage should successfully save the dark mode preference (light or dark)",
+      "The preference can be retrieved from local storage after page reload",
+      "If no preference is set, the default system preference should be used",
+      "The local storage key for dark mode preference should be consistent and clearly named"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "29a2cbca-d754-4eae-a58a-3882960f49d4",
+    "dependencyTasks": [],
+    "status": "initialized",
+    "bountyType": "build-feature",
+    "createdAt": {
+      "$date": "2025-05-16T13:02:01.996Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-16T13:02:01.996Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "682737496e16e96039557aed"
+    },
+    "title": "Create Client-Side Dark Mode Persistence Script",
+    "uuid": "e0450e6e-f3ac-4b68-8c65-b1a012f7ded7",
+    "issueUuid": "e3edbefe-d36d-44c4-9027-dd301f66f99c",
+    "description": "Develop a JavaScript module that handles applying the dark mode preference on page load. This script will check local storage, apply the appropriate class to the root element, and ensure the initial page render matches the stored preference.",
+    "acceptanceCriteria": [
+      "On page load, the script reads the dark mode preference from local storage",
+      "The appropriate dark/light mode class is applied to the HTML root element",
+      "If no preference is stored, the script falls back to system preference",
+      "The script runs before the page is fully rendered to prevent visual flicker"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "29a2cbca-d754-4eae-a58a-3882960f49d4",
+    "dependencyTasks": ["15d38177-9644-4e87-9d70-a80c97c9b711", "dea29a45-8bbe-4b1d-9d86-022d0f1c1225"],
+    "status": "initialized",
+    "bountyType": "build-feature",
+    "createdAt": {
+      "$date": "2025-05-16T13:02:01.997Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-16T13:02:01.997Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "682737496e16e96039557aee"
+    },
+    "title": "Update Dark Mode Toggle to Persist Preference",
+    "uuid": "dea29a45-8bbe-4b1d-9d86-022d0f1c1225",
+    "issueUuid": "e3edbefe-d36d-44c4-9027-dd301f66f99c",
+    "description": "Modify the existing dark mode toggle functionality to save the user's preference to local storage whenever the mode is switched. Ensure that the toggle updates both the visual state and the stored preference.",
+    "acceptanceCriteria": [
+      "When the dark mode toggle is clicked, the new mode is immediately saved to local storage",
+      "The local storage is updated synchronously with the mode change",
+      "The toggle works correctly with the persistence mechanism",
+      "The preference is saved even if the user navigates away from the page or reloads"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "29a2cbca-d754-4eae-a58a-3882960f49d4",
+    "dependencyTasks": ["15d38177-9644-4e87-9d70-a80c97c9b711"],
+    "status": "initialized",
+    "bountyType": "build-feature",
+    "createdAt": {
+      "$date": "2025-05-16T13:02:01.997Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-16T13:02:01.997Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "682737496e16e96039557aef"
+    },
+    "title": "Add Dark Mode Preference E2E Tests",
+    "uuid": "a4eb3201-867d-4cb4-831b-071b30b25e20",
+    "issueUuid": "e3edbefe-d36d-44c4-9027-dd301f66f99c",
+    "description": "Create Cypress end-to-end tests to verify the dark mode preference persistence mechanism. Test scenarios should include initial page load, preference changes, and persistence across page reloads.",
+    "acceptanceCriteria": [
+      "E2E test verifies dark mode preference is saved to local storage",
+      "Test confirms preference persists across page reloads",
+      "Verify default system preference is used when no preference is set",
+      "Test the toggle functionality saves the correct preference"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "ct-clone",
+    "assignedTo": [],
+    "bountyId": "29a2cbca-d754-4eae-a58a-3882960f49d4",
+    "dependencyTasks": [
+      "15d38177-9644-4e87-9d70-a80c97c9b711",
+      "e0450e6e-f3ac-4b68-8c65-b1a012f7ded7",
+      "dea29a45-8bbe-4b1d-9d86-022d0f1c1225"
+    ],
+    "status": "initialized",
+    "bountyType": "build-feature",
+    "createdAt": {
+      "$date": "2025-05-16T13:02:01.997Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-16T13:02:01.997Z"
+    }
+  }
+]
