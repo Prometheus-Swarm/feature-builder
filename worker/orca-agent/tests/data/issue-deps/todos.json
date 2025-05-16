@@ -1,0 +1,34 @@
+[
+  {
+    "title": "Implement String Reversal Function",
+    "description": "Create a function that reverses a string without using built-in reverse methods",
+    "acceptanceCriteria": [
+      "Function should take a string input and return its reverse",
+      "Should handle empty strings",
+      "Should preserve spaces and special characters",
+      "Should be implemented without using string[::-1] or reverse()"
+    ],
+    "repoOwner": "koii-network",
+    "repoName": "task-tester",
+    "status": "initialized",
+    "bountyId": "bounty-1111",
+    "issueUuid": "issue-1111",
+    "uuid": "task-1111"
+  },
+  {
+    "title": "Implement RGB to Hex Converter",
+    "description": "Create a function that converts RGB color values to hexadecimal format",
+    "acceptanceCriteria": [
+      "Accept three integers (0-255) for R, G, and B",
+      "Return hex string in format '#RRGGBB'",
+      "Handle invalid input values",
+      "Pad single digit values with zeros"
+    ],
+    "repoOwner": "koii-network",
+    "repoName": "task-tester",
+    "status": "initialized",
+    "bountyId": "bounty-1111",
+    "issueUuid": "issue-1112",
+    "uuid": "task-1112"
+  }
+]

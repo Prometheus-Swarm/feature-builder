@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Dark Mode",
+    "description": "Add dark mode",
+    "swarmBountyId": "test_bounty_048451fd-b0b8-47f7-9648-3a04e6223840"
+  },
+  {
+    "title": "Bulk Bookmark Import",
+    "description": "Enable bulk import from CSV, TXT, MD, and HTML files",
+    "swarmBountyId": "test_bounty_21f6667d-443f-4290-b5c2-52cae4b16da2"
+  }
+]

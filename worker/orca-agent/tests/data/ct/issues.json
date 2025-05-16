@@ -1,0 +1,92 @@
+[{
+  "_id": {
+    "$oid": "6827367b6e16e96039557ade"
+  },
+  "title": "Create Dark Mode Color Palette in Tailwind Configuration",
+  "description": "As a developer, I want to define a consistent dark mode color palette in the Tailwind configuration so that we have a standardized approach to dark mode theming.",
+  "uuid": "f717a7d6-90ca-4cf3-88ae-ed80bb1755fb",
+  "forkOwner": "koii-network",
+  "forkUrl": "https://github.com/koii-network/ct-clone",
+  "repoOwner": "labrocadabro",
+  "repoName": "ct-clone",
+  "status": "initialized",
+"bountyType": "build-feature",
+  "bountyId": "29a2cbca-d754-4eae-a58a-3882960f49d4",
+  "assignedTo": [],
+  "predecessorUuid": null,
+  "createdAt": {
+    "$date": "2025-05-16T12:58:35.493Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-16T12:58:35.493Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6827367b6e16e96039557adf"
+  },
+  "title": "Implement Dark Mode Toggle in Layout",
+  "description": "As a user, I want a toggle switch to change between light and dark modes so that I can choose my preferred visual experience.",
+  "uuid": "ca09f1a9-5af0-48ce-86ac-726eb56d0c47",
+  "forkOwner": "koii-network",
+  "forkUrl": "https://github.com/koii-network/ct-clone",
+  "repoOwner": "labrocadabro",
+  "repoName": "ct-clone",
+  "status": "initialized",
+"bountyType": "build-feature",
+  "bountyId": "29a2cbca-d754-4eae-a58a-3882960f49d4",
+  "assignedTo": [],
+  "predecessorUuid": "f717a7d6-90ca-4cf3-88ae-ed80bb1755fb",
+  "createdAt": {
+    "$date": "2025-05-16T12:58:35.495Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-16T12:58:35.495Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6827367b6e16e96039557ae0"
+  },
+  "title": "Add Dark Mode Styling to CSS and Tailwind Classes",
+  "description": "As a user, I want the entire application to look cohesive and readable in dark mode so that I can comfortably use the site in low-light conditions.",
+  "uuid": "9ba22f3d-4e36-40a7-bc37-a54ef850e0b5",
+  "forkOwner": "koii-network",
+  "forkUrl": "https://github.com/koii-network/ct-clone",
+  "repoOwner": "labrocadabro",
+  "repoName": "ct-clone",
+  "status": "initialized",
+"bountyType": "build-feature",
+  "bountyId": "29a2cbca-d754-4eae-a58a-3882960f49d4",
+  "assignedTo": [],
+  "predecessorUuid": "ca09f1a9-5af0-48ce-86ac-726eb56d0c47",
+  "createdAt": {
+    "$date": "2025-05-16T12:58:35.495Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-16T12:58:35.495Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6827367b6e16e96039557ae1"
+  },
+  "title": "Persist User's Dark Mode Preference",
+  "description": "As a user, I want my dark/light mode preference to be remembered across page reloads so that I don't have to reset it every time I visit the site.",
+  "uuid": "e3edbefe-d36d-44c4-9027-dd301f66f99c",
+  "forkOwner": "koii-network",
+  "forkUrl": "https://github.com/koii-network/ct-clone",
+  "repoOwner": "labrocadabro",
+  "repoName": "ct-clone",
+  "status": "initialized",
+"bountyType": "build-feature",
+  "bountyId": "29a2cbca-d754-4eae-a58a-3882960f49d4",
+  "assignedTo": [],
+  "predecessorUuid": "9ba22f3d-4e36-40a7-bc37-a54ef850e0b5",
+  "createdAt": {
+    "$date": "2025-05-16T12:58:35.496Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-16T12:58:35.496Z"
+  }
+}]

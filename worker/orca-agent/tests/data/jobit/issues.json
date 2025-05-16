@@ -1,0 +1,112 @@
+[
+  {
+    "_id": {
+      "$oid": "68262dd0cc1afa010a229ebc"
+    },
+    "title": "User Authentication: Implement User Registration",
+    "description": "As a job seeker, I want to create an account so that I can save and manage my favorite job postings.\n\nAcceptance Criteria:\n- Users can register with email and password\n- Registration form validates email format\n- Password has minimum security requirements (e.g., 8 characters, mix of uppercase/lowercase)\n- User receives confirmation after successful registration",
+    "uuid": "afe16313-f30b-4482-9407-d94268ea010f",
+    "forkOwner": "koii-network",
+    "forkUrl": "https://github.com/koii-network/jobit",
+    "repoOwner": "Prometheus-Swarm",
+    "repoName": "jobit",
+    "status": "initialized",
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "assignedTo": [],
+    "predecessorUuid": null,
+    "createdAt": {
+      "$date": "2025-05-15T18:09:20.772Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:09:20.772Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "68262dd0cc1afa010a229ebd"
+    },
+    "title": "User Authentication: Implement User Login",
+    "description": "As a registered job seeker, I want to log in to my account so that I can access my saved job postings.\n\nAcceptance Criteria:\n- Users can log in using registered email and password\n- Login form validates input fields\n- Failed login attempts provide clear error messages\n- Successful login redirects user to job search page\n- Implement basic session management",
+    "uuid": "153b6bc4-46a2-4bd0-aa59-b2a78a87081e",
+    "forkOwner": "koii-network",
+    "forkUrl": "https://github.com/koii-network/jobit",
+    "repoOwner": "Prometheus-Swarm",
+    "repoName": "jobit",
+    "status": "initialized",
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "assignedTo": [],
+    "predecessorUuid": "afe16313-f30b-4482-9407-d94268ea010f",
+    "createdAt": {
+      "$date": "2025-05-15T18:09:20.773Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:09:20.773Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "68262dd0cc1afa010a229ebe"
+    },
+    "title": "Favorites: Add Save Job Functionality",
+    "description": "As a logged-in job seeker, I want to save a job posting to my favorites so that I can easily find and review it later.\n\nAcceptance Criteria:\n- Save icon appears on job cards\n- Clicking save icon stores job in user's favorites\n- Saved jobs are visually distinct (e.g., filled save icon)\n- Jobs can be unsaved by clicking the icon again",
+    "uuid": "adf0c51d-b4c1-4434-a85b-f3fb49b3cf9c",
+    "forkOwner": "koii-network",
+    "forkUrl": "https://github.com/koii-network/jobit",
+    "repoOwner": "Prometheus-Swarm",
+    "repoName": "jobit",
+    "status": "initialized",
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "assignedTo": [],
+    "predecessorUuid": "153b6bc4-46a2-4bd0-aa59-b2a78a87081e",
+    "createdAt": {
+      "$date": "2025-05-15T18:09:20.774Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:09:20.774Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "68262dd0cc1afa010a229ebf"
+    },
+    "title": "Favorites: Create Saved Jobs Page",
+    "description": "As a logged-in job seeker, I want to view my saved job postings so that I can manage and review jobs I'm interested in.\n\nAcceptance Criteria:\n- Dedicated page shows all saved job postings\n- Each saved job displays full job details\n- Option to remove job from saved list\n- Jobs are stored persistently across sessions",
+    "uuid": "beb917e3-637b-4fa0-9510-c56a196da872",
+    "forkOwner": "koii-network",
+    "forkUrl": "https://github.com/koii-network/jobit",
+    "repoOwner": "Prometheus-Swarm",
+    "repoName": "jobit",
+    "status": "initialized",
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "assignedTo": [],
+    "predecessorUuid": "adf0c51d-b4c1-4434-a85b-f3fb49b3cf9c",
+    "createdAt": {
+      "$date": "2025-05-15T18:09:20.774Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:09:20.774Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "68262dd0cc1afa010a229ec0"
+    },
+    "title": "User Experience: Add Navigation for Saved Jobs",
+    "description": "As a logged-in job seeker, I want easy access to my saved jobs so that I can quickly review them.\n\nAcceptance Criteria:\n- Add 'Saved Jobs' link in main navigation menu\n- Saved jobs link is only visible when user is logged in\n- Clicking link takes user directly to Saved Jobs page",
+    "uuid": "34d5835c-3052-4058-b660-1f1aacc521cf",
+    "forkOwner": "koii-network",
+    "forkUrl": "https://github.com/koii-network/jobit",
+    "repoOwner": "Prometheus-Swarm",
+    "repoName": "jobit",
+    "status": "initialized",
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "assignedTo": [],
+    "predecessorUuid": "beb917e3-637b-4fa0-9510-c56a196da872",
+    "createdAt": {
+      "$date": "2025-05-15T18:09:20.774Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:09:20.774Z"
+    }
+  }
+]

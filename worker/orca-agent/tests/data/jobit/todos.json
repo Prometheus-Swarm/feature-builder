@@ -1,0 +1,654 @@
+[
+  {
+    "_id": {
+      "$oid": "68262e0dcc1afa010a229ec1"
+    },
+    "title": "Create User Registration Form Component",
+    "uuid": "5bc089a7-a265-40aa-b0ae-af43ad5b35be",
+    "issueUuid": "afe16313-f30b-4482-9407-d94268ea010f",
+    "description": "Develop a React component for user registration with email and password input fields. The form will include:\n- Email input field with validation\n- Password input field with visibility toggle\n- Confirm password field\n- Submit button\n- Client-side validation for email format and password strength",
+    "acceptanceCriteria": [
+      "Form renders with email, password, and confirm password fields",
+      "Email field validates against RFC 5322 email regex standard",
+      "Password must be minimum 8 characters long",
+      "Password requires at least 1 uppercase, 1 lowercase, and 1 number",
+      "Confirm password field must match password field",
+      "Submit button is disabled until all validations pass"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "jobit",
+    "assignedTo": [],
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "dependencyTasks": ["d879e062-f32c-4938-9aec-67d4fd924e60", "07c71fbc-8b39-4f5b-a481-4eebaed4ff6b"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-15T18:10:21.986Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:10:21.986Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "68262e0dcc1afa010a229ec2"
+    },
+    "title": "Implement Backend User Registration Endpoint",
+    "uuid": "d879e062-f32c-4938-9aec-67d4fd924e60",
+    "issueUuid": "afe16313-f30b-4482-9407-d94268ea010f",
+    "description": "Create a secure backend API endpoint for user registration that:\n- Receives user registration data\n- Validates input server-side\n- Checks for existing email\n- Hashes password before storage\n- Creates new user record in database\n- Generates unique user identifier\n- Handles potential registration errors",
+    "acceptanceCriteria": [
+      "Endpoint accepts POST request with user registration data",
+      "Server validates email is unique in database",
+      "Password is hashed using bcrypt with salt",
+      "New user record created with unique identifier",
+      "Returns 201 status code on successful registration",
+      "Returns appropriate error messages for duplicate email or invalid data"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "jobit",
+    "assignedTo": [],
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "dependencyTasks": ["07c71fbc-8b39-4f5b-a481-4eebaed4ff6b"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-15T18:10:21.988Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:10:21.988Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "68262e0dcc1afa010a229ec3"
+    },
+    "title": "Configure User Database Schema",
+    "uuid": "07c71fbc-8b39-4f5b-a481-4eebaed4ff6b",
+    "issueUuid": "afe16313-f30b-4482-9407-d94268ea010f",
+    "description": "Design and implement database schema for storing user information:\n- Create users table with fields: id, email, password_hash, created_at\n- Ensure email is unique constraint\n- Add index on email for faster lookups\n- Use appropriate data types for each field",
+    "acceptanceCriteria": [
+      "Database migration creates users table",
+      "Email column has unique constraint",
+      "Password stored as hashed value, not plain text",
+      "Created_at timestamp automatically set",
+      "User ID is auto-incrementing or UUID"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "jobit",
+    "assignedTo": [],
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "dependencyTasks": [],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-15T18:10:21.988Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:10:21.988Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "68262e0dcc1afa010a229ec4"
+    },
+    "title": "Implement User Registration Success Handling",
+    "uuid": "5bac8ea8-67f1-411a-b79e-2e20e7ef3d43",
+    "issueUuid": "afe16313-f30b-4482-9407-d94268ea010f",
+    "description": "Create logic to handle successful user registration:\n- Display success confirmation message\n- Optionally log user in after registration\n- Redirect to job search or dashboard\n- Trigger welcome email (optional)",
+    "acceptanceCriteria": [
+      "Success toast/notification displayed after registration",
+      "User automatically redirected after successful registration",
+      "Registration success state is clearly communicated to user"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "jobit",
+    "assignedTo": [],
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "dependencyTasks": ["d879e062-f32c-4938-9aec-67d4fd924e60", "5bc089a7-a265-40aa-b0ae-af43ad5b35be"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-15T18:10:21.988Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:10:21.988Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "68262e0dcc1afa010a229ec5"
+    },
+    "title": "Add Registration Error Handling and Validation",
+    "uuid": "7e9c427c-45b1-43dd-8283-d78154c6d4cc",
+    "issueUuid": "afe16313-f30b-4482-9407-d94268ea010f",
+    "description": "Implement comprehensive error handling for registration process:\n- Catch and display specific validation errors\n- Handle network errors\n- Provide clear, user-friendly error messages\n- Prevent multiple form submissions during processing",
+    "acceptanceCriteria": [
+      "Specific error messages for each validation failure",
+      "Network error messages displayed if registration fails",
+      "Submit button disabled during registration process",
+      "Errors do not expose sensitive system information"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "jobit",
+    "assignedTo": [],
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "dependencyTasks": ["5bc089a7-a265-40aa-b0ae-af43ad5b35be", "d879e062-f32c-4938-9aec-67d4fd924e60"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-15T18:10:21.989Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:10:21.989Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "68262e4dcc1afa010a229ec6"
+    },
+    "title": "Create Login Form Component with Input Validation",
+    "uuid": "9c0f089d-108f-4598-8e01-1f76440d406f",
+    "issueUuid": "153b6bc4-46a2-4bd0-aa59-b2a78a87081e",
+    "description": "Develop a login form component in React/TypeScript that includes email and password input fields with client-side validation. The form will handle input states, validate email format, and ensure password meets basic requirements before submission.",
+    "acceptanceCriteria": [
+      "Email input field validates email format using regex",
+      "Password input field prevents submission of passwords shorter than 8 characters",
+      "Form displays specific error messages for invalid email or password input",
+      "Login button is disabled until form inputs are valid"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "jobit",
+    "assignedTo": [],
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "dependencyTasks": [
+      "519be4b6-1874-4c13-aac1-f0eb77b38832",
+      "6ad9822c-8050-4334-a708-a33757995e24",
+      "f32da063-7b9c-4dc1-af6f-870c5e1a6fdc",
+      "5d699449-1dde-4f3e-b418-576aa465e698"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-15T18:11:25.761Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:11:25.761Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "68262e4dcc1afa010a229ec7"
+    },
+    "title": "Implement Backend Authentication API Endpoint",
+    "uuid": "519be4b6-1874-4c13-aac1-f0eb77b38832",
+    "issueUuid": "153b6bc4-46a2-4bd0-aa59-b2a78a87081e",
+    "description": "Create a secure backend API endpoint for user login that validates credentials, handles authentication, and manages user sessions. The endpoint will verify user credentials against the database and return appropriate responses.",
+    "acceptanceCriteria": [
+      "API endpoint accepts email and password via POST request",
+      "Endpoint verifies credentials against stored user information",
+      "Returns 200 status with authentication token on successful login",
+      "Returns 401 status with error message for invalid credentials",
+      "Implements basic rate limiting to prevent brute force attacks"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "jobit",
+    "assignedTo": [],
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "dependencyTasks": [],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-15T18:11:25.762Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:11:25.762Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "68262e4dcc1afa010a229ec8"
+    },
+    "title": "Add Redux Authentication State Management",
+    "uuid": "6ad9822c-8050-4334-a708-a33757995e24",
+    "issueUuid": "153b6bc4-46a2-4bd0-aa59-b2a78a87081e",
+    "description": "Develop Redux slice and actions to manage authentication state across the application. This will include actions for login, logout, and storing user authentication tokens.",
+    "acceptanceCriteria": [
+      "Create Redux slice for managing authentication state",
+      "Implement login action that updates authentication status",
+      "Store authentication token securely in Redux state",
+      "Add logout action that clears authentication state",
+      "Create selector methods to check authentication status"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "jobit",
+    "assignedTo": [],
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "dependencyTasks": ["519be4b6-1874-4c13-aac1-f0eb77b38832"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-15T18:11:25.763Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:11:25.763Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "68262e4dcc1afa010a229ec9"
+    },
+    "title": "Configure Authentication Middleware and Redirect",
+    "uuid": "f32da063-7b9c-4dc1-af6f-870c5e1a6fdc",
+    "issueUuid": "153b6bc4-46a2-4bd0-aa59-b2a78a87081e",
+    "description": "Implement client-side and server-side authentication middleware to protect routes and manage user redirects based on authentication status. This includes handling successful login redirection and protecting authenticated routes.",
+    "acceptanceCriteria": [
+      "Redirect unauthenticated users attempting to access protected routes to login page",
+      "Automatically redirect authenticated users from login page to job search page",
+      "Implement route protection middleware in Next.js",
+      "Persist authentication state across page reloads",
+      "Handle token expiration and automatic logout"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "jobit",
+    "assignedTo": [],
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "dependencyTasks": [
+      "519be4b6-1874-4c13-aac1-f0eb77b38832",
+      "6ad9822c-8050-4334-a708-a33757995e24",
+      "5d699449-1dde-4f3e-b418-576aa465e698"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-15T18:11:25.763Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:11:25.763Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "68262e4dcc1afa010a229eca"
+    },
+    "title": "Develop Login Error Handling and User Feedback",
+    "uuid": "5d699449-1dde-4f3e-b418-576aa465e698",
+    "issueUuid": "153b6bc4-46a2-4bd0-aa59-b2a78a87081e",
+    "description": "Create comprehensive error handling for login process with clear user feedback mechanisms. This includes displaying specific error messages, managing loading states, and providing a smooth user experience during authentication.",
+    "acceptanceCriteria": [
+      "Display loading spinner during login process",
+      "Show specific error messages for different failure scenarios (network error, invalid credentials, server error)",
+      "Implement toast notifications for login success and error states",
+      "Prevent multiple simultaneous login attempts",
+      "Clear sensitive information after failed login attempts"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "jobit",
+    "assignedTo": [],
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "dependencyTasks": ["519be4b6-1874-4c13-aac1-f0eb77b38832", "6ad9822c-8050-4334-a708-a33757995e24"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-15T18:11:25.764Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:11:25.764Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "68262e8fcc1afa010a229ecb"
+    },
+    "title": "Create Redux Slice for Saved Jobs",
+    "uuid": "4bca8303-d08f-4b93-abaf-0c3e304d2bb5",
+    "issueUuid": "adf0c51d-b4c1-4434-a85b-f3fb49b3cf9c",
+    "description": "Implement a Redux slice to manage the state of saved jobs. This slice will handle adding and removing jobs from the user's favorites. The slice should:\n- Define an initial state for saved jobs\n- Create reducers for adding and removing jobs\n- Ensure saved jobs persist across sessions using local storage\n- Handle cases where the same job is saved multiple times",
+    "acceptanceCriteria": [
+      "Redux slice is created with initial state for saved jobs",
+      "Add job action successfully stores job in saved jobs state",
+      "Remove job action successfully removes job from saved jobs state",
+      "Saved jobs persist between page reloads",
+      "Attempting to save the same job twice does not create duplicates"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "jobit",
+    "assignedTo": [],
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "dependencyTasks": [
+      "7a78615e-a2c8-49ff-8c54-3be10288e1f4",
+      "ca8e2230-84fd-4e99-b264-a31e6871875b",
+      "e0a2ed11-e945-4215-ab83-e5d7926f2e1d",
+      "b5b1261b-e873-45ae-9925-2670c0149850"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-15T18:12:31.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:12:31.479Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "68262e8fcc1afa010a229ecc"
+    },
+    "title": "Update JobCard and JobSearchCard Components for Save Functionality",
+    "uuid": "7a78615e-a2c8-49ff-8c54-3be10288e1f4",
+    "issueUuid": "adf0c51d-b4c1-4434-a85b-f3fb49b3cf9c",
+    "description": "Modify existing job card components to add a save/unsave icon and functionality:\n- Add a save icon next to job details\n- Implement click handler to dispatch Redux actions for saving/unsaving\n- Visually distinguish saved jobs (e.g., filled icon vs. outline icon)\n- Ensure save functionality works consistently across job card variations",
+    "acceptanceCriteria": [
+      "Save icon is visible on both JobCard and JobSearchCard",
+      "Clicking save icon changes the icon's appearance",
+      "Clicking save icon dispatches correct Redux action",
+      "Saved jobs are visually distinct with a filled icon",
+      "Jobs can be unsaved by clicking the icon again"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "jobit",
+    "assignedTo": [],
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "dependencyTasks": [],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-15T18:12:31.480Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:12:31.480Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "68262e8fcc1afa010a229ecd"
+    },
+    "title": "Implement Local Storage Persistence for Saved Jobs",
+    "uuid": "b5b1261b-e873-45ae-9925-2670c0149850",
+    "issueUuid": "adf0c51d-b4c1-4434-a85b-f3fb49b3cf9c",
+    "description": "Add logic to persist saved jobs in browser's local storage:\n- Create middleware or use Redux persist to save saved jobs to localStorage\n- Implement logic to load saved jobs from localStorage on app initialization\n- Handle cases of localStorage being unavailable or having invalid data\n- Ensure saved jobs are synchronized between app state and localStorage",
+    "acceptanceCriteria": [
+      "Saved jobs are automatically saved to localStorage",
+      "Saved jobs are loaded from localStorage when app initializes",
+      "App handles cases where localStorage is unavailable",
+      "No duplicate jobs are created when loading from localStorage"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "jobit",
+    "assignedTo": [],
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "dependencyTasks": [],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-15T18:12:31.480Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:12:31.480Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "68262e8fcc1afa010a229ece"
+    },
+    "title": "Add Unit Tests for Saved Jobs Redux Slice",
+    "uuid": "e0a2ed11-e945-4215-ab83-e5d7926f2e1d",
+    "issueUuid": "adf0c51d-b4c1-4434-a85b-f3fb49b3cf9c",
+    "description": "Create comprehensive unit tests for the saved jobs Redux slice:\n- Test adding a job to saved jobs\n- Test removing a job from saved jobs\n- Test edge cases like saving duplicate jobs\n- Test localStorage interactions\n- Ensure 100% coverage of the saved jobs slice logic",
+    "acceptanceCriteria": [
+      "Unit tests cover all actions in saved jobs slice",
+      "All tests pass successfully",
+      "Test coverage is at least 90% for saved jobs slice",
+      "Tests verify correct state changes for each action"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "jobit",
+    "assignedTo": [],
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "dependencyTasks": [],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-15T18:12:31.481Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:12:31.481Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "68262e8fcc1afa010a229ecf"
+    },
+    "title": "Update Job Detail Pages to Support Save Functionality",
+    "uuid": "ca8e2230-84fd-4e99-b264-a31e6871875b",
+    "issueUuid": "adf0c51d-b4c1-4434-a85b-f3fb49b3cf9c",
+    "description": "Extend job detail pages to include save/unsave functionality:\n- Add save icon to job detail pages (both company and individual job details)\n- Implement consistent save/unsave behavior across different job detail views\n- Ensure save state is reflected immediately and synced with global state\n- Handle cases where job details might be slightly different from job card data",
+    "acceptanceCriteria": [
+      "Save icon is present on job detail pages",
+      "Save functionality works identically to job cards",
+      "Saved state is immediately reflected in UI",
+      "Job can be saved/unsaved from job detail pages"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "jobit",
+    "assignedTo": [],
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "dependencyTasks": ["7a78615e-a2c8-49ff-8c54-3be10288e1f4", "b5b1261b-e873-45ae-9925-2670c0149850"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-15T18:12:31.481Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:12:31.481Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "68262ed1cc1afa010a229ed0"
+    },
+    "title": "Create Redux Slice for Saved Jobs",
+    "uuid": "f21a9df7-d128-4d22-a261-978118428f5e",
+    "issueUuid": "beb917e3-637b-4fa0-9510-c56a196da872",
+    "description": "Implement a Redux slice to manage the state of saved jobs. This will handle storing, adding, and removing saved jobs in the application state.\n\nSteps:\n1. Create a new slice in redux/feature directory\n2. Define initial state with an array of saved jobs\n3. Create reducers for:\n   - Adding a job to saved list\n   - Removing a job from saved list\n4. Implement action creators for these reducers\n5. Ensure the slice supports persisting saved jobs across sessions",
+    "acceptanceCriteria": [
+      "Redux slice is created with correct initial state",
+      "Reducers can successfully add and remove jobs from saved list",
+      "State updates are immutable",
+      "Saved jobs persist between page reloads"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "jobit",
+    "assignedTo": [],
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "dependencyTasks": ["3f7bab79-dd82-41f1-bb8f-11035cc59a3d"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-15T18:13:37.329Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:13:37.329Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "68262ed1cc1afa010a229ed1"
+    },
+    "title": "Implement Saved Jobs API Endpoint",
+    "uuid": "3f7bab79-dd82-41f1-bb8f-11035cc59a3d",
+    "issueUuid": "beb917e3-637b-4fa0-9510-c56a196da872",
+    "description": "Create a server-side API endpoint to handle saved jobs operations. This endpoint will interact with the database to store and retrieve saved jobs for authenticated users.\n\nSteps:\n1. Create API route for saved jobs (e.g., /api/saved-jobs)\n2. Implement GET method to retrieve user's saved jobs\n3. Implement POST method to save a new job\n4. Implement DELETE method to remove a saved job\n5. Add authentication middleware to ensure only logged-in users can access the endpoint\n6. Implement error handling for various scenarios",
+    "acceptanceCriteria": [
+      "API endpoint supports GET, POST, and DELETE methods",
+      "Only authenticated users can access the endpoint",
+      "Endpoint returns correct HTTP status codes for different operations",
+      "Error scenarios are handled gracefully"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "jobit",
+    "assignedTo": [],
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "dependencyTasks": [],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-15T18:13:37.330Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:13:37.330Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "68262ed1cc1afa010a229ed2"
+    },
+    "title": "Design and Implement Saved Jobs Page Component",
+    "uuid": "97e5f474-3587-4250-9c59-cf4fe488b9d9",
+    "issueUuid": "beb917e3-637b-4fa0-9510-c56a196da872",
+    "description": "Create a new page component for displaying saved jobs. The component will fetch saved jobs from the API and render them in a list.\n\nSteps:\n1. Create a new page file at app/saved-jobs/page.tsx\n2. Implement component to fetch saved jobs from API\n3. Create a layout to display job cards for saved jobs\n4. Add a remove button for each saved job\n5. Handle loading and empty state scenarios\n6. Ensure the page is only accessible to logged-in users",
+    "acceptanceCriteria": [
+      "Page displays all saved jobs retrieved from API",
+      "Each job card shows full job details",
+      "Remove button works for each saved job",
+      "Loading state is handled correctly",
+      "Empty state is displayed when no jobs are saved",
+      "Page is protected and requires authentication"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "jobit",
+    "assignedTo": [],
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "dependencyTasks": ["3f7bab79-dd82-41f1-bb8f-11035cc59a3d", "f21a9df7-d128-4d22-a261-978118428f5e"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-15T18:13:37.330Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:13:37.330Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "68262ed1cc1afa010a229ed3"
+    },
+    "title": "Add Remove Job Functionality to Saved Jobs Page",
+    "uuid": "e217fec9-c429-4b8f-88b4-127388bf39a8",
+    "issueUuid": "beb917e3-637b-4fa0-9510-c56a196da872",
+    "description": "Implement the logic to remove a job from the saved jobs list directly from the Saved Jobs page.\n\nSteps:\n1. Create a remove job handler function\n2. Integrate the handler with the Redux slice\n3. Add confirmation mechanism before job removal\n4. Update the UI immediately after job removal\n5. Sync the removal with the backend API",
+    "acceptanceCriteria": [
+      "Jobs can be removed from the saved list",
+      "Removal is confirmed before final action",
+      "UI updates immediately after job removal",
+      "Backend API is called to delete the saved job",
+      "Redux state is updated after successful removal"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "jobit",
+    "assignedTo": [],
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "dependencyTasks": ["f21a9df7-d128-4d22-a261-978118428f5e", "3f7bab79-dd82-41f1-bb8f-11035cc59a3d"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-15T18:13:37.330Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:13:37.330Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "68262ed1cc1afa010a229ed4"
+    },
+    "title": "Implement Saved Jobs Navigation and Access Control",
+    "uuid": "a0addb8e-dd64-4fe5-b773-ec1f62901ad4",
+    "issueUuid": "beb917e3-637b-4fa0-9510-c56a196da872",
+    "description": "Add navigation link to Saved Jobs page and implement access control to ensure only authenticated users can view the page.\n\nSteps:\n1. Update NavBar component to include 'Saved Jobs' link\n2. Conditionally render the link based on authentication status\n3. Implement a higher-order component or middleware for route protection\n4. Redirect unauthenticated users to login page\n5. Add appropriate error handling",
+    "acceptanceCriteria": [
+      "'Saved Jobs' link is only visible to logged-in users",
+      "Clicking the link navigates to Saved Jobs page",
+      "Unauthenticated users are redirected to login page",
+      "Proper error messages are displayed for unauthorized access"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "jobit",
+    "assignedTo": [],
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "dependencyTasks": [
+      "3f7bab79-dd82-41f1-bb8f-11035cc59a3d",
+      "f21a9df7-d128-4d22-a261-978118428f5e",
+      "97e5f474-3587-4250-9c59-cf4fe488b9d9"
+    ],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-15T18:13:37.331Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:13:37.331Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "68262effcc1afa010a229ed5"
+    },
+    "title": "Create Conditional Rendering for Saved Jobs Navigation Link",
+    "uuid": "6be8004f-c216-4455-8fb5-0985e1f2f841",
+    "issueUuid": "34d5835c-3052-4058-b660-1f1aacc521cf",
+    "description": "Modify the existing NavBar component to conditionally render a 'Saved Jobs' navigation link only when a user is logged in. This will require integrating with the authentication context or state management system to determine user login status.",
+    "acceptanceCriteria": [
+      "The 'Saved Jobs' link is not visible when no user is logged in",
+      "The 'Saved Jobs' link appears in the navigation menu when a user is authenticated",
+      "The link's visibility is controlled by a centralized authentication state",
+      "The link is styled consistently with other navigation items"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "jobit",
+    "assignedTo": [],
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "dependencyTasks": ["dc9e4c89-e7e7-4a89-b033-cd40f8de0913", "ed2ef8ec-c43f-47fe-83d3-0c4f1c2f2000"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-15T18:14:23.525Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:14:23.525Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "68262effcc1afa010a229ed6"
+    },
+    "title": "Implement Saved Jobs Page Route",
+    "uuid": "dc9e4c89-e7e7-4a89-b033-cd40f8de0913",
+    "issueUuid": "34d5835c-3052-4058-b660-1f1aacc521cf",
+    "description": "Create a new page component for displaying saved jobs, located at 'app/saved-jobs/page.tsx'. This page will be the destination when the 'Saved Jobs' navigation link is clicked. The page should have a basic layout ready for displaying job listings.",
+    "acceptanceCriteria": [
+      "A new '/saved-jobs' route is created",
+      "The page renders without errors when accessed by a logged-in user",
+      "The page displays a placeholder or message when no jobs are saved",
+      "The route is protected and redirects unauthenticated users to the login page"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "jobit",
+    "assignedTo": [],
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "dependencyTasks": [],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-15T18:14:23.526Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:14:23.526Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "68262effcc1afa010a229ed7"
+    },
+    "title": "Add Navigation Link Routing Logic",
+    "uuid": "ed2ef8ec-c43f-47fe-83d3-0c4f1c2f2000",
+    "issueUuid": "34d5835c-3052-4058-b660-1f1aacc521cf",
+    "description": "Implement the routing mechanism in the NavBar component to navigate to the Saved Jobs page when the link is clicked. Use Next.js routing methods to ensure smooth client-side navigation.",
+    "acceptanceCriteria": [
+      "Clicking the 'Saved Jobs' link navigates to the /saved-jobs page",
+      "Navigation occurs without a full page reload",
+      "The active/selected state of the navigation link is correctly managed",
+      "Routing works correctly in both development and production environments"
+    ],
+    "repoOwner": "labrocadabro",
+    "repoName": "jobit",
+    "assignedTo": [],
+    "bountyId": "865ac5c8-7179-4720-b512-a5dbc1aa4b9e",
+    "dependencyTasks": ["dc9e4c89-e7e7-4a89-b033-cd40f8de0913"],
+    "status": "initialized",
+    "createdAt": {
+      "$date": "2025-05-15T18:14:23.527Z"
+    },
+    "updatedAt": {
+      "$date": "2025-05-15T18:14:23.527Z"
+    }
+  }
+]
