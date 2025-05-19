@@ -640,93 +640,87 @@ def consolidate_prs(
             .first()
         )
 
-        # If we have an existing PR, we'll use it
-        pr_url = None
-        if existing_submission and existing_submission.pr_url:
-            pr_url = existing_submission.pr_url
-            logger.info(
-                f"Found existing PR URL for bounty {bounty_id}, round {round_number}: {pr_url}"
-            )
-            # We'll use the existing PR URL
-        else:
-            # Get task details which includes issue_uuid
-
-            # If no existing submission with PR URL, delete any incomplete submission
-            if existing_submission:
-                db.delete(existing_submission)
-                db.commit()
-                logger.info(
-                    f"Deleted existing incomplete submission for bounty {bounty_id}, round {round_number}"
-                )
-
-            # Create new submission
-            submission = Submission(
-                bounty_id=bounty_id,
-                round_number=round_number,
-                status="running",
-                repo_owner=repo_owner,
-                repo_name=repo_name,
-                uuid=issue_uuid,  # Store issue_uuid in the uuid column
-                node_type="leader",  # Set node_type to leader
-            )
-            db.add(submission)
+        # If no existing submission with PR URL, delete any incomplete submission
+        if existing_submission:
+            db.delete(existing_submission)
             db.commit()
             logger.info(
-                f"Created new submission with uuid={issue_uuid}, node_type=leader"
+                f"Deleted existing incomplete submission for bounty {bounty_id}, round {round_number}"
             )
 
-            # Get source fork
-            github = Github(os.environ["GITHUB_TOKEN"])
-            source_fork = github.get_repo(f"{repo_owner}/{repo_name}")
+        # Create new submission
+        submission = Submission(
+            bounty_id=bounty_id,
+            round_number=round_number,
+            status="running",
+            repo_owner=repo_owner,
+            repo_name=repo_name,
+            uuid=issue_uuid,  # Store issue_uuid in the uuid column
+            node_type="leader",  # Set node_type to leader
+            username=os.environ["GITHUB_USERNAME"],
+        )
+        db.add(submission)
+        db.commit()
+        logger.info(f"Created new submission with uuid={issue_uuid}, node_type=leader")
 
-            # Verify this is a fork
-            if not source_fork.fork:
-                submission.status = "failed"
-                db.commit()
-                return {
-                    "success": False,
-                    "status": 400,
-                    "error": "Source repository is not a fork",
-                }
+        # Get source fork
+        github = Github(os.environ["GITHUB_TOKEN"])
+        source_fork = github.get_repo(f"{repo_owner}/{repo_name}")
 
-            # Create workflow instance with validated PRs
-            logger.info("\nCreating workflow with:")
-            logger.info(f"  bounty_id: {bounty_id}")
+        # Verify this is a fork
+        if not source_fork.fork:
+            submission.status = "failed"
+            db.commit()
+            return {
+                "success": False,
+                "status": 400,
+                "error": "Source repository is not a fork",
+            }
 
-            # Initialize Claude client
-            client = setup_client("anthropic")
+        # Create workflow instance with validated PRs
+        logger.info("\nCreating workflow with:")
+        logger.info(f"  bounty_id: {bounty_id}")
 
-            workflow = MergeConflictWorkflow(
-                client=client,
-                prompts=CONFLICT_PROMPTS,
-                source_fork_url=source_fork.html_url,
-                source_branch=source_branch,
-                staking_key=staking_key,
-                pub_key=pub_key,
-                staking_signature=staking_signature,
-                public_signature=public_signature,
-                bounty_id=bounty_id,
-                pr_list=pr_list,
-                expected_branch=source_branch,
-                fork_owner=fork_owner,
-                pr_signature=pr_signature,
-                issue_uuid=issue_uuid,  # Pass issue_uuid to the workflow
+        # Initialize Claude client
+        client = setup_client("anthropic")
+
+        workflow = MergeConflictWorkflow(
+            client=client,
+            prompts=CONFLICT_PROMPTS,
+            source_fork_url=source_fork.html_url,
+            source_branch=source_branch,
+            staking_key=staking_key,
+            pub_key=pub_key,
+            staking_signature=staking_signature,
+            public_signature=public_signature,
+            bounty_id=bounty_id,
+            pr_list=pr_list,
+            expected_branch=source_branch,
+            fork_owner=fork_owner,
+            pr_signature=pr_signature,
+            issue_uuid=issue_uuid,  # Pass issue_uuid to the workflow
+        )
+
+        # Run workflow
+        pr_url = workflow.run()
+        if not pr_url:
+            log_error(
+                Exception("No PR URL returned from workflow"),
+                context="Merge workflow failed to create PR",
             )
+            submission.status = "failed"
+            db.commit()
+            return {
+                "success": False,
+                "status": 500,
+                "error": "Merge workflow failed to create PR",
+            }
 
-            # Run workflow
-            pr_url = workflow.run()
-            if not pr_url:
-                log_error(
-                    Exception("No PR URL returned from workflow"),
-                    context="Merge workflow failed to create PR",
-                )
-                submission.status = "failed"
-                db.commit()
-                return {
-                    "success": False,
-                    "status": 500,
-                    "error": "Merge workflow failed to create PR",
-                }
+        # Store PR URL and update status
+        submission.pr_url = pr_url
+        submission.status = "completed"
+        db.commit()
+        logger.info(f"Stored PR URL {pr_url} and updated status to completed")
 
         return {
             "success": True,
