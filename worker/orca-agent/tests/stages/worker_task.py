@@ -24,6 +24,7 @@ def prepare(runner, worker):
         "githubUsername": worker.get_env("GITHUB_USERNAME"),
         "stakingKey": worker.get_key("staking_public"),
         "pubKey": worker.get_key("main_public"),
+        "isFinal": False,
     }
 
     return {
@@ -50,7 +51,7 @@ def execute(runner, worker, data):
     result = response.json()
 
     # Handle 409 gracefully - no eligible todos is an expected case
-    if response.status_code in [401, 409]:
+    if response.status_code == 409:
         print(
             f"✓ {result.get('message', 'No eligible todos')} for {worker.get('name')} - continuing"
         )
