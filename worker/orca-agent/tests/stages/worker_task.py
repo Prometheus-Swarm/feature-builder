@@ -73,6 +73,7 @@ def execute(runner, worker, data):
             "uuid": result.get("uuid"),  # Should be provided by the worker
             "stakingKey": worker.get_key("staking_public"),
             "pubKey": worker.get_key("main_public"),
+            "bountyId": result.get("bounty_id"),
         }
         runner.set(
             f"submission_data.{worker.get('name')}", submission_data, scope="round"

@@ -12,24 +12,21 @@ def prepare(runner, worker):
     # Get submission data for issue UUID
     submission_data = runner.get(f"submission_data.{worker.get('name')}")
 
-    # Create payload for PR recording
     payload = {
         "taskId": runner.get("task_id"),
-        "bountyId": submission_data.get("bountyId"),
-        "prUrl": pr_url,
-        "isFinal": True,
-        "stakingKey": worker.get_key("staking_public"),
-        "publicKey": worker.get_key("main_public"),
         "action": "add-issue-pr",
-        "issueUuid": submission_data["uuid"],
+        "roundNumber": runner.get("current_round"),
+        "prUrl": pr_url,
+        "stakingKey": worker.get_key("staking_public"),
+        "pubKey": worker.get_key("main_public"),
+        "isFinal": True,
+        "uuid": submission_data["uuid"],
+        "bountyId": submission_data["bountyId"],
     }
-
-    # Return request body with signature
     return {
         "signature": create_signature(worker.get_key("staking_signing"), payload),
         "stakingKey": worker.get_key("staking_public"),
         "pubKey": worker.get_key("main_public"),
-        "issueUuid": submission_data["uuid"],
     }
 
 

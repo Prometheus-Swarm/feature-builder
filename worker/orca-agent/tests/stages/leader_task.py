@@ -72,6 +72,7 @@ def execute(runner, worker, data):
             "uuid": runner.get("issue_uuid"),  # Leader uses the issue UUID
             "stakingKey": worker.get_key("staking_public"),
             "pubKey": worker.get_key("main_public"),
+            "bountyId": result.get("bounty_id"),
         }
         runner.set("submission_data.leader", submission_data, scope="round")
 
