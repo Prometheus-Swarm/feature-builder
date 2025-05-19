@@ -92,6 +92,7 @@ class MergeConflictWorkflow(Workflow):
                 "staking_signature": staking_signature,
                 "public_signature": public_signature,
                 "pr_signature": pr_signature,  # Add PR signature to context
+                "issue_uuid": issue_uuid,  # Store issue_uuid in context
             }
         )
 
@@ -397,7 +398,7 @@ class MergeConflictWorkflow(Workflow):
                 pub_key=self.context["pub_key"],
                 staking_key=self.context["staking_key"],
                 uuid=self.context["issue_uuid"],  # Use issue_uuid instead of bounty_id
-                is_final=False,
+                is_final=False,  # This is a draft PR
                 is_issue=True,  # This is an issue PR
             )
 
