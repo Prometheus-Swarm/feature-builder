@@ -36,15 +36,12 @@ def post_pr_url_to_middle_server(
             "stakingKey": staking_key,
             "prUrl": pr_url,
             "isFinal": is_final,
+            "uuid": uuid,
         }
 
-        # Add UUID with correct key based on type
-        if is_issue:
-            payload["issueUuid"] = uuid
-            endpoint = "/api/builder/add-issue-pr"
-        else:
-            payload["todo_uuid"] = uuid
-            endpoint = "/api/builder/add-pr-to-to-do"
+        endpoint = (
+            "/api/builder/add-issue-pr" if is_issue else "/api/builder/add-pr-to-to-do"
+        )
 
         # Make request to middle server
         response = requests.post(
