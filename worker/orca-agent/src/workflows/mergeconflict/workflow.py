@@ -92,7 +92,6 @@ class MergeConflictWorkflow(Workflow):
                 "staking_signature": staking_signature,
                 "public_signature": public_signature,
                 "pr_signature": pr_signature,  # Add PR signature to context
-                "issue_uuid": issue_uuid,  # Store issue_uuid in context
             }
         )
 
@@ -212,25 +211,8 @@ class MergeConflictWorkflow(Workflow):
             os.system(
                 f"git fetch {'origin' if self.is_source_fork_owner else 'source'} {source_branch}"
             )
-
-            # Check if head branch exists remotely
-            remote_check = (
-                os.popen(f"git ls-remote --heads origin {head_branch}").read().strip()
-            )
-            remote_exists = bool(remote_check)
-
-            if remote_exists:
-                # If it exists, fetch and reset to it
-                print(f"Branch {head_branch} exists remotely, syncing with it")
-                os.system(f"git fetch origin {head_branch}")
-                os.system(f"git checkout -B {head_branch} origin/{head_branch}")
-                # Force our local branch to exactly match remote
-                os.system(f"git reset --hard origin/{head_branch}")
-            else:
-                # If it doesn't exist, create new branch from source
-                print(f"Creating new branch {head_branch} from source")
-                os.system(f"git checkout -b {head_branch} FETCH_HEAD")
-                os.system(f"git push origin {head_branch}")
+            os.system(f"git checkout -b {head_branch} FETCH_HEAD")
+            os.system(f"git push origin {head_branch}")
 
             # Install dependencies
             log_section("INSTALLING DEPENDENCIES")
