@@ -64,7 +64,7 @@ app.post("/send-error-logs", async (req, res) => {
       error,
     };
     const middleServerSignature = await namespaceWrapper.payloadSigning(middleServerPayload, secretKey);
-    await fetch(`${middleServerUrl}/bug-finder/worker/record-error-log`, {
+    await fetch(`${middleServerUrl}/api/builder/record-error-log`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -120,7 +120,7 @@ app.post("/send-logs", async (req, res) => {
       logLevel,
     };
     // const middleServerSignature = await namespaceWrapper.payloadSigning(middleServerPayload, secretKey);
-    await fetch(`${middleServerUrl}/builder/record-log`, {
+    await fetch(`${middleServerUrl}/api/builder/record-log`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -176,7 +176,7 @@ app.post("/add-todo-pr", async (req, res) => {
       action: "add-todo-pr",
     };
     const middleServerSignature = await namespaceWrapper.payloadSigning(middleServerPayload, secretKey);
-    const middleServerResponse = await fetch(`${middleServerUrl}/builder/add-pr-to-to-do`, {
+    const middleServerResponse = await fetch(`${middleServerUrl}/api/builder/add-pr-to-to-do`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
