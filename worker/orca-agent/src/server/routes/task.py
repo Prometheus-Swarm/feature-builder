@@ -26,20 +26,6 @@ def post_task_result(future, round_number, request_data, node_type, task_id):
             logger.error(f"Task failed: {response.get('error', 'Unknown error')}")
             return
 
-        # Record PR locally
-        record_response = task_service.record_pr(
-            round_number=int(round_number),
-            pr_url=response_data["pr_url"],
-            node_type=node_type,
-            bounty_id=response_data["bounty_id"],
-        )
-
-        if not record_response.get("success", False):
-            logger.error(
-                f"Failed to record PR locally: {record_response.get('error', 'Unknown error')}"
-            )
-            return
-
         # Send PR URL back to JS side
         try:
             js_response = requests.post(
