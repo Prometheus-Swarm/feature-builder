@@ -194,8 +194,11 @@ def verify_pr_ownership(
 
         result = {
             "valid": response_data.get("success", True),
-            "pr_list": response_data.get("data", {}).get("pr_list", {}),
-            "issue_uuid": response_data.get("data", {}).get("issue_uuid", None),
+            "data": {
+                "pr_list": response_data.get("data", {}).get("pr_list", {}),
+                "issue_uuid": response_data.get("data", {}).get("issue_uuid", None),
+                "system_prompt": response_data.get("data", {}).get("system_prompt"),
+            },
         }
 
         print(f"Final result: {json.dumps(result, indent=2)}")
@@ -212,7 +215,14 @@ def verify_pr_ownership(
         }
 
 
-def review_pr(pr_url, staking_key, pub_key, staking_signature, public_signature):
+def review_pr(
+    pr_url,
+    staking_key,
+    pub_key,
+    staking_signature,
+    public_signature,
+    system_prompt=None,
+):
     """Review PR and decide if it should be accepted, revised, or rejected."""
     try:
         # Set up client and workflow
@@ -225,6 +235,7 @@ def review_pr(pr_url, staking_key, pub_key, staking_signature, public_signature)
             pub_key=pub_key,
             staking_signature=staking_signature,
             public_signature=public_signature,
+            system_prompt=system_prompt,
         )
 
         # Run workflow and get result

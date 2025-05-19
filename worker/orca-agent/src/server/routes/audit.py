@@ -87,6 +87,7 @@ def audit_worker_submission(round_number: str):
             pub_key,
             staking_signature,
             public_signature,
+            system_prompt=verify_response.get("data", {}).get("system_prompt"),
         )
         return jsonify(
             {
@@ -212,6 +213,7 @@ def audit_leader_submission(round_number: int):
             pub_key,
             staking_signature,
             public_signature,
+            system_prompt=verify_response.get("data", {}).get("system_prompt"),
         )
         return jsonify(
             {
