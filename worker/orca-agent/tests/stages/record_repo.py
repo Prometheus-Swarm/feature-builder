@@ -1,6 +1,7 @@
 """Stage for recording the aggregator repository."""
 
 import requests
+import time
 from prometheus_test.utils import create_signature
 
 
@@ -43,4 +44,11 @@ def execute(runner, worker, data):
 
     url = f"{worker.get('url')}/add-aggregator-info/{data['taskId']}"
     response = requests.post(url, json=data)
-    return response.json()
+    result = response.json()
+
+    if result.get("success"):
+        print("Waiting 3 seconds to ensure branch is fully available...")
+        time.sleep(3)
+        print("Delay complete, continuing...")
+
+    return result
