@@ -29,9 +29,6 @@ def post_task_result(future, round_number, request_data, node_type, task_id):
         # Record PR locally
         record_response = task_service.record_pr(
             round_number=int(round_number),
-            staking_signature=request_data["addPRSignature"],
-            staking_key=request_data["stakingKey"],
-            pub_key=request_data["pubKey"],
             pr_url=response_data["pr_url"],
             node_type=node_type,
             bounty_id=response_data["bounty_id"],
@@ -129,11 +126,6 @@ def start_task(round_number, node_type, request):
     request_data = request.get_json()
     logger.info(f"Task data: {request_data}")
 
-    # Extract task_id from request data
-    task_id = request_data.get("task_id")
-    if not task_id:
-        return jsonify({"success": False, "message": "Missing task_id"}), 401
-
     required_fields = [
         "roundNumber",
         "stakingKey",
@@ -141,7 +133,7 @@ def start_task(round_number, node_type, request):
         "pubKey",
         "publicSignature",
         "addPRSignature",
-        "task_id",
+        "taskId",
     ]
 
     if any(request_data.get(field) is None for field in required_fields):
@@ -157,14 +149,76 @@ def start_task(round_number, node_type, request):
     # Check if this task is already being processed
     task_key = f"{node_type}_{round_number}"
     if task_key in in_progress_tasks:
-        return jsonify({"status": "Task is already being processed"}), 200
+        return (
+            jsonify({"success": False, "message": "Task is already being processed"}),
+            409,
+        )
 
     # Mark this task as in progress
     in_progress_tasks.add(task_key)
 
-    # Submit task to executor
+    # In test mode, run synchronously
+    if os.getenv("TEST_MODE") == "true":
+        try:
+            # Call task function directly
+            response = task_functions[node_type](
+                task_id=request_data["taskId"],
+                round_number=int(round_number),
+                staking_signature=request_data["stakingSignature"],
+                staking_key=request_data["stakingKey"],
+                public_signature=request_data["publicSignature"],
+                pub_key=request_data["pubKey"],
+                pr_signature=request_data["addPRSignature"],
+            )
+            response_data = response.get("data", {})
+            if not response.get("success", False):
+                status = response.get("status", 500)
+                error = response.get("error", "Unknown error")
+                return jsonify({"success": False, "message": error}), status
+
+            logger.info(response_data["message"])
+
+            # Get the todo_uuid from the database
+            db = get_db()
+            submission = (
+                db.query(Submission)
+                .filter(
+                    Submission.bounty_id == response_data["bounty_id"],
+                    Submission.round_number == int(round_number),
+                )
+                .first()
+            )
+            if not submission or not submission.uuid:
+                logger.error("No submission found or missing todo_uuid")
+                return (
+                    jsonify(
+                        {
+                            "success": False,
+                            "message": "No submission found or missing todo_uuid",
+                        }
+                    ),
+                    500,
+                )
+
+            # In test mode, just return the PR URL without recording it
+            # The worker_pr step will handle recording with the middle server
+            return jsonify(
+                {
+                    "success": True,
+                    "message": "PR created successfully",
+                    "pr_url": response_data["pr_url"],
+                    "bounty_id": response_data["bounty_id"],
+                    "uuid": submission.uuid,  # Get todo_uuid from submission
+                }
+            )
+        finally:
+            # Remove from in-progress tasks
+            in_progress_tasks.discard(task_key)
+
+    # Production mode - use background task
     future = executor.submit(
         task_functions[node_type],
+        task_id=request_data["taskId"],
         round_number=int(round_number),
         staking_signature=request_data["stakingSignature"],
         staking_key=request_data["stakingKey"],
@@ -175,7 +229,9 @@ def start_task(round_number, node_type, request):
 
     # Add callback to handle the result
     future.add_done_callback(
-        lambda f: post_task_result(f, round_number, request_data, node_type, task_id)
+        lambda f: post_task_result(
+            f, round_number, request_data, node_type, request_data["taskId"]
+        )
     )
 
     return jsonify({"status": "Task is being processed"}), 200
