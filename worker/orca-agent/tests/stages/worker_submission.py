@@ -25,7 +25,6 @@ def prepare(runner, worker):
         "stakingKey": worker.get_key("staking_public"),
         "pubKey": worker.get_key("main_public"),
         "action": "audit",
-        "githubUsername": worker.get_env("GITHUB_USERNAME"),
         **submission_data,
     }
 
