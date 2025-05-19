@@ -251,6 +251,9 @@ def run_todo_task(
             repo_name=repo_name,
             uuid=todo_uuid,  # Store the todo_uuid in the uuid column
             node_type="worker",  # Set node_type to worker
+            username=os.environ[
+                "GITHUB_USERNAME"
+            ],  # Set username from environment variable
         )
         db.add(submission)
         db.commit()
@@ -297,9 +300,7 @@ def run_todo_task(
         # Store PR URL in local DB immediately
         submission.pr_url = pr_url
         submission.bounty_id = bounty_id
-        submission.status = (
-            "pending_record"  # PR exists but not recorded with middle server
-        )
+        submission.status = "completed"  # Mark as completed after PR is stored
         db.commit()
         logger.info(
             f"Stored PR URL {pr_url} locally for bounty {bounty_id}, round {round_number}"
@@ -525,9 +526,6 @@ def _store_pr_locally(
 
 
 def record_pr(
-    staking_key,
-    staking_signature,
-    pub_key,
     pr_url,
     round_number,
     bounty_id,
@@ -605,6 +603,7 @@ def consolidate_prs(
     staking_signature,
     public_signature,
     pr_signature,
+    task_id,
 ):
     """Consolidate PRs from workers."""
     try:
@@ -711,7 +710,7 @@ def consolidate_prs(
                 expected_branch=source_branch,
                 fork_owner=fork_owner,
                 pr_signature=pr_signature,
-                issue_uuid=issue_uuid,  # Pass issue_uuid for PR recording
+                issue_uuid=issue_uuid,  # Pass issue_uuid to the workflow
             )
 
             # Run workflow
