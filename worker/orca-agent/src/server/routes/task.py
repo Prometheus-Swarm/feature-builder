@@ -29,14 +29,18 @@ def post_task_result(future, round_number, request_data, node_type, task_id):
         # Send PR URL back to JS side
         try:
             js_response = requests.post(
-                f"http://host.docker.internal:30017/task/{task_id}/add-todo-pr",
+                f"http://host.docker.internal:30017/task/{task_id}/add-pr",
                 json={
                     "prUrl": response_data["pr_url"],
                     "signature": request_data["addPRSignature"],
                     "success": True,
+                    "action": (
+                        "add-todo-pr" if node_type == "worker" else "add-issue-pr"
+                    ),
                     "message": response_data.get(
                         "message", "Task completed successfully"
                     ),
+                    "roundNumber": round_number,
                 },
             )
             js_response.raise_for_status()
