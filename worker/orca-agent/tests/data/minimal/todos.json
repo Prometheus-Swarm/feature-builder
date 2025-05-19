@@ -9,6 +9,7 @@
       "Should be implemented without using string[::-1] or reverse()"
     ],
     "repoOwner": "koii-network",
+    "bountyType": "build-feature",
     "repoName": "task-tester",
     "status": "initialized",
     "bountyId": "bounty-1111",

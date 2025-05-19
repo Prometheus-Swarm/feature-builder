@@ -7,6 +7,7 @@
     "repoName": "task-tester",
     "status": "initialized",
     "bountyId": "bounty-1111",
+    "bountyType": "build-feature",
     "uuid": "issue-1111"
   }
 ]
