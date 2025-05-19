@@ -119,13 +119,13 @@ app.post("/send-logs", async (req, res) => {
       logMessage,
       logLevel,
     };
-    // const middleServerSignature = await namespaceWrapper.payloadSigning(middleServerPayload, secretKey);
+    const middleServerSignature = await namespaceWrapper.payloadSigning(middleServerPayload, secretKey);
     await fetch(`${middleServerUrl}/api/builder/record-log`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ stakingKey, swarmBountyId, logMessage, logLevel, signature: null }),
+      body: JSON.stringify({ stakingKey, swarmBountyId, logMessage, logLevel, signature: middleServerSignature }),
     });
     res.status(200).json({ result: "Submitted log" });
   } catch (error) {
@@ -134,10 +134,13 @@ app.post("/send-logs", async (req, res) => {
     res.status(400).json({ error: "ERROR: Submitted Info log" });
   }
 });
-app.post("/add-todo-pr", async (req, res) => {
+app.post("/add-pr", async (req, res) => {
   const signature = req.body.signature;
   const prUrl = req.body.prUrl;
   const bountyId = req.body.bountyId;
+  const action = req.body.action;
+  const uuid = req.body.uuid;
+  const roundNumber = Number(req.body.roundNumber);
   console.log("[TASK] req.body", req.body);
   try {
     const publicKey = await namespaceWrapper.getMainAccountPubkey();
@@ -173,7 +176,9 @@ app.post("/add-todo-pr", async (req, res) => {
       isFinal: true,
       stakingKey,
       publicKey,
-      action: "add-todo-pr",
+      action,
+      uuid,
+      roundNumber,
     };
     const middleServerSignature = await namespaceWrapper.payloadSigning(middleServerPayload, secretKey);
     const middleServerResponse = await fetch(`${middleServerUrl}/api/builder/add-pr-to-to-do`, {
@@ -181,7 +186,7 @@ app.post("/add-todo-pr", async (req, res) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ signature: middleServerSignature, stakingKey: stakingKey }),
+      body: JSON.stringify({ signature: middleServerSignature, stakingKey: stakingKey, pubKey: publicKey }),
     });
 
     console.log("[TASK] Add PR Response: ", middleServerResponse);
