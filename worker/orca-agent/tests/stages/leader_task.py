@@ -24,6 +24,8 @@ def prepare(runner, worker):
         "githubUsername": worker.get_env("GITHUB_USERNAME"),
         "stakingKey": worker.get_key("staking_public"),
         "pubKey": worker.get_key("main_public"),
+        "isFinal": False,  # Draft PR
+        "prUrl": None,  # Will be filled in later
     }
 
     return {
