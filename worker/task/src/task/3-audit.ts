@@ -113,11 +113,13 @@ export async function audit(cid: string, roundNumber: number, submitterKey: stri
       body: JSON.stringify(podCallBody),
     });
 
-    if (auditResult.success) {
+    const auditData = auditResult.data;
+
+    if (auditData.success) {
       // Log the validation message for debugging
-      console.log("Audit result:", auditResult.message);
+      console.log("Audit result:", auditData.message);
       // Return the actual boolean result
-      return auditResult.data.passed;
+      return auditData.data.passed;
     } else {
       console.error("Pod call failed:", auditResult);
       return true; // Keep original behavior of returning true on error
