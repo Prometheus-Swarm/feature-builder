@@ -1,9 +1,22 @@
 import { TASK_ID, namespaceWrapper } from "@_koii/namespace-wrapper";
+import os from "os";
 import "dotenv/config";
 
-const imageUrl = "docker.io/labrocadabro/feature-builder:0.1";
+const imageUrl = "docker.io/labrocadabro/builder-test:1.0";
 
-export const bountyReward = 300;
+function getHostIP() {
+  const interfaces = os.networkInterfaces();
+  for (const name of Object.keys(interfaces)) {
+    for (const iface of interfaces[name] || []) {
+      // Skip over internal (i.e., 127.0.0.1) and non-IPv4 addresses
+      if (iface.family === "IPv4" && !iface.internal) {
+        console.log("Host IP address:", iface.address);
+        return iface.address;
+      }
+    }
+  }
+  throw new Error("Unable to determine host IP address");
+}
 
 async function createPodSpec(): Promise<string> {
   const basePath = await namespaceWrapper.getBasePath();
@@ -31,6 +44,10 @@ spec:
       hostPath:
         path: ${basePath}/orca/data
         type: DirectoryOrCreate
+  hostAliases:
+  - ip: "${getHostIP()}"
+    hostnames:
+    - "host.docker.internal"
 `;
   return podSpec;
 }
