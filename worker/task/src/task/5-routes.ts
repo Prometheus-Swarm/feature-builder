@@ -180,6 +180,10 @@ app.post("/add-pr", async (req, res) => {
       roundNumber,
       pubKey: publicKey,
     };
+    const endpoint =
+      action === "add-todo-pr"
+        ? `${middleServerUrl}/api/builder/add-pr-to-to-do`
+        : `${middleServerUrl}/api/builder/add-issue-pr`;
     const middleServerSignature = await namespaceWrapper.payloadSigning(middleServerPayload, secretKey);
     const middleServerResponse = await fetch(`${middleServerUrl}/api/builder/add-pr-to-to-do`, {
       method: "POST",
