@@ -125,6 +125,7 @@ def complete_todo(
                     "pr_url": result["data"]["pr_url"],
                     "message": result["data"]["message"],
                     "bounty_id": result["data"]["bounty_id"],
+                    "uuid": result["data"]["uuid"],
                 },
             }
         except Exception as e:
@@ -312,6 +313,7 @@ def run_todo_task(
                 "pr_url": pr_url,
                 "bounty_id": bounty_id,
                 "message": "Created new PR",
+                "uuid": todo_uuid,
             },
         }
 
@@ -728,6 +730,7 @@ def consolidate_prs(
                 "pr_url": pr_url,
                 "message": "PRs consolidated successfully",
                 "bounty_id": bounty_id,
+                "uuid": issue_uuid,
             },
         }
 

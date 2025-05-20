@@ -41,6 +41,8 @@ def post_task_result(future, round_number, request_data, node_type, task_id):
                         "message", "Task completed successfully"
                     ),
                     "roundNumber": round_number,
+                    "bountyId": response_data["bounty_id"],
+                    "uuid": response_data["uuid"],
                 },
             )
             js_response.raise_for_status()
@@ -198,7 +200,7 @@ def start_task(round_number, node_type, request):
                     "message": "PR created successfully",
                     "pr_url": response_data["pr_url"],
                     "bounty_id": response_data["bounty_id"],
-                    "uuid": submission.uuid,  # Get todo_uuid from submission
+                    "uuid": response_data["uuid"],
                 }
             )
         finally:
