@@ -1,7 +1,7 @@
 import { Submitter, DistributionList } from "@_koii/task-manager";
 import { namespaceWrapper } from "@_koii/namespace-wrapper";
 import { Submission } from "@_koii/namespace-wrapper/dist/types";
-import { bountyReward } from "../orcaSettings";
+import { customReward } from "../utils/constant";
 
 const getSubmissionList = async (roundNumber: number): Promise<Record<string, Submission>> => {
   const submissionInfo = await namespaceWrapper.getTaskSubmissionInfo(roundNumber);
@@ -39,7 +39,7 @@ export const distribution = async (
         continue;
       } else {
         if (submitter.votes > 0) {
-          distributionList[submitter.publicKey] = bountyReward;
+          distributionList[submitter.publicKey] = customReward;
         } else {
           distributionList[submitter.publicKey] = 0;
         }
