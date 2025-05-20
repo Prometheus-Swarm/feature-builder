@@ -16,7 +16,8 @@ def fetch_submission(task_id, round_number):
     round_number = int(round_number)
 
     db = get_db()
-    submission = (
+    # First find any completed submission
+    initial_submission = (
         db.query(Submission)
         .filter(
             Submission.status == "completed",
@@ -25,21 +26,47 @@ def fetch_submission(task_id, round_number):
         .first()
     )
 
-    if submission:
-        db.query(Submission).filter(Submission.uuid == submission.uuid).update(
-            {"status": "submitted"}
+    if initial_submission:
+        # Find all completed submissions with the same UUID
+        all_submissions = (
+            db.query(Submission)
+            .filter(
+                Submission.uuid == initial_submission.uuid,
+                Submission.status == "completed",
+            )
+            .order_by(Submission.round_number.desc())
+            .all()
         )
+
+        if not all_submissions:
+            return jsonify({"message": "No submission"}), 409
+
+        # Get the newest submission (highest round number)
+        newest_submission = all_submissions[0]
+
+        # Mark older submissions as failed
+        for sub in all_submissions[1:]:
+            db.query(Submission).filter(
+                Submission.uuid == sub.uuid, Submission.round_number == sub.round_number
+            ).update({"status": "failed"})
+
+        # Mark the newest submission as submitted
+        db.query(Submission).filter(
+            Submission.uuid == newest_submission.uuid,
+            Submission.round_number == newest_submission.round_number,
+        ).update({"status": "submitted"})
+
         db.commit()
 
         return jsonify(
             {
-                "bountyId": submission.bounty_id,
-                "prUrl": submission.pr_url,
-                "githubUsername": submission.username,
-                "repoOwner": submission.repo_owner,
-                "repoName": submission.repo_name,
-                "nodeType": submission.node_type,
-                "uuid": submission.uuid,
+                "bountyId": newest_submission.bounty_id,
+                "prUrl": newest_submission.pr_url,
+                "githubUsername": newest_submission.username,
+                "repoOwner": newest_submission.repo_owner,
+                "repoName": newest_submission.repo_name,
+                "nodeType": newest_submission.node_type,
+                "uuid": newest_submission.uuid,
                 "roundNumber": round_number,
             }
         )
