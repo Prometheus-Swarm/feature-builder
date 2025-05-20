@@ -175,10 +175,10 @@ app.post("/add-pr", async (req, res) => {
       prUrl,
       isFinal: true,
       stakingKey,
-      publicKey,
       action,
       uuid,
       roundNumber,
+      pubKey: publicKey,
     };
     const middleServerSignature = await namespaceWrapper.payloadSigning(middleServerPayload, secretKey);
     const middleServerResponse = await fetch(`${middleServerUrl}/api/builder/add-pr-to-to-do`, {
