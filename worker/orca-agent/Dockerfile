@@ -9,7 +9,10 @@ COPY requirements.txt .
 
 
 # Install Git and any other necessary packages
-RUN apt-get update && apt-get install -y git sudo curl
+RUN apt-get update && apt-get install -y git sudo curl gnupg \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install the dependencies
 RUN pip install -r requirements.txt
