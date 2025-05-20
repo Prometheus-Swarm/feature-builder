@@ -311,7 +311,6 @@ def extract_pr_signature(
 def verify_pr_signatures(
     pr_body: str,
     task_id: str,
-    round_number: int,
     expected_staking_key: str = None,
     expected_action: str = None,
 ) -> bool:
@@ -320,7 +319,6 @@ def verify_pr_signatures(
     Args:
         pr_body: PR description text
         task_id: Expected task ID
-        round_number: Expected round number
         expected_staking_key: Optional expected staking key
         expected_action: Optional expected action type (e.g. "task", "merge", "audit")
 
@@ -352,7 +350,6 @@ def verify_pr_signatures(
     # Verify signature and validate payload
     expected_values = {
         "taskId": task_id,
-        "roundNumber": round_number,
         "stakingKey": staking_key,
     }
     if expected_action:
