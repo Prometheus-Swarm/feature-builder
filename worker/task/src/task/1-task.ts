@@ -17,10 +17,14 @@ interface PodCallBody {
 
 export async function task(roundNumber: number): Promise<void> {
   console.log(`EXECUTE TASK FOR ROUND ${roundNumber}`);
+  await preRunCheck(
+    roundNumber.toString(),
+    process.env.ANTHROPIC_API_KEY,
+    process.env.GITHUB_USERNAME,
+    process.env.GITHUB_TOKEN,
+  );
   try {
     const orcaClient = await getOrcaClient();
-
-    await preRunCheck(roundNumber.toString());
 
     const stakingKeypair = await namespaceWrapper.getSubmitterAccount();
     if (!stakingKeypair) {
