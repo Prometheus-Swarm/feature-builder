@@ -5,7 +5,7 @@ import os
 from github import Github
 from src.database import get_db, Submission
 from prometheus_swarm.clients import setup_client
-from prometheus_swarm.utils.logging import logger, log_error
+from prometheus_swarm.utils.logging import logger, log_error, swarm_bounty_id_var
 from src.workflows.task.workflow import TaskWorkflow
 from src.workflows.mergeconflict.workflow import MergeConflictWorkflow
 from src.workflows.mergeconflict.prompts import PROMPTS as CONFLICT_PROMPTS
@@ -26,6 +26,7 @@ def complete_todo(
     pub_key,
     public_signature,
     pr_signature,
+    task_id,
     **kwargs,
 ):
     """Handle task creation request."""
@@ -47,6 +48,7 @@ def complete_todo(
         repo_name = todo.get("repo_name")
         base_branch = todo.get("issue_uuid")
         bounty_id = todo.get("bounty_id")
+        swarm_bounty_id_var.set(bounty_id)
         # Log what we received from the server
         logger.info(f"Received todo data: {todo}")
         logger.info(
@@ -114,6 +116,7 @@ def complete_todo(
                 repo_owner=repo_owner,
                 repo_name=repo_name,
                 base_branch=base_branch,
+                task_id=task_id,
             )
 
             if not result.get("success", False):
@@ -204,6 +207,7 @@ def run_todo_task(
     repo_owner,
     repo_name,
     base_branch,
+    task_id,
 ):
     """Run todo task and create PR."""
     try:
@@ -214,6 +218,7 @@ def run_todo_task(
             db.query(Submission)
             .filter(
                 Submission.bounty_id == bounty_id,
+                Submission.task_id == task_id,
                 Submission.round_number == round_number,
             )
             .first()
@@ -255,6 +260,7 @@ def run_todo_task(
             username=os.environ[
                 "GITHUB_USERNAME"
             ],  # Set username from environment variable
+            task_id=task_id,
         )
         db.add(submission)
         db.commit()
@@ -632,12 +638,15 @@ def consolidate_prs(
         bounty_id = issue["bounty_id"]
         fork_owner = issue["fork_owner"]  # Get fork owner
 
+        swarm_bounty_id_var.set(bounty_id)
+
         # Check if we already have a PR URL for this submission
         existing_submission = (
             db.query(Submission)
             .filter(
                 Submission.bounty_id == bounty_id,
                 Submission.round_number == round_number,
+                Submission.task_id == task_id,
             )
             .first()
         )
@@ -660,6 +669,7 @@ def consolidate_prs(
             uuid=issue_uuid,  # Store issue_uuid in the uuid column
             node_type="leader",  # Set node_type to leader
             username=os.environ["GITHUB_USERNAME"],
+            task_id=task_id,
         )
         db.add(submission)
         db.commit()

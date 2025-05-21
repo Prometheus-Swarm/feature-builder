@@ -1,6 +1,10 @@
 from flask import Blueprint, jsonify, request
 from src.server.services import task_service
-from prometheus_swarm.utils.logging import logger
+from prometheus_swarm.utils.logging import (
+    logger,
+    task_id_var,
+    signature_var,
+)
 import requests
 import os
 from src.database import get_db, Submission
@@ -137,6 +141,9 @@ def start_task(round_number, node_type, request):
             jsonify({"success": False, "message": f"Missing data: {missing_fields}"}),
             401,
         )
+
+    task_id_var.set(request_data["taskId"])
+    signature_var.set(request_data["addPRSignature"])
 
     # Check if this task is already being processed
     task_key = f"{node_type}_{round_number}"
