@@ -2,7 +2,7 @@ import { TASK_ID, namespaceWrapper } from "@_koii/namespace-wrapper";
 import os from "os";
 import "dotenv/config";
 
-const imageUrl = "docker.io/labrocadabro/feature-builder:0.2";
+const imageUrl = "docker.io/labrocadabro/feature-builder:0.3";
 
 function getHostIP() {
   const interfaces = os.networkInterfaces();
