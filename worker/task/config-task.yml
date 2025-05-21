@@ -124,8 +124,7 @@ environment: "PRODUCTION"
 #################################### FOR UPDATING TASKS ONLY ####################################
 
 ## Old Task ID ##
-task_id: "HYSbqs59P288Cxn1qCGe8DN1WosRqYZWvYUwJ97CVCjU"
+task_id: "3NNUpngdAQ2RmGpcGMEUhRUV7Yrsq1WPfpjiqU4Mn1uR"
 
 ## Migration Description ##
-migrationDescription: "Multiple improvements to builder agent"
-
+migrationDescription: "Fix logging"
