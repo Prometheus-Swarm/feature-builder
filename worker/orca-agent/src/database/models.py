@@ -9,6 +9,7 @@ class Submission(SQLModel, table=True):
 
     id: Optional[int] = Field(default=None, primary_key=True)
     bounty_id: str = Field(index=True)
+    task_id: str = Field(index=True)
     round_number: int
     status: str = "pending"
     pr_url: Optional[str] = None

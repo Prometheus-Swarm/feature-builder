@@ -20,6 +20,7 @@ def fetch_submission(task_id, round_number):
     initial_submission = (
         db.query(Submission)
         .filter(
+            Submission.task_id == task_id,
             Submission.status == "completed",
         )
         .order_by(Submission.round_number.asc())
