@@ -135,6 +135,7 @@ class ValidationPhase(WorkflowPhase):
         "pub_key": str,  # Worker's public key
         "staking_signature": str,  # Worker's staking signature
         "public_signature": str,  # Worker's public signature
+        "is_draft": bool,  # Whether to create a draft PR
     },
     tools={
         "repo_path": str,  # Path to the repository for git operations
@@ -146,6 +147,7 @@ class ValidationPhase(WorkflowPhase):
         "staking_signature": str,  # Worker's staking signature
         "public_signature": str,  # Worker's public signature
         "github_token": str,  # GitHub token for authentication
+        "is_draft": bool,  # Whether to create a draft PR
     },
 )
 class PullRequestPhase(WorkflowPhase):
@@ -156,4 +158,43 @@ class PullRequestPhase(WorkflowPhase):
             available_tools=["read_file", "list_files", "create_worker_pull_request"],
             conversation_id=conversation_id,
             name="Create Pull Request",
+        )
+
+
+@requires_context(
+    templates={
+        "current_files": List[str],  # List of files in the repository
+        "repo_path": str,  # Path to the repository
+        "repo_owner": str,  # Leader's username for PR target
+        "repo_name": str,  # Repository name for PR target
+        "todo": str,  # Todo task description
+        "acceptance_criteria": List[str],  # List of acceptance criteria
+        "base_branch": str,  # Base branch for PR target
+        "staking_key": str,  # Worker's staking key
+        "pub_key": str,  # Worker's public key
+        "staking_signature": str,  # Worker's staking signature
+        "public_signature": str,  # Worker's public signature
+        "is_draft": bool,  # Whether to create a draft PR
+    },
+    tools={
+        "repo_path": str,  # Path to the repository for git operations
+        "repo_owner": str,  # Leader's username for PR target
+        "repo_name": str,  # Repository name for PR target
+        "base_branch": str,  # Base branch for PR target
+        "staking_key": str,  # Worker's staking key
+        "pub_key": str,  # Worker's public key
+        "staking_signature": str,  # Worker's staking signature
+        "public_signature": str,  # Worker's public signature
+        "github_token": str,  # GitHub token for authentication
+        "is_draft": bool,  # Whether to create a draft PR
+    },
+)
+class DraftPullRequestPhase(WorkflowPhase):
+    def __init__(self, workflow: Workflow, conversation_id: str = None):
+        super().__init__(
+            workflow=workflow,
+            prompt_name="create_draft_pr",
+            required_tool="create_worker_pull_request",
+            conversation_id=conversation_id,
+            name="Create Draft Pull Request",
         )

@@ -12,6 +12,7 @@ from src.database import initialize_database
 from colorama import Fore, Style
 import uuid
 import os
+from .logging_setup import setup_remote_logging
 
 
 def create_app():
@@ -60,6 +61,8 @@ def create_app():
     with app.app_context():
         # Set up logging (includes both console and database logging)
         configure_logging()
+        # Set up remote logging
+        setup_remote_logging()
         # Initialize database
         initialize_database()
         # Disable Flask's default logging

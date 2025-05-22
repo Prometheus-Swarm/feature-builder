@@ -3,7 +3,7 @@
 from prometheus_swarm.clients import setup_client
 from src.workflows.audit.workflow import AuditWorkflow
 from src.workflows.audit.prompts import PROMPTS as AUDIT_PROMPTS
-from prometheus_swarm.utils.logging import log_error
+from prometheus_swarm.utils.logging import log_error, set_conversation_context
 import re
 import requests
 from github import Github
@@ -151,7 +151,6 @@ def verify_pr_ownership(
         is_valid = verify_pr_signatures(
             pr.body,
             task_id,
-            round_number,
             expected_staking_key=staking_key,
             expected_action=node_actions[node_type],
         )
@@ -194,8 +193,11 @@ def verify_pr_ownership(
 
         result = {
             "valid": response_data.get("success", True),
-            "pr_list": response_data.get("data", {}).get("pr_list", {}),
-            "issue_uuid": response_data.get("data", {}).get("issue_uuid", None),
+            "data": {
+                "pr_list": response_data.get("data", {}).get("pr_list", {}),
+                "issue_uuid": response_data.get("data", {}).get("issue_uuid", None),
+                "system_prompt": response_data.get("data", {}).get("system_prompt"),
+            },
         }
 
         print(f"Final result: {json.dumps(result, indent=2)}")
@@ -212,9 +214,26 @@ def verify_pr_ownership(
         }
 
 
-def review_pr(pr_url, staking_key, pub_key, staking_signature, public_signature):
+def review_pr(
+    pr_url,
+    staking_key,
+    pub_key,
+    staking_signature,
+    public_signature,
+    system_prompt=None,
+):
     """Review PR and decide if it should be accepted, revised, or rejected."""
     try:
+        # Set conversation context at the start
+        # For audit tasks, we already have the PR URL and don't need a uuid
+        set_conversation_context(
+            {
+                "uuid": None,  # Audit tasks don't have a uuid
+                "githubUsername": os.environ["GITHUB_USERNAME"],
+                "prUrl": pr_url,  # We already have the PR URL for audits
+            }
+        )
+
         # Set up client and workflow
         client = setup_client("anthropic")
         workflow = AuditWorkflow(
@@ -225,6 +244,7 @@ def review_pr(pr_url, staking_key, pub_key, staking_signature, public_signature)
             pub_key=pub_key,
             staking_signature=staking_signature,
             public_signature=public_signature,
+            system_prompt=system_prompt,
         )
 
         # Run workflow and get result

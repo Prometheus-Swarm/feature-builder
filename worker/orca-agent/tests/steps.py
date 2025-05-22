@@ -6,11 +6,13 @@ from .stages import (
     create_repo,
     record_repo,
     worker_task,
+    worker_pr,
     worker_submission,
     worker_audit,
     leader_task,
     leader_audit,
     audit_results,
+    leader_pr,
 )
 
 
@@ -37,10 +39,24 @@ steps = [
         worker="worker1",
     ),
     TestStep(
+        name="worker1_pr",
+        description="Execute worker1 pr",
+        prepare=worker_pr.prepare,
+        execute=worker_pr.execute,
+        worker="worker1",
+    ),
+    TestStep(
         name="worker2_task",
         description="Execute worker2 task",
         prepare=worker_task.prepare,
         execute=worker_task.execute,
+        worker="worker2",
+    ),
+    TestStep(
+        name="worker2_pr",
+        description="Execute worker2 pr",
+        prepare=worker_pr.prepare,
+        execute=worker_pr.execute,
         worker="worker2",
     ),
     TestStep(
@@ -83,6 +99,13 @@ steps = [
         description="Execute leader task",
         prepare=leader_task.prepare,
         execute=leader_task.execute,
+        worker="leader",
+    ),
+    TestStep(
+        name="leader_pr",
+        description="Execute leader pr",
+        prepare=leader_pr.prepare,
+        execute=leader_pr.execute,
         worker="leader",
     ),
     TestStep(

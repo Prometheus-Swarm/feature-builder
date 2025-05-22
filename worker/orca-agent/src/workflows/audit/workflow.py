@@ -27,6 +27,7 @@ class AuditWorkflow(Workflow):
         public_signature,
         github_token="GITHUB_TOKEN",
         github_username="GITHUB_USERNAME",
+        system_prompt=None,
     ):
         # Extract owner/repo from PR URL
         # URL format: https://github.com/owner/repo/pull/123
@@ -38,6 +39,7 @@ class AuditWorkflow(Workflow):
         super().__init__(
             client=client,
             prompts=prompts,
+            system_prompt=system_prompt,
             repo_owner=repo_owner,
             repo_name=repo_name,
             pr_url=pr_url,

@@ -3,7 +3,12 @@
 import os
 from github import Github
 from prometheus_swarm.workflows.base import Workflow
-from prometheus_swarm.utils.logging import log_section, log_key_value, log_error
+from prometheus_swarm.utils.logging import (
+    log_section,
+    log_key_value,
+    log_error,
+    set_conversation_context,
+)
 from prometheus_swarm.tools.github_operations.parser import extract_section
 from prometheus_swarm.utils.signatures import verify_and_parse_signature
 from prometheus_swarm.workflows.utils import (
@@ -16,7 +21,10 @@ from src.workflows.mergeconflict.phases import (
     ConflictResolutionPhase,
     CreatePullRequestPhase,
     TestVerificationPhase,
+    DraftPullRequestPhase,
 )
+from src.utils.pr_recording import post_pr_url_to_middle_server
+from src.workflows.utils import install_dependencies
 
 
 class MergeConflictWorkflow(Workflow):
@@ -26,15 +34,19 @@ class MergeConflictWorkflow(Workflow):
         prompts,
         source_fork_url,  # URL of fork containing PRs (first level fork)
         source_branch,  # Branch on source fork containing PRs to merge (e.g. round-123-task-456)
+        bounty_id,  # Bounty ID for signature validation
         staking_key=None,  # Leader's staking key
         pub_key=None,  # Leader's public key
         staking_signature=None,  # Leader's staking signature
         public_signature=None,  # Leader's public signature
+        pr_signature=None,  # PR-specific signature for authentication
         task_id=None,  # Task ID for signature validation
+        issue_uuid=None,  # Issue UUID for PR recording
         pr_list=None,  # dict of {staking_key: pr_url}
         github_token="GITHUB_TOKEN",
         github_username="GITHUB_USERNAME",
         expected_branch=None,  # Branch where PRs are located
+        fork_owner=None,  # Owner of the target fork for PR creation
     ):
         # Extract source repo info from source fork URL
         parts = source_fork_url.strip("/").split("/")
@@ -59,6 +71,7 @@ class MergeConflictWorkflow(Workflow):
         self.is_source_fork_owner = consolidation_username == source_fork_owner
         self.task_id = task_id
         self.pr_list = pr_list
+        self.fork_owner = fork_owner  # Store fork owner for PR target
 
         # Verify source branch format matches expected_branch
         if source_branch != expected_branch:
@@ -83,20 +96,10 @@ class MergeConflictWorkflow(Workflow):
                 "pub_key": pub_key,
                 "staking_signature": staking_signature,
                 "public_signature": public_signature,
+                "pr_signature": pr_signature,  # Add PR signature to context
+                "issue_uuid": issue_uuid,  # Store issue_uuid in context
             }
         )
-
-        # Get upstream repo info and add to context
-        gh = Github(self.context["github_token"])
-        source_fork = gh.get_repo(f"{source_fork_owner}/{source_repo_name}")
-        upstream = source_fork.parent
-
-        self.context["upstream"] = {
-            "url": upstream.html_url,
-            "owner": upstream.owner.login,
-            "name": upstream.name,
-            "default_branch": upstream.default_branch,
-        }
 
     def validate_pr_for_merge(self, pr):
         """Validate a PR's signatures and check if it should be merged.
@@ -141,7 +144,6 @@ class MergeConflictWorkflow(Workflow):
 
         # Verify signature and validate payload
         expected_values = {
-            "taskId": self.task_id,
             "stakingKey": submitter_staking_key,
         }
 
@@ -195,8 +197,8 @@ class MergeConflictWorkflow(Workflow):
                 }
 
             # Set required context variables for PR creation
-            self.context["repo_owner"] = self.context["upstream"]["owner"]
-            self.context["repo_name"] = self.context["upstream"]["name"]
+            self.context["repo_owner"] = self.fork_owner  # Use fork owner as PR target
+            self.context["repo_name"] = self.context["source_fork"]["name"]
 
             # Change to repo directory
             self.context["repo_path"] = result["data"]["clone_path"]
@@ -216,7 +218,24 @@ class MergeConflictWorkflow(Workflow):
                 f"git fetch {'origin' if self.is_source_fork_owner else 'source'} {source_branch}"
             )
             os.system(f"git checkout -b {head_branch} FETCH_HEAD")
-            os.system(f"git push origin {head_branch}")
+            try:
+                os.system(f"git push origin {head_branch}")
+            except Exception as e:
+                log_error(e, f"Failed to push {head_branch}, attempting to overwrite.")
+                # If the branch already exists and push fails, try to fetch and force push
+                os.system(f"git fetch origin {head_branch}")
+                os.system(
+                    f"git checkout -B {head_branch} FETCH_HEAD"
+                )  # Force create/reset
+                os.system(f"git push origin {head_branch}")  # Force push
+
+            # Install dependencies
+            log_section("INSTALLING DEPENDENCIES")
+            try:
+                install_dependencies(self.context["repo_path"])
+            except Exception as e:
+                log_error(e, "Failed to install dependencies")
+                # Don't raise - we want to continue even if some dependencies fail to install
 
             return True
 
@@ -360,6 +379,44 @@ class MergeConflictWorkflow(Workflow):
                 log_error(Exception("Setup failed"), "Repository setup failed")
                 return None
 
+            # Create initial draft PR
+            print("\nCreating initial draft PR")
+            self.context["is_draft"] = True  # Set draft mode for initial PR
+            draft_phase = DraftPullRequestPhase(
+                workflow=self, conversation_id=self.conversation_id
+            )
+            draft_result = draft_phase.execute()
+            if not draft_result or not draft_result.get("success"):
+                log_error(
+                    Exception(draft_result.get("error", "Draft PR creation failed")),
+                    "Failed to create initial draft PR",
+                )
+                return None
+
+            # Store the conversation ID and PR URL
+            self.conversation_id = draft_phase.conversation_id
+            initial_pr_url = draft_result.get("data", {}).get("pr_url")
+            set_conversation_context({"prUrl": initial_pr_url})
+            if not initial_pr_url:
+                log_error(
+                    Exception("No PR URL in draft result"),
+                    "Draft PR creation succeeded but no URL returned",
+                )
+                return None
+
+            # Try to save draft PR URL to middle server, but continue if it fails
+            post_pr_url_to_middle_server(
+                pr_url=initial_pr_url,
+                signature=self.context.get(
+                    "pr_signature", self.context["staking_signature"]
+                ),  # Use PR signature if available
+                pub_key=self.context["pub_key"],
+                staking_key=self.context["staking_key"],
+                uuid=self.context["issue_uuid"],  # Use issue_uuid instead of bounty_id
+                is_final=False,  # This is a draft PR
+                is_issue=True,  # This is an issue PR
+            )
+
             # Get list of PRs to process
             gh = Github(self.context["github_token"])
             source_fork = gh.get_repo(
@@ -430,8 +487,9 @@ class MergeConflictWorkflow(Workflow):
             # Store the conversation ID from test phase
             self.conversation_id = test_phase.conversation_id
 
-            # Create PR if tests pass
-            print("\nCreating consolidated PR")
+            # Create final PR if tests pass
+            print("\nCreating final consolidated PR")
+            self.context["is_draft"] = False  # Set to non-draft for final PR
             pr_phase = CreatePullRequestPhase(
                 workflow=self, conversation_id=self.conversation_id
             )

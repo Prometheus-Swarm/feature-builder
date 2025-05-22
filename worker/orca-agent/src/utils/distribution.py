@@ -152,7 +152,6 @@ def validate_distribution_list(
                 is_valid = verify_pr_signatures(
                     pr.body,
                     task_id,
-                    round_number,
                     expected_staking_key=staking_key,
                     expected_action="task",
                 )

@@ -22,5 +22,8 @@ mongodb:
     systemprompts:
       data_file: prompts.json
       required_count: 1
+    specs:
+      data_file: specs.json
+      required_count: 1
     audits:
       required_count: 0 # No data file, just needs to exist

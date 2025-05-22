@@ -10,6 +10,7 @@ from prometheus_swarm.utils.logging import (
     log_key_value,
     log_error,
     log_value,
+    set_conversation_context,
 )
 from prometheus_swarm.workflows.utils import (
     check_required_env_vars,
@@ -18,8 +19,9 @@ from prometheus_swarm.workflows.utils import (
     cleanup_repository,
     get_current_files,
 )
-
+from src.utils.pr_recording import post_pr_url_to_middle_server
 from src.workflows.task import phases
+from src.workflows.utils import install_dependencies
 
 
 class TaskWorkflow(Workflow):
@@ -36,17 +38,20 @@ class TaskWorkflow(Workflow):
         pub_key,
         staking_signature,
         public_signature,
-        round_number,
-        task_id,
         base_branch,
+        bounty_id,
+        todo_uuid,
         max_implementation_attempts=3,
         github_token="GITHUB_TOKEN",
         github_username="GITHUB_USERNAME",
         dependency_pr_urls=None,
+        system_prompt=None,
+        pr_signature=None,
     ):
         super().__init__(
             client=client,
             prompts=prompts,
+            system_prompt=system_prompt,
             repo_owner=repo_owner,
             repo_name=repo_name,
             todo=todo,
@@ -55,15 +60,16 @@ class TaskWorkflow(Workflow):
             pub_key=pub_key,
             staking_signature=staking_signature,
             public_signature=public_signature,
-            round_number=round_number,
-            task_id=task_id,
             base_branch=base_branch,
+            bounty_id=bounty_id,
         )
         check_required_env_vars([github_token, github_username])
         self.max_implementation_attempts = max_implementation_attempts
         self.context["github_token"] = os.getenv(github_token)
         self.context["github_username"] = os.getenv(github_username)
         self.context["dependency_pr_urls"] = dependency_pr_urls or []
+        self.context["pr_signature"] = pr_signature
+        self.context["todo_uuid"] = todo_uuid
 
     def setup(self):
         """Set up repository and workspace."""
@@ -146,6 +152,14 @@ class TaskWorkflow(Workflow):
                     log_error(e, f"Failed to merge dependency PR {pr_url}")
                     raise
 
+        # Install dependencies
+        log_section("INSTALLING DEPENDENCIES")
+        try:
+            install_dependencies(self.context["repo_path"])
+        except Exception as e:
+            log_error(e, "Failed to install dependencies")
+            # Don't raise - we want to continue even if some dependencies fail to install
+
         # Get current files for context
         self.context["current_files"] = get_current_files()
 
@@ -167,6 +181,33 @@ class TaskWorkflow(Workflow):
                 return None
 
             self.context["head_branch"] = branch_result["data"]["branch_name"]
+
+            # Create initial draft PR
+            self.context["is_draft"] = True
+            draft_pr_phase = phases.DraftPullRequestPhase(
+                workflow=self, conversation_id=branch_phase.conversation_id
+            )
+            draft_pr_result = draft_pr_phase.execute()
+
+            if not draft_pr_result:
+                return None
+
+            # Store PR URL in context for later use
+            self.context["pr_url"] = draft_pr_result["data"]["pr_url"]
+
+            # Update PR URL in conversation context
+            set_conversation_context({"prUrl": draft_pr_result["data"]["pr_url"]})
+
+            # Try to save draft PR URL to middle server, but continue if it fails
+            post_pr_url_to_middle_server(
+                pr_url=self.context["pr_url"],
+                signature=self.context["pr_signature"],
+                pub_key=self.context["pub_key"],
+                staking_key=self.context["staking_key"],
+                uuid=self.context["todo_uuid"],
+                is_final=False,
+                is_issue=False,
+            )
 
             # Implementation loop
             for attempt in range(self.max_implementation_attempts):
@@ -224,12 +265,21 @@ class TaskWorkflow(Workflow):
 
                 time.sleep(5)  # Brief pause before retry
 
-            # Create PR
+            # Only proceed with final PR if we broke out of the loop due to successful validation
+            if not validation_data.get("validated", False):
+                log_error(
+                    Exception("Implementation validation failed"),
+                    "Failed to meet acceptance criteria after all attempts",
+                )
+                return None
+
+            # Create final PR (non-draft)
+            self.context["is_draft"] = False
             self.context["current_files"] = get_current_files()
 
             # Base was already set in setup()
             log_value(
-                f"Creating PR from {self.context['head_branch']} to {self.context['base_branch']}",
+                f"Creating final PR from {self.context['head_branch']} to {self.context['base_branch']}",
             )
 
             pr_phase = phases.PullRequestPhase(
@@ -239,8 +289,15 @@ class TaskWorkflow(Workflow):
 
             if pr_result.get("success"):
                 pr_url = pr_result.get("data", {}).get("pr_url")
-                log_key_value("PR created successfully", pr_url)
-                return pr_url
+                if pr_url:
+                    log_key_value("PR finalized successfully", pr_url)
+                    return pr_url
+                else:
+                    log_error(
+                        Exception("No PR URL in successful result"),
+                        "PR creation succeeded but no URL returned",
+                    )
+                    return None
             else:
                 log_error(Exception(pr_result.get("error")), "PR creation failed")
                 return None

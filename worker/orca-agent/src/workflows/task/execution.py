@@ -28,6 +28,11 @@ class TaskExecution(WorkflowExecution):
                     "help": "Path to CSV file containing todos and acceptance criteria",
                     "default": "test_todos.csv",
                 },
+                "base-branch": {
+                    "type": str,
+                    "help": "Base branch to create new branches from (default: main)",
+                    "default": "main",
+                },
             },
             prompts=PROMPTS,
         )
@@ -103,6 +108,7 @@ class TaskExecution(WorkflowExecution):
             repo_owner=self.leader_user.login,
             repo_name=self.source_repo,
             branch_name=self.base_branch,
+            base_branch=self.args.base_branch,
             github_token=self.leader_token,
         )
         if not create_result["success"]:
@@ -139,7 +145,11 @@ class TaskExecution(WorkflowExecution):
             todos = []
             with self.todos_file.open("r") as f:
                 reader = csv.reader(f)
-                next(reader)  # Skip header
+                header = next(reader)  # Skip header
+                has_dependencies = (
+                    len(header) >= 4
+                )  # Check if file has dependency columns
+
                 for row in reader:
                     if len(row) >= 2:
                         todo, acceptance_criteria_str = row[0], row[1]
@@ -150,18 +160,19 @@ class TaskExecution(WorkflowExecution):
                             if criterion.strip()
                         ]
 
-                        # Parse task UUID and dependencies if present
+                        # Parse task UUID and dependencies if present and if file has those columns
                         task_uuid = None
                         dependency_uuids = []
-                        if len(row) >= 3 and row[2]:
-                            task_uuid = row[2]
-                        if len(row) >= 4 and row[3]:
-                            # Split on comma and strip whitespace
-                            dependency_uuids = [
-                                uuid.strip()
-                                for uuid in row[3].split(",")
-                                if uuid.strip()
-                            ]
+                        if has_dependencies:
+                            if len(row) >= 3 and row[2]:
+                                task_uuid = row[2]
+                            if len(row) >= 4 and row[3]:
+                                # Split on comma and strip whitespace
+                                dependency_uuids = [
+                                    uuid.strip()
+                                    for uuid in row[3].split(",")
+                                    if uuid.strip()
+                                ]
 
                         todos.append(
                             {
@@ -208,12 +219,13 @@ class TaskExecution(WorkflowExecution):
                     pub_key=self.context["pub_key"],
                     staking_signature=self.context["staking_signature"],
                     public_signature=self.context["public_signature"],
-                    round_number=self.context["round_number"],
-                    task_id=self.context["task_id"],
                     base_branch=self.base_branch,
                     github_token="WORKER_GITHUB_TOKEN",  # Pass env var name instead of value
                     github_username="WORKER_GITHUB_USERNAME",  # Pass env var name instead of value
                     dependency_pr_urls=dependency_pr_urls,
+                    bounty_id=self.args.task_id,
+                    todo_uuid=todo_data["task_uuid"],
+                    pr_signature=self.context.get("pr_signature"),
                 )
 
                 result = self.workflow.run()

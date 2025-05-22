@@ -1,34 +1,54 @@
 """Stage for recording the aggregator repository."""
 
 import requests
+import time
 from prometheus_test.utils import create_signature
 
 
 def prepare(runner, worker):
     """Prepare data for recording aggregator info"""
-    if "fork_url" not in runner.state or "issue_uuid" not in runner.state:
+    # Check if we should skip this step
+    if runner.get("no_repo"):
+        print("✓ Skipping record_repo step due to no eligible issues")
+        return None
+
+    # Check required state values
+    fork_url = runner.get("fork_url")
+    issue_uuid = runner.get("issue_uuid")
+    if not fork_url or not issue_uuid:
         raise ValueError("Fork URL or Issue UUID not found in state")
 
     # Create payload with all required fields
     payload = {
-        "taskId": runner.config.task_id,
-        "roundNumber": runner.current_round,
+        "taskId": runner.get("task_id"),
+        "roundNumber": runner.get("current_round"),
         "action": "create-repo",
-        "githubUsername": worker.env.get("GITHUB_USERNAME"),
-        "issueUuid": runner.state["issue_uuid"],
-        "aggregatorUrl": runner.state["fork_url"],
-        "stakingKey": worker.staking_public_key,
-        "pubKey": worker.public_key,
+        "githubUsername": worker.get_env("GITHUB_USERNAME"),
+        "issueUuid": issue_uuid,
+        "aggregatorUrl": fork_url,
+        "stakingKey": worker.get_key("staking_public"),
+        "pubKey": worker.get_key("main_public"),
     }
 
     return {
         **payload,
-        "signature": create_signature(worker.staking_signing_key, payload),
+        "signature": create_signature(worker.get_key("staking_signing"), payload),
     }
 
 
 def execute(runner, worker, data):
     """Execute recording of aggregator info"""
+    # If prepare returned None, skip execution
+    if data is None:
+        return {"success": True, "message": "Step skipped"}
+
     url = f"{worker.get('url')}/add-aggregator-info/{data['taskId']}"
     response = requests.post(url, json=data)
-    return response.json()
+    result = response.json()
+
+    if result.get("success"):
+        print("Waiting 3 seconds to ensure branch is fully available...")
+        time.sleep(3)
+        print("Delay complete, continuing...")
+
+    return result

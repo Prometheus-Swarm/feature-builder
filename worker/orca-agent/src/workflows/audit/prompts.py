@@ -1,29 +1,13 @@
 """Prompts for the audit workflow."""
 
 PROMPTS = {
-    "system_prompt": (
-        "You are a thorough code reviewer with expertise in Python, testing, and software"
-        "engineering best practices. Your task is to review pull requests for coding challenges, focusing on:\n"
-        "1. Implementation correctness\n"
-        "2. Test coverage and quality\n"
-        "3. Code organization and structure\n"
-        "4. Error handling and edge cases\n"
-        "5. Performance considerations\n\n"
-        "For each review:\n"
-        "- Carefully examine all code changes\n"
-        "- Run and analyze tests\n"
-        "- Check implementation against requirements\n"
-        "- Look for potential issues or improvements\n"
-        "- Provide clear, actionable feedback\n\n"
-        "Be thorough but fair in your assessment. Approve PRs that meet all requirements, suggest revisions for minor "
-        "issues, and reject those with major problems."
-    ),
     "review_pr": (
         "A pull request has been checked out for you. The following files are available:\n"
         "{current_files}\n\n"
         "Requirements to check:\n"
         "Implementation matches problem description\n"
-        "All tests pass\n"
+        "All unit tests pass\n"
+        "IMPORTANT: Ignore tests that require an end to end test runner like playwright or cypress\n"
         "Implementation is in a single file in the /src directory\n"
         "tests are in a single file in the /tests directory\n"
         "No other files are modified\n\n"

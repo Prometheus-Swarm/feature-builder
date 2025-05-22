@@ -7,8 +7,12 @@ WORKDIR /app
 # Copy the requirements.txt file into the container
 COPY requirements.txt .
 
+
 # Install Git and any other necessary packages
-RUN apt-get update && apt-get install -y git sudo curl
+RUN apt-get update && apt-get install -y git sudo curl gnupg \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install the dependencies
 RUN pip install -r requirements.txt
@@ -16,19 +20,10 @@ RUN pip install -r requirements.txt
 # Configure Git to add the safe directory
 RUN git config --global --add safe.directory /app
 
-COPY ../../../agent_framework /app/
-COPY ../../../agent_framework/setup.py /app/
-# Copy the agent-framework package
-# COPY agent_framework/ /app/agent_framework/
-# COPY setup.py /app/
-
-# Install the agent-framework package in editable mode
-RUN pip install -e /app
-
 # Copy the rest of your application code into the container
 COPY . .
 
-ENV MIDDLE_SERVER_URL=https://builder247.api.koii.network
+ENV MIDDLE_SERVER_URL=https://builder247-prod.dev.koii.network
 
 # Configure logging and output
 ENV PYTHONUNBUFFERED=1

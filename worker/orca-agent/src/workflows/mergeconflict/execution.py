@@ -23,6 +23,11 @@ class MergeConflictExecution(WorkflowExecution):
                     "help": "Branch on source fork containing PRs to merge",
                     "required": True,
                 },
+                "is_draft": {
+                    "type": bool,
+                    "help": "Whether to create a draft PR",
+                    "default": False,
+                },
             },
             prompts=PROMPTS,
         )
@@ -90,6 +95,8 @@ class MergeConflictExecution(WorkflowExecution):
             public_signature=self.context["public_signature"],
             github_token=github_token_env_var,
             github_username=github_username_env_var,
+            expected_branch=self.args.branch,
+            is_draft=self.args.is_draft,
         )
 
     def _run(self, **kwargs):
