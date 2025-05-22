@@ -3,7 +3,12 @@
 import os
 from github import Github
 from prometheus_swarm.workflows.base import Workflow
-from prometheus_swarm.utils.logging import log_section, log_key_value, log_error
+from prometheus_swarm.utils.logging import (
+    log_section,
+    log_key_value,
+    log_error,
+    set_conversation_context,
+)
 from prometheus_swarm.tools.github_operations.parser import extract_section
 from prometheus_swarm.utils.signatures import verify_and_parse_signature
 from prometheus_swarm.workflows.utils import (
@@ -213,7 +218,16 @@ class MergeConflictWorkflow(Workflow):
                 f"git fetch {'origin' if self.is_source_fork_owner else 'source'} {source_branch}"
             )
             os.system(f"git checkout -b {head_branch} FETCH_HEAD")
-            os.system(f"git push origin {head_branch}")
+            try:
+                os.system(f"git push origin {head_branch}")
+            except Exception as e:
+                log_error(e, f"Failed to push {head_branch}, attempting to overwrite.")
+                # If the branch already exists and push fails, try to fetch and force push
+                os.system(f"git fetch origin {head_branch}")
+                os.system(
+                    f"git checkout -B {head_branch} FETCH_HEAD"
+                )  # Force create/reset
+                os.system(f"git push origin {head_branch}")  # Force push
 
             # Install dependencies
             log_section("INSTALLING DEPENDENCIES")
@@ -382,6 +396,7 @@ class MergeConflictWorkflow(Workflow):
             # Store the conversation ID and PR URL
             self.conversation_id = draft_phase.conversation_id
             initial_pr_url = draft_result.get("data", {}).get("pr_url")
+            set_conversation_context({"prUrl": initial_pr_url})
             if not initial_pr_url:
                 log_error(
                     Exception("No PR URL in draft result"),

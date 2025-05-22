@@ -10,6 +10,7 @@ from prometheus_swarm.utils.logging import (
     log_key_value,
     log_error,
     log_value,
+    set_conversation_context,
 )
 from prometheus_swarm.workflows.utils import (
     check_required_env_vars,
@@ -193,6 +194,9 @@ class TaskWorkflow(Workflow):
 
             # Store PR URL in context for later use
             self.context["pr_url"] = draft_pr_result["data"]["pr_url"]
+
+            # Update PR URL in conversation context
+            set_conversation_context({"prUrl": draft_pr_result["data"]["pr_url"]})
 
             # Try to save draft PR URL to middle server, but continue if it fails
             post_pr_url_to_middle_server(

@@ -4,11 +4,13 @@ from prometheus_swarm.utils.logging import (
     logger,
     task_id_var,
     signature_var,
+    set_conversation_context,
 )
 import requests
 import os
 from src.database import get_db, Submission
 from concurrent.futures import ThreadPoolExecutor
+import contextvars
 
 bp = Blueprint("task", __name__)
 executor = ThreadPoolExecutor(max_workers=2)
@@ -64,11 +66,25 @@ def post_task_result(future, round_number, request_data, node_type, task_id):
 
 @bp.post("/worker-task/<round_number>")
 def start_worker_task(round_number):
+    # Set conversation context for worker task
+    set_conversation_context(
+        {
+            "taskType": "todo",
+            "taskStage": "task",
+        }
+    )
     return start_task(round_number, "worker", request)
 
 
 @bp.post("/leader-task/<round_number>")
 def start_leader_task(round_number):
+    # Set conversation context for leader task
+    set_conversation_context(
+        {
+            "taskType": "issue",
+            "taskStage": "task",
+        }
+    )
     return start_task(round_number, "leader", request)
 
 
@@ -215,7 +231,9 @@ def start_task(round_number, node_type, request):
             in_progress_tasks.discard(task_key)
 
     # Production mode - use background task
+    ctx = contextvars.copy_context()
     future = executor.submit(
+        ctx.run,
         task_functions[node_type],
         task_id=request_data["taskId"],
         round_number=int(round_number),

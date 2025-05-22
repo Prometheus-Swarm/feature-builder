@@ -4,13 +4,19 @@ from src.server.services.audit_service import (
     review_pr,
     validate_pr_list,
 )
-from prometheus_swarm.utils.logging import logger, log_error
+from prometheus_swarm.utils.logging import logger, log_error, set_conversation_context
 
 bp = Blueprint("audit", __name__)
 
 
 @bp.post("/worker-audit/<round_number>")
 def audit_worker_submission(round_number: str):
+    set_conversation_context(
+        {
+            "taskType": "todo",
+            "taskStage": "audit",
+        }
+    )
     logger.info("Auditing submission")
     round_number = int(round_number)
     data = request.get_json()
@@ -112,6 +118,12 @@ def audit_worker_submission(round_number: str):
 @bp.post("/leader-audit/<round_number>")
 def audit_leader_submission(round_number: int):
     """Audit a leader's consolidated PR submission."""
+    set_conversation_context(
+        {
+            "taskType": "issue",
+            "taskStage": "audit",
+        }
+    )
     logger.info("Auditing leader submission")
 
     data = request.get_json()

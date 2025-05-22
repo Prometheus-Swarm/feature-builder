@@ -3,7 +3,11 @@
 from src.workflows.task.execution import TaskExecution
 import dotenv
 import uuid
-from prometheus_swarm.utils.logging import configure_logging, swarm_bounty_id_var
+from prometheus_swarm.utils.logging import (
+    configure_logging,
+    swarm_bounty_id_var,
+    set_conversation_context,
+)
 from src.server.logging_setup import setup_remote_logging
 
 dotenv.load_dotenv()
@@ -18,6 +22,15 @@ def main():
     # Generate a test bounty ID
     test_bounty_id = str(uuid.uuid4())
     swarm_bounty_id_var.set(test_bounty_id)
+
+    # Set conversation context for direct execution
+    # This is a worker task by default in direct execution
+    set_conversation_context(
+        {
+            "taskType": "todo",
+            "taskStage": "task",
+        }
+    )
 
     execution = TaskExecution()
     execution.start(

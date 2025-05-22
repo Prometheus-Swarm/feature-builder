@@ -3,7 +3,7 @@
 from prometheus_swarm.clients import setup_client
 from src.workflows.audit.workflow import AuditWorkflow
 from src.workflows.audit.prompts import PROMPTS as AUDIT_PROMPTS
-from prometheus_swarm.utils.logging import log_error
+from prometheus_swarm.utils.logging import log_error, set_conversation_context
 import re
 import requests
 from github import Github
@@ -224,6 +224,16 @@ def review_pr(
 ):
     """Review PR and decide if it should be accepted, revised, or rejected."""
     try:
+        # Set conversation context at the start
+        # For audit tasks, we already have the PR URL and don't need a uuid
+        set_conversation_context(
+            {
+                "uuid": None,  # Audit tasks don't have a uuid
+                "githubUsername": os.environ["GITHUB_USERNAME"],
+                "prUrl": pr_url,  # We already have the PR URL for audits
+            }
+        )
+
         # Set up client and workflow
         client = setup_client("anthropic")
         workflow = AuditWorkflow(

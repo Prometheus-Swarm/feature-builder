@@ -5,7 +5,12 @@ import os
 from github import Github
 from src.database import get_db, Submission
 from prometheus_swarm.clients import setup_client
-from prometheus_swarm.utils.logging import logger, log_error, swarm_bounty_id_var
+from prometheus_swarm.utils.logging import (
+    logger,
+    log_error,
+    swarm_bounty_id_var,
+    set_conversation_context,
+)
 from src.workflows.task.workflow import TaskWorkflow
 from src.workflows.mergeconflict.workflow import MergeConflictWorkflow
 from src.workflows.mergeconflict.prompts import PROMPTS as CONFLICT_PROMPTS
@@ -213,6 +218,19 @@ def run_todo_task(
     try:
         db = get_db()
 
+        # Extract todo_uuid from the todo data
+        todo_uuid = todo.get("todo_uuid")
+
+        # Set initial conversation context at the start
+        # Note: prUrl will be updated in the workflow after draft PR is created
+        set_conversation_context(
+            {
+                "uuid": todo_uuid,
+                "githubUsername": os.environ["GITHUB_USERNAME"],
+                "prUrl": None,  # Will be set in workflow after PR creation
+            }
+        )
+
         # Check if we already have a PR URL for this submission
         existing_submission = (
             db.query(Submission)
@@ -228,6 +246,8 @@ def run_todo_task(
             logger.info(
                 f"Found existing PR URL for bounty {bounty_id}, round {round_number}"
             )
+            # Update context with existing PR URL
+            set_conversation_context({"prUrl": existing_submission.pr_url})
             return {
                 "success": True,
                 "data": {
@@ -244,9 +264,6 @@ def run_todo_task(
             logger.info(
                 f"Deleted existing incomplete submission for bounty {bounty_id}, round {round_number}"
             )
-
-        # Extract todo_uuid from the todo data
-        todo_uuid = todo.get("todo_uuid")
 
         # Create new submission with todo_uuid in the uuid column
         submission = Submission(
@@ -637,6 +654,16 @@ def consolidate_prs(
         pr_list = issue["pr_list"]
         bounty_id = issue["bounty_id"]
         fork_owner = issue["fork_owner"]  # Get fork owner
+
+        # Set initial conversation context at the start
+        # Note: prUrl will be updated in the workflow after draft PR is created
+        set_conversation_context(
+            {
+                "uuid": issue_uuid,
+                "githubUsername": os.environ["GITHUB_USERNAME"],
+                "prUrl": None,  # Will be set in workflow after PR creation
+            }
+        )
 
         swarm_bounty_id_var.set(bounty_id)
 
